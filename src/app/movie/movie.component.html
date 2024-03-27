@@ -1,0 +1,181 @@
+<div *ngIf="movie">
+  <header
+    class="masthead"
+    [ngStyle]="{
+      'background-image':
+        'url(' + environment.apiPosterPath + movie.poster_path + ')'
+    }"
+    *ngIf="movie"
+  >
+    <div class="container position-relative px-4 px-lg-5">
+      <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+          <div class="post-heading">
+            <h1>{{ movie.title }}</h1>
+
+            <h2 class="subheading" *ngIf="movie.original_title !== movie.title">
+              {{ movie.tagline }}
+            </h2>
+            <div class="meta">
+              {{ movie.genres | generateComma : "name" }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Post Content-->
+  <article class="mb-4">
+    <span class="caption text-muted"
+      >Sortie le {{ movie.release_date | date : "dd/MM/YYYY" }}</span
+    >
+    <div class="container px-4 px-lg-5">
+      <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+          <h2 class="section-heading">Note</h2>
+          <p [matTooltip]="movie.vote_average">
+            <span *ngFor="let star of stars" [class]="star"></span>
+          </p>
+          <h2 class="section-heading">Synopsis</h2>
+          <p>
+            {{ movie.overview }}
+          </p>
+          <div
+            *ngIf="!!watchProviders; else noAvailable"
+            class="watchProviders"
+          >
+            <h2 class="section-heading">Disponible sur</h2>
+            <div *ngIf="!!watchProviders.flatrate?.length">
+              <blockquote class="blockquote">
+                Compris dans l'abonnement
+              </blockquote>
+              <div class="d-flex gap-3">
+                <div *ngFor="let watchProvider of watchProviders.flatrate">
+                  <div [ngSwitch]="watchProvider.provider_id">
+                    <p *ngSwitchCase="8">
+                      <a
+                        [href]="
+                          'https://www.netflix.com/search?q=' + movie.title
+                        "
+                        target="_blank"
+                      >
+                        <img
+                          [src]="
+                            environment.apiPosterPath + watchProvider.logo_path
+                          "
+                          [alt]="watchProvider.provider_name"
+                      /></a>
+                    </p>
+                    <p *ngSwitchCase="337">
+                      <a href="https://www.disneyplus.com" target="_blank">
+                        <img
+                          [src]="
+                            environment.apiPosterPath + watchProvider.logo_path
+                          "
+                          [alt]="watchProvider.provider_name"
+                      /></a>
+                    </p>
+                    <p *ngSwitchDefault>
+                      <img
+                        [src]="
+                          environment.apiPosterPath + watchProvider.logo_path
+                        "
+                        [alt]="watchProvider.provider_name"
+                      />
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="!!watchProviders.buy?.length">
+              <blockquote class="blockquote">A l'achat</blockquote>
+              <div class="d-flex gap-3">
+                <p *ngFor="let watchProvider of watchProviders.buy">
+                  <img
+                    [src]="environment.apiPosterPath + watchProvider.logo_path"
+                    [alt]="watchProvider.provider_name"
+                  />
+                </p>
+              </div>
+            </div>
+            <div *ngIf="!!watchProviders.rent?.length">
+              <blockquote class="blockquote">A la location</blockquote>
+              <div class="d-flex gap-3">
+                <p *ngFor="let watchProvider of watchProviders.rent">
+                  <img
+                    [src]="environment.apiPosterPath + watchProvider.logo_path"
+                    [alt]="watchProvider.provider_name"
+                  />
+                </p>
+              </div>
+            </div>
+          </div>
+          <ng-template #noAvailable>
+            <blockquote class="blockquote">
+              Non disponible en streaming
+            </blockquote></ng-template
+          >
+          <div *ngIf="!!cast?.length">
+            <h2 class="section-heading">Avec</h2>
+            <div class="cast">
+              <div class="card" *ngFor="let actor of cast">
+                <a [routerLink]="['/actor', actor.id]">
+                  <img
+                    class="card-img-top"
+                    [src]="environment.apiPosterPath + actor.profile_path"
+                    [alt]="actor.name"
+                    onerror="this.src='/assets/img/avatar.png';"
+                  />
+                  <div class="card-body">
+                    <h5 class="card-title">{{ actor.name }}</h5>
+                    <p class="card-text">{{ actor.character }}</p>
+                  </div></a
+                >
+              </div>
+            </div>
+          </div>
+          <div *ngIf="!!videos.length">
+            <h2 class="section-heading">Vidéos associées</h2>
+            <div class="videos">
+              <iframe
+                *ngFor="let video of videos"
+                width="400"
+                height="315"
+                [src]="video.key"
+                title="YouTube video player"
+                class="e2e-iframe-trusted-src"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen
+              ></iframe>
+            </div>
+          </div>
+          <h2 class="section-heading">Sociétés de production</h2>
+          <div class="production_companies">
+            <div
+              class="card"
+              *ngFor="let production_companie of movie.production_companies"
+            >
+              <img
+                class="card-img-top"
+                [src]="
+                  environment.apiPosterPath + production_companie.logo_path
+                "
+                [alt]="production_companie.name"
+                (error)="production_companie.error = true"
+                onerror="this.style.display='none'"
+              />
+              <div class="card-body">
+                <ng-container *ngIf="production_companie.error">
+                  <p class="card-text">{{ production_companie.name }}</p>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+</div>

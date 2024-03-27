@@ -1,0 +1,15 @@
+@import "../app.component.css";
+.card {
+  width: 300px;
+  border: 0;
+  img {
+    height: 200px;
+    width: 100%;
+    margin: 8px;
+    object-fit: contain;
+    border-radius: 16px !important    ;
+  }
+}
+a {
+  color: black;
+}

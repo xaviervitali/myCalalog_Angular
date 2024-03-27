@@ -1,0 +1,50 @@
+@import "../app.component.css";
+:host {
+  .bi {
+    font-size: 2rem;
+    color: orange;
+  }
+}
+.cast {
+  width: 100% !important;
+  display: flex;
+  overflow: scroll;
+  gap: 8px;
+  .card {
+    display: flex;
+    min-width: 300px;
+    img {
+      height: 400px;
+      margin: 8px;
+      width: auto;
+      object-fit: cover;
+      border-radius: 16px !important    ;
+    }
+  }
+}
+.watchProviders img {
+  border-radius: 8px;
+}
+
+.production_companies {
+  display: flex;
+  flex-wrap: wrap;
+  .card {
+    width: 200px;
+    margin: 8px;
+    text-align: center;
+    border: 0;
+  }
+}
+.videos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  iframe {
+    margin: 8px;
+  }
+}
+
+a {
+  color: black;
+}

@@ -1,0 +1,68 @@
+<header
+  class="masthead"
+  [ngStyle]="{
+    'background-image':
+      'url(' + environment.apiPosterPath + actor.profile_path + ')'
+  }"
+  *ngIf="actor"
+>
+  <div class="container position-relative px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <div class="post-heading">
+          <h1>{{ actor.name }}</h1>
+
+          <h2 class="subheading" *ngIf="actor.birthday || actor.deathday">
+            {{ actor.birthday | date : "mediumDate" }}
+            <span *ngIf="actor.deathday">
+              - {{ actor.deathday | date : "mediumDate" }}
+            </span>
+          </h2>
+          <p class="post-meta" *ngIf="actor.place_of_birth">
+            Né{{
+              (actor.gender === 2 ? " " : "e ") + " à " + actor.place_of_birth
+            }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="container px-4 px-lg-5">
+  <div class="row gx-4 gx-lg-5 justify-content-center">
+    <div class="col-md-10 col-lg-8 col-xl-7">
+      <article class="mb-4">
+        <div *ngIf="actor.biography; else noBiography">
+          <h2 class="section-heading">Biographie</h2>
+          <p>
+            {{ actor.biography }}
+          </p>
+        </div>
+        <ng-template #noBiography>
+          <blockquote class="blockquote">
+            Pas de biographie disponible
+          </blockquote>
+        </ng-template>
+      </article>
+      <article *ngIf="!!credits.length">
+        <h2 class="section-heading">Filmographie ({{ credits.length }})</h2>
+        <div class="d-flex flex-wrap">
+          <div class="card" *ngFor="let movie of credits">
+            <a [routerLink]="['/movie', movie.id]">
+              <img
+                class="card-img-top"
+                [src]="environment.apiPosterPath + movie.poster_path"
+                [alt]="movie.name"
+                (error)="movie.error = true"
+                onerror="this.style.display='none'"
+              />
+              <div class="card-body">
+                <p class="card-text" *ngIf="movie.error">{{ movie.title }}</p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</div>

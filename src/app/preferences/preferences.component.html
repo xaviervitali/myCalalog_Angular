@@ -1,0 +1,92 @@
+<div class="container px-4 px-lg-5">
+  <div class="row gx-4 gx-lg-5 justify-content-center">
+    <div class="col-md-10 col-lg-8 col-xl-7">
+      <form [formGroup]="formGroup" *ngIf="formGroup.get('watchProviders')">
+        <article class="mb-4">
+          <div class="accordion" id="watchProviders">
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button
+                  class="accordion-button"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseOne"
+                  aria-expanded="true"
+                  aria-controls="collapseOne"
+                >
+                  Services de streaming
+                </button>
+              </h2>
+              <div
+                id="collapseOne"
+                class="accordion-collapse collapse show"
+                data-bs-parent="#watchProviders"
+              >
+                <div class="accordion-body">
+                  <div formArrayName="watchProviders" class="watchProviders">
+                    <ng-container
+                      *ngFor="
+                        let provider of watchProvidersFormArray.controls;
+                        let i = index
+                      "
+                    >
+                      <div [formGroupName]="i">
+                        <input
+                          type="checkbox"
+                          [id]="'provider_' + provider.value.provider_id"
+                          class="form-check-input"
+                          formControlName="checked"
+                          [value]="provider.value.provider_id"
+                          [(checked)]="provider.value.checked"
+                          (change)="setWatchProviders()"
+                        />
+                        <label [for]="'provider_' + provider.value.provider_id">
+                          <img
+                            [src]="apiPosterPath + provider.value.logo_path"
+                            alt=""
+                          />
+                          {{ provider.value.provider_name }}
+                        </label>
+                      </div>
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseTwo"
+                aria-expanded="false"
+                aria-controls="collapseTwo"
+              >
+                Accordion Item #2
+              </button>
+            </h2>
+            <div
+              id="collapseTwo"
+              class="accordion-collapse collapse"
+              data-bs-parent="#accordionExample"
+            >
+              <div class="accordion-body">
+                <strong>This is the second item's accordion body.</strong> It is
+                hidden by default, until the collapse plugin adds the
+                appropriate classes that we use to style each element. These
+                classes control the overall appearance, as well as the showing
+                and hiding via CSS transitions. You can modify any of this with
+                custom CSS or overriding our default variables. It's also worth
+                noting that just about any HTML can go within the
+                <code>.accordion-body</code>, though the transition does limit
+                overflow.
+              </div>
+            </div>
+          </div>
+        </article>
+      </form>
+    </div>
+  </div>
+</div>
