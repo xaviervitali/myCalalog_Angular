@@ -8,8 +8,7 @@ import { CommonService } from './common.service';
 })
 export class DiscoverService extends CommonService {
   getMovieList(page: number): Observable<Discover> {
-    let params = this.getOptions();
-
+    let params = super.getOptions();
     params = params.set('page', page);
     return this.http.get<any>(this.API_URL + '/discover/movie', {
       params,
@@ -18,7 +17,15 @@ export class DiscoverService extends CommonService {
 
   searchMovie(name: string): Observable<Discover> {
     return this.http.get<any>(this.API_URL + '/search/movie?query=' + name, {
-      params: this.getOptions(),
+      params: super.getOptions(),
+    });
+  }
+
+  getTVShowList(page: number = 1) {
+    let params = super.getOptions();
+    params = params.set('page', page);
+    return this.http.get<any>(this.API_URL + '/discover/movie', {
+      params,
     });
   }
 }

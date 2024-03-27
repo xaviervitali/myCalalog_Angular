@@ -8,6 +8,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime } from 'rxjs';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { DiscoverService } from '../../_services/discover.service';
+import { CommonService } from '../../_services/common.service';
 
 @Component({
   selector: 'app-home',
@@ -37,7 +38,10 @@ export class HomeComponent implements OnInit {
   });
   private defaultList: DiscoverMovie[] = [];
   private defaultMaxPage = 1;
-  constructor(private discoverService: DiscoverService) {
+  constructor(
+    private discoverService: DiscoverService,
+    private commonService: CommonService
+  ) {
     this.movieSearch.valueChanges.pipe(debounceTime(500)).subscribe((value) => {
       if (!!value.name?.trim()) {
         this.discoverService

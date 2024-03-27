@@ -9,7 +9,7 @@ import { WatchProviders } from '../_models/watch_providers';
 export class PreferencesService extends CommonService {
   getProviders(): Observable<any> {
     return this.http.get(this.API_URL + '/watch/providers/movie', {
-      params: this.getOptions(),
+      params: super.getOptions(),
     });
   }
 }

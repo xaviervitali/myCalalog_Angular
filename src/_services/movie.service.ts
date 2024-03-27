@@ -9,7 +9,7 @@ import { CommonService } from './common.service';
 export class MovieService extends CommonService {
   getMovieInfo(id: number): Observable<MovieDetail> {
     return this.http.get<any>(this.API_URL + '/movie/' + id, {
-      params: this.getOptions(),
+      params: super.getOptions(),
     });
   }
 
@@ -17,20 +17,20 @@ export class MovieService extends CommonService {
     return this.http.get<any>(
       this.API_URL + '/movie/' + id + '/watch/providers',
       {
-        params: this.getOptions(),
+        params: super.getOptions(),
       }
     );
   }
 
   getMovieVideos(id: number): Observable<VideoResponse> {
     return this.http.get<any>(this.API_URL + '/movie/' + id + '/videos', {
-      params: this.getOptions(),
+      params: super.getOptions(),
     });
   }
 
   getMovieCast(id: number) {
     return this.http.get<any>(this.API_URL + '/movie/' + id + '/credits', {
-      params: this.getOptions(),
+      params: super.getOptions(),
     });
   }
 }

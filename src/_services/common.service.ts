@@ -61,7 +61,7 @@ export class CommonService {
 
   constructor(protected http: HttpClient) {}
 
-  getOptions(): HttpParams {
+  protected getOptions(): HttpParams {
     let httpParams = new HttpParams();
     this.optionsSubject.subscribe((options) => {
       (Object.keys(options) as Array<keyof Options>).forEach((option) => {

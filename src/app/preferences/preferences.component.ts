@@ -96,14 +96,9 @@ export class PreferencesComponent implements OnInit {
       (watchProvider: Result) => watchProvider.provider_id
     );
 
-    this.commonService.setOption(
+    this.preferencesService.setOption(
       'with_watch_providers',
       selectedWatchProvidersIds.join('|')
-    );
-
-    console.log(
-      this.commonService.getOptions(),
-      this.discoverService.getOptions()
     );
   }
 }
