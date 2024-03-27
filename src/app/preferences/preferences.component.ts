@@ -55,18 +55,12 @@ export class PreferencesComponent implements OnInit {
       );
 
       watchProviders.forEach((watchProvider: Result) => {
-        let isChecked = false;
-        this.preferencesService
-          .getOption('with_watch_providers')
-          .subscribe((withWatchProviders) => {
-            if (withWatchProviders) {
-              const watchProvidersIds = withWatchProviders.split('|');
-              isChecked = watchProvidersIds.includes(
-                String(watchProvider.provider_id)
-              );
-              // Faites ce que vous devez avec isChecked...
-            }
-          });
+        let isChecked =
+          this.preferencesService
+            .getOption('with_watch_providers')
+            ?.split('|')
+            .includes(String(watchProvider.provider_id)) ?? false;
+
         this.watchProvidersFormArray.push(
           this.newWatchProvider(
             watchProvider.provider_id,

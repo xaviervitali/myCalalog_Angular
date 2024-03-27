@@ -56,6 +56,9 @@ export class CommonService {
   });
 
   protected API_URL = API_URL;
+
+  options$ = this.optionsSubject.asObservable();
+
   constructor(protected http: HttpClient) {}
 
   getOptions(): HttpParams {
@@ -69,15 +72,16 @@ export class CommonService {
     return httpParams;
   }
 
-  getOption<K extends keyof Options>(
-    keyName: K
-  ): Observable<Options[K] | null> {
-    return this.optionsSubject.pipe(map((options) => options[keyName] ?? null));
+  // Méthode pour mettre à jour une option
+  setOption<K extends keyof Options>(keyName: K, value: Options[K]): void {
+    this.optionsSubject.next({
+      ...this.optionsSubject.value,
+      [keyName]: value,
+    });
   }
 
-  setOption<K extends keyof Options>(keyName: K, value: Options[K]): void {
-    const currentValue = this.optionsSubject.getValue();
-    const updatedValue = { ...currentValue, [keyName]: value };
-    this.optionsSubject.next(updatedValue);
+  // Méthode pour récupérer une option
+  getOption<K extends keyof Options>(keyName: K): Options[K] | null {
+    return this.optionsSubject.value[keyName] || null;
   }
 }
