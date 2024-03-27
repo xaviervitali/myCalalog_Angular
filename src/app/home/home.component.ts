@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { DiscoverMovie } from '../../_models/discover';
-import { environment } from '../../environment/environment';
 import { TruncatePipe } from '../../_pipe/truncate.pipe';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -9,6 +8,7 @@ import { debounceTime } from 'rxjs';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { DiscoverService } from '../../_services/discover.service';
 import { CommonService } from '../../_services/common.service';
+import { environment } from '../../environment/environment';
 
 @Component({
   selector: 'app-home',

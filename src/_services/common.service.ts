@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { environment } from '../environment/environment';
 import { BehaviorSubject, Observable, map } from 'rxjs';
+import { environment } from '../environment/environment';
 export const API_KEY = environment.apiKey;
 export const API_URL = environment.apiUrl;
 

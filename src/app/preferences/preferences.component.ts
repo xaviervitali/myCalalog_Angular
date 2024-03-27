@@ -9,9 +9,9 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Result } from '../../_models/watch_providers';
-import { environment } from '../../environment/environment';
 import { CommonService } from '../../_services/common.service';
 import { DiscoverService } from '../../_services/discover.service';
+import { environment } from '../../environment/environment';
 
 @Component({
   selector: 'app-preferences',
@@ -96,7 +96,7 @@ export class PreferencesComponent implements OnInit {
       (watchProvider: Result) => watchProvider.provider_id
     );
 
-    this.preferencesService.setOption(
+    this.commonService.setOption(
       'with_watch_providers',
       selectedWatchProvidersIds.join('|')
     );
