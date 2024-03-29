@@ -11,7 +11,12 @@
       <div class="row gx-4 gx-lg-5 justify-content-center">
         <div class="col-md-10 col-lg-8 col-xl-7">
           <div class="post-heading">
-            <h1>{{ movie.title }}</h1>
+            <h1 class="d-flex align-items-center">
+              {{ movie.title }}
+              <div class="circle" *ngIf="age">
+                <span class="age">{{ age }}+</span>
+              </div>
+            </h1>
 
             <h2 class="subheading" *ngIf="movie.original_title !== movie.title">
               {{ movie.tagline }}
@@ -31,6 +36,14 @@
       >Sortie le {{ movie.release_date | date : "dd/MM/YYYY" }}</span
     >
     <div class="container px-4 px-lg-5">
+      <ul class="word-cloud">
+        <li
+          *ngFor="let key of keywords"
+          [ngClass]="['word-cloud__word', key.className]"
+        >
+          {{ key.keyword }}
+        </li>
+      </ul>
       <div class="row gx-4 gx-lg-5 justify-content-center">
         <div class="col-md-10 col-lg-8 col-xl-7">
           <h2 class="section-heading">Note</h2>

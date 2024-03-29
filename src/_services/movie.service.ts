@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MovieDetail, VideoResponse } from '../_models/movie';
 import { CommonService } from './common.service';
+import { KeywordResponse } from '../_models/keywords';
 
 @Injectable({
   providedIn: 'root',
@@ -32,5 +33,22 @@ export class MovieService extends CommonService {
     return this.http.get<any>(this.API_URL + '/movie/' + id + '/credits', {
       params: super.getOptions(),
     });
+  }
+  getMovieKeywords(id: number): Observable<KeywordResponse> {
+    return this.http.get<KeywordResponse>(
+      this.API_URL + '/movie/' + id + '/keywords',
+      {
+        params: super.getOptions(),
+      }
+    );
+  }
+
+  getMovieRecommendations(id: number): Observable<KeywordResponse> {
+    return this.http.get<KeywordResponse>(
+      this.API_URL + '/movie/' + id + '/recommendations',
+      {
+        params: super.getOptions(),
+      }
+    );
   }
 }

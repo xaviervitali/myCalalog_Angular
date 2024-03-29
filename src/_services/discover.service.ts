@@ -15,12 +15,6 @@ export class DiscoverService extends CommonService {
     });
   }
 
-  searchMovie(name: string): Observable<Discover> {
-    return this.http.get<any>(this.API_URL + '/search/movie?query=' + name, {
-      params: super.getOptions(),
-    });
-  }
-
   getTVShowList(page: number = 1) {
     let params = super.getOptions();
     params = params.set('page', page);

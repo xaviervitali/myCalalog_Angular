@@ -3,23 +3,24 @@
     <div class="col-md-10 col-lg-8 col-xl-7">
       <form [formGroup]="formGroup" *ngIf="formGroup.get('watchProviders')">
         <article class="mb-4">
-          <div class="accordion" id="watchProviders">
+          <div class="accordion">
+            <!--Watch Providers-->
             <div class="accordion-item">
               <h2 class="accordion-header">
                 <button
-                  class="accordion-button"
+                  class="accordion-button collapsed"
                   type="button"
                   data-bs-toggle="collapse"
-                  data-bs-target="#collapseOne"
-                  aria-expanded="true"
-                  aria-controls="collapseOne"
+                  data-bs-target="#watch-providers-content"
+                  aria-expanded="false"
+                  aria-controls="watchProviders"
                 >
-                  Services de streaming
+                  Services de streaming ({{ watchProvidersCount }})
                 </button>
               </h2>
               <div
-                id="collapseOne"
-                class="accordion-collapse collapse show"
+                id="watch-providers-content"
+                class="accordion-collapse collapse"
                 data-bs-parent="#watchProviders"
               >
                 <div class="accordion-body">
@@ -53,6 +54,131 @@
                 </div>
               </div>
             </div>
+            <!--/Watch Providers-->
+            <!--Genres-->
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button
+                  class="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#genre-content"
+                  aria-expanded="false"
+                  aria-controls="genre-content"
+                >
+                  Genres (exclus : {{ without_genres.length }})
+                </button>
+              </h2>
+              <div
+                id="genre-content"
+                class="accordion-collapse collapse"
+                data-bs-parent="#accordionFlushExample"
+              >
+                <div class="accordion-body">
+                  <blockquote class="blockquote">
+                    Déplacer les genres selon vos préférences
+                  </blockquote>
+                  <div class="d-flex justify-content-between">
+                    <div class="example-container">
+                      <!--Drag & Drop-->
+                      <h2>Souhaités</h2>
+                      <div
+                        cdkDropList
+                        #with_genresList="cdkDropList"
+                        [cdkDropListData]="with_genres"
+                        [cdkDropListConnectedTo]="[without_genresList]"
+                        class="example-list"
+                        (cdkDropListDropped)="drop($event)"
+                      >
+                        @for (item of with_genres; track item) {
+                        <div class="example-box" cdkDrag>{{ item }}</div>
+                        }
+                      </div>
+                    </div>
+
+                    <div class="example-container">
+                      <h2>Non Souhaités</h2>
+
+                      <div
+                        cdkDropList
+                        #without_genresList="cdkDropList"
+                        [cdkDropListData]="without_genres"
+                        [cdkDropListConnectedTo]="[with_genresList]"
+                        class="example-list"
+                        (cdkDropListDropped)="drop($event)"
+                      >
+                        @for (item of without_genres; track item) {
+                        <div class="example-box" cdkDrag>{{ item }}</div>
+                        }
+                      </div>
+                    </div>
+                    <!--/Drag & Drop-->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--/Genres-->
+            <!--Autre-->
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button
+                  class="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#miscellaneous-content"
+                  aria-expanded="false"
+                  aria-controls="miscellaneous-content"
+                >
+                  Divers
+                </button>
+              </h2>
+              <div
+                id="miscellaneous-content"
+                class="accordion-collapse collapse"
+                data-bs-parent="#accordionFlushExample"
+              >
+                <div class="accordion-body">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value=""
+                      id="includeAdult"
+                      formControlName="includeAdult"
+                      (change)="handleAdultContentCheckbox($event)"
+                    />
+                    <label class="form-check-label" for="includeAdult">
+                      Inclure les contenus pour adulte
+                    </label>
+                  </div>
+                </div>
+                <div class="d-flex">
+                  <mat-form-field>
+                    <mat-label>Trier par</mat-label>
+                    <mat-select
+                      [value]="orderBySelectValue"
+                      (valueChange)="handleOrderByChange($event)"
+                    >
+                      <mat-option value="popularity">Popularité</mat-option>
+                      <mat-option value="revenue">Revenu</mat-option>
+                      <mat-option value="primary_release_date">
+                        Date de Réalisation
+                      </mat-option>
+                      <mat-option value="title">Ordre alphabétique</mat-option>
+                      <mat-option value="vote_average">Note</mat-option>
+                      <mat-option value="vote_count">Nombre de vote</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <div>
+                    en ordre
+                    <button (click)="toggleSortOrder()" class="btn">
+                      {{ sortOrder === "asc" ? "Ascendant" : "Descendant" }}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--/Autre-->
           </div>
         </article>
       </form>

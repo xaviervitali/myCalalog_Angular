@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MovieDetail, Video } from '../../_models/movie';
 import { environment } from '../../environment/environment';
@@ -9,6 +9,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { DomSanitizer } from '@angular/platform-browser';
 import { KebabCasePipe } from '../../_pipe/kebab-case.pipe';
 import { MovieService } from '../../_services/movie.service';
+import { Keyword } from '../../_models/keywords';
 
 @Component({
   selector: 'app-movie',
@@ -27,10 +28,14 @@ export class MovieComponent implements OnInit {
   public movie: MovieDetail | null = null;
   public watchProviders: any;
   public videos: any;
-
+  public age: number = 0;
   public cast: any[] = [];
   public environment = environment;
   public stars: string[] = [];
+  public keywords: any[] = [];
+  @ViewChild('.word-cloud', { static: true })
+  wordCloud!: ElementRef<HTMLCanvasElement>;
+
   constructor(
     private route: ActivatedRoute,
     private movieService: MovieService,
@@ -46,8 +51,21 @@ export class MovieComponent implements OnInit {
           videos: this.movieService.getMovieVideos(+id),
           watchProviders: this.movieService.getMovieWatchProviders(+id),
           credits: this.movieService.getMovieCast(+id),
+          // non localisé
+          //   keywords: this.movieService.getMovieKeywords(+id),
         }).subscribe((value: any) => {
           this.movie = value.movieDetail;
+          const certifications = this.movie?.release_dates.results.find(
+            (relaeaseDate) => relaeaseDate.iso_3166_1 === 'FR'
+          )?.release_dates;
+          if (certifications) {
+            this.age = Math.max(
+              ...certifications.map(
+                (certification) => +certification.certification
+              )
+            );
+          }
+
           this.watchProviders = value.watchProviders?.results.FR;
 
           this.videos = value.videos.results
@@ -65,6 +83,22 @@ export class MovieComponent implements OnInit {
           if (this.movie?.vote_average) {
             this.generateStars(+this.movie?.vote_average / 2);
           }
+
+          // const keywords = value.keywords.keywords;
+          // const keywordClasses = ['small', 'large', ''];
+          // if (!!keywords.length) {
+          //   keywords.forEach((keyword: Keyword) => {
+          //     const x = Math.random() > 0.5 ? 'x-' : '';
+          //     const keywordClass =
+          //       keywordClasses[
+          //         Math.floor(Math.random() * keywordClasses.length)
+          //       ];
+          //     const className = !!keywordClass
+          //       ? 'word-cloud__word--' + x + keywordClass
+          //       : '';
+          //     this.keywords.push({ keyword: keyword.name, className });
+          //   });
+          // }
         });
       }
     });

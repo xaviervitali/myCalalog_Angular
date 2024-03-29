@@ -1,13 +1,14 @@
 export interface WatchProviders {
-  results: Result[];
+  results: WatchProviderResult[];
 }
 
-export interface Result {
+export interface WatchProviderResult {
   display_priorities: DisplayPriorities;
   display_priority: number;
   logo_path: string;
   provider_name: string;
   provider_id: number;
+  checked?: boolean;
 }
 
 export interface DisplayPriorities {

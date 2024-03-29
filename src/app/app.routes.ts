@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
+import { MoviesComponent } from './movies/movies.component';
 import { MovieComponent } from './movie/movie.component';
 import { ActorComponent } from './actor/actor.component';
 import { PreferencesComponent } from './preferences/preferences.component';
@@ -7,11 +7,20 @@ import { MovieService } from '../_services/movie.service';
 import { ActorService } from '../_services/actor.service';
 import { PreferencesService } from '../_services/preferences.service';
 import { DiscoverService } from '../_services/discover.service';
+import { MultiSearchService } from '../_services/multi-search.service';
+import { SearchResultsComponent } from './seach-results/search-results.component';
+import { TvShowsComponent } from './tv-shows/tv-shows.component';
 
 export const routes: Routes = [
+  { path: '', redirectTo: '/movies', pathMatch: 'full' },
   {
-    path: '',
-    component: HomeComponent,
+    path: 'movies',
+    component: MoviesComponent,
+    providers: [DiscoverService],
+  },
+  {
+    path: 'tv-shows',
+    component: TvShowsComponent,
     providers: [DiscoverService],
   },
   {
@@ -28,5 +37,10 @@ export const routes: Routes = [
     path: 'preferences',
     component: PreferencesComponent,
     providers: [PreferencesService],
+  },
+  {
+    path: 'search/:query',
+    component: SearchResultsComponent,
+    providers: [MultiSearchService],
   },
 ];

@@ -44,11 +44,16 @@
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ms-auto py-4 py-lg-0">
         <li class="nav-item">
-          <a class="nav-link px-lg-3 py-3 py-lg-4" href="index.html">Films</a>
+          <a class="nav-link px-lg-3 py-3 py-lg-4" routerLink="movies">Films</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link px-lg-3 py-3 py-lg-4" href="about.html">About</a>
+          <a class="nav-link px-lg-3 py-3 py-lg-4" routerLink="tv-shows"
+            >Séries</a
+          >
         </li>
+        <!-- <li class="nav-item">
+          <a class="nav-link px-lg-3 py-3 py-lg-4" href="about.html">About</a>
+        </li> -->
         <li class="nav-item">
           <a class="nav-link px-lg-3 py-3 py-lg-4" routerLink="preferences"
             >Mon profil</a
@@ -61,7 +66,19 @@
 <header class="masthead">
   <div class="container position-relative px-4 px-lg-5">
     <div class="row gx-4 gx-lg-5 justify-content-center">
-      <div class="col-md-10 col-lg-8 col-xl-7"></div>
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <form class="d-flex">
+          <input
+            class="form-control me-2"
+            type="search"
+            placeholder="Recherche muli-critères"
+            aria-label="Search"
+            [(ngModel)]="query"
+            [ngModelOptions]="{ standalone: true }"
+          />
+          <a class="btn" [routerLink]="['/search', query]"> C'est parti </a>
+        </form>
+      </div>
     </div>
   </div>
 </header>

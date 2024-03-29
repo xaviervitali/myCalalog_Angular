@@ -24,6 +24,7 @@ export interface MovieDetail {
   video: boolean;
   vote_average: string;
   vote_count: number;
+  release_dates: ReleaseDates;
 }
 
 export interface BelongsToCollection {
@@ -73,4 +74,22 @@ export interface Video {
   official: boolean;
   published_at: string;
   id: string;
+}
+
+export interface ReleaseDates {
+  results: ReleaseDatesResult[];
+}
+
+export interface ReleaseDatesResult {
+  iso_3166_1: string;
+  release_dates: ReleaseDate[];
+}
+
+export interface ReleaseDate {
+  certification: string;
+  descriptors: any[];
+  iso_639_1: string;
+  note: string;
+  release_date: string;
+  type: number;
 }
