@@ -8,6 +8,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { DiscoverService } from '../../_services/discover.service';
 import { CommonService } from '../../_services/common.service';
 import { environment } from '../../environment/environment';
+import { HeaderComponent } from '../header/header.component';
 
 @Component({
   selector: 'app-movies',
@@ -20,6 +21,7 @@ import { environment } from '../../environment/environment';
     TruncatePipe,
     ReactiveFormsModule,
     InfiniteScrollModule,
+    HeaderComponent,
   ],
 })
 export class MoviesComponent implements OnInit {

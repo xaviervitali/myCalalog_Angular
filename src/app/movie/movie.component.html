@@ -22,7 +22,10 @@
               {{ movie.tagline }}
             </h2>
             <div class="meta">
-              {{ movie.genres | generateComma : "name" }}
+              {{ movie.genres | map : "name" }}
+            </div>
+            <div class="meta">
+              {{ movie.runtime | minutesToHours }}
             </div>
           </div>
         </div>

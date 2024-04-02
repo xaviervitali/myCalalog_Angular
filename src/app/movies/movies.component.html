@@ -1,6 +1,11 @@
-<div class="container px-4 px-lg-5">
-  <div class="row justify-content-center">
-    <!-- <form class="my-3">
+<app-header
+  [displaySearch]="true"
+  [background]="{ 'background-color': 'gray' }"
+></app-header>
+<body>
+  <div class="container px-4 px-lg-5">
+    <div class="row justify-content-center">
+      <!-- <form class="my-3">
       <div class="input-group mb-3" [formGroup]="movieSearch">
         <input
           formControlName="name"
@@ -12,42 +17,43 @@
         />
       </div>
     </form> -->
-    <div class="results">
-      <div
-        infinite-scroll
-        [infiniteScrollDistance]="scrollDistance"
-        [infiniteScrollUpDistance]="scrollUpDistance"
-        [infiniteScrollThrottle]="throttle"
-        (scrolled)="onScrollDown()"
-        (scrolledUp)="onUp()"
-      >
-        <!-- Post preview-->
-        <div *ngFor="let movie of movieList">
-          <div class="d-flex movie">
-            <div>
-              <img
-                [src]="environment.apiPosterPath + movie.poster_path"
-                [alt]="movie.title"
-              />
+      <div class="results">
+        <div
+          infinite-scroll
+          [infiniteScrollDistance]="scrollDistance"
+          [infiniteScrollUpDistance]="scrollUpDistance"
+          [infiniteScrollThrottle]="throttle"
+          (scrolled)="onScrollDown()"
+          (scrolledUp)="onUp()"
+        >
+          <!-- Post preview-->
+          <div *ngFor="let movie of movieList">
+            <div class="d-flex movie">
+              <div>
+                <img
+                  [src]="environment.apiPosterPath + movie.poster_path"
+                  [alt]="movie.title"
+                />
+              </div>
+              <div class="post-preview">
+                <a [routerLink]="['/movie', movie.id]">
+                  <h2 class="post-title">
+                    {{ movie.title }}
+                  </h2>
+                  <h3 class="post-subtitle">
+                    {{ movie.overview | truncate : 50 }}
+                  </h3>
+                </a>
+                <p class="post-meta">
+                  Année de sortie {{ movie.release_date | date : "YYYY" }}
+                </p>
+              </div>
             </div>
-            <div class="post-preview">
-              <a [routerLink]="['/movie', movie.id]">
-                <h2 class="post-title">
-                  {{ movie.title }}
-                </h2>
-                <h3 class="post-subtitle">
-                  {{ movie.overview | truncate : 50 }}
-                </h3>
-              </a>
-              <p class="post-meta">
-                Année de sortie {{ movie.release_date | date : "YYYY" }}
-              </p>
-            </div>
+            <!-- Divider-->
+            <hr class="my-4" />
           </div>
-          <!-- Divider-->
-          <hr class="my-4" />
         </div>
       </div>
     </div>
   </div>
-</div>
+</body>

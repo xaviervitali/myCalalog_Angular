@@ -29,5 +29,6 @@
   justify-content: flex-start !important;
 }
 
-.mat-mdc-slider {
+mat-slider {
+  width: 100%;
 }

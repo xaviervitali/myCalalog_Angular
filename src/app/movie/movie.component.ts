@@ -3,13 +3,13 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MovieDetail, Video } from '../../_models/movie';
 import { environment } from '../../environment/environment';
-import { GenerateCommaPipe } from '../../_pipe/generate-comma.pipe';
 import { forkJoin } from 'rxjs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { DomSanitizer } from '@angular/platform-browser';
 import { KebabCasePipe } from '../../_pipe/kebab-case.pipe';
 import { MovieService } from '../../_services/movie.service';
-import { Keyword } from '../../_models/keywords';
+import { MapPipe } from '../../_pipe/map.pipe';
+import { MinutesToHoursPipe } from '../../_pipe/minutes-to-hours.pipe';
 
 @Component({
   selector: 'app-movie',
@@ -18,10 +18,11 @@ import { Keyword } from '../../_models/keywords';
   standalone: true,
   imports: [
     CommonModule,
-    GenerateCommaPipe,
     MatTooltipModule,
     KebabCasePipe,
     RouterLink,
+    MapPipe,
+    MinutesToHoursPipe,
   ],
 })
 export class MovieComponent implements OnInit {

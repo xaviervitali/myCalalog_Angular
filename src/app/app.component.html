@@ -63,23 +63,5 @@
     </div>
   </div>
 </nav>
-<header class="masthead">
-  <div class="container position-relative px-4 px-lg-5">
-    <div class="row gx-4 gx-lg-5 justify-content-center">
-      <div class="col-md-10 col-lg-8 col-xl-7">
-        <form class="d-flex">
-          <input
-            class="form-control me-2"
-            type="search"
-            placeholder="Recherche muli-critères"
-            aria-label="Search"
-            [(ngModel)]="query"
-            [ngModelOptions]="{ standalone: true }"
-          />
-          <a class="btn" [routerLink]="['/search', query]"> C'est parti </a>
-        </form>
-      </div>
-    </div>
-  </div>
-</header>
+
 <router-outlet></router-outlet>

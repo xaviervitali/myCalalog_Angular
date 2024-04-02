@@ -1,3 +1,4 @@
+<app-header></app-header>
 <div class="container px-4 px-lg-5">
   <div class="row gx-4 gx-lg-5 justify-content-center">
     <div class="col-md-10 col-lg-8 col-xl-7">
@@ -48,10 +49,8 @@
                   >
                 </mat-expansion-panel-header>
 
-                <div
-                  class="d-flex align-items-center justify-content-between flex-wrap"
-                >
-                  <mat-checkbox
+                <div>
+                  <!-- <mat-checkbox
                     id="includeAdult"
                     [(ngModel)]="includeAdult"
                     formControlName="includeAdult"
@@ -59,6 +58,7 @@
                   >
                     Inclure les contenus pour adulte
                   </mat-checkbox>
+                  <mat-divider></mat-divider> -->
                   <div class="d-flex align-items-center">
                     <mat-form-field class="mr-2">
                       <mat-label>Trier par</mat-label>
@@ -106,10 +106,76 @@
                         <mat-radio-button value="TP"
                           >Tous public</mat-radio-button
                         >
-                        <mat-radio-button value="12">12 ans</mat-radio-button>
-                        <mat-radio-button value="16">16 ans</mat-radio-button>
-                        <mat-radio-button value="18">18 ans</mat-radio-button>
+                        <mat-radio-button
+                          value="12"
+                          matTooltip="Le pictogramme -12 permet de repérer les programmes comportant de la violence physique et/ou psychologique de façon répétée ou des scènes relatives à la sexualité des adultes. Les programmes risquant de perturber les repères des enfants de moins de 12 ans de manière plus générale sont également concernés. "
+                          >12 ans</mat-radio-button
+                        >
+                        <mat-radio-button
+                          value="16"
+                          matTooltip=" Le pictogramme -16 concerne essentiellement les programmes érotiques ou ceux comportant des scènes de grande violence"
+                          >16 ans</mat-radio-button
+                        >
+                        <mat-radio-button
+                          value="18"
+                          matTooltip="les films ou programmes interdits aux moins de 18 ans sont ceux d’ordre pornographique ou de très grande violence réservés à un public adulte averti."
+                          >18 ans</mat-radio-button
+                        >
                       </mat-radio-group>
+                    </div>
+                  </div>
+                  <mat-divider></mat-divider>
+                  <div class="d-flex justify-content-between flex-wrap">
+                    <div>
+                      <mat-label
+                        >Années de sortie comprises entre
+                        {{ formGroup.value.releaseDates?.start }} et
+                        {{ formGroup.value.releaseDates?.end }}</mat-label
+                      >
+                      <mat-slider
+                        formGroupName="releaseDates"
+                        min="1895"
+                        max="2024"
+                        showTickMarks
+                        discrete
+                        [displayWith]="formatLabel"
+                      >
+                        <input
+                          matSliderStartThumb
+                          formControlName="start"
+                          (change)="handleReleaseDatesChanges()"
+                        />
+                        <input
+                          matSliderEndThumb
+                          formControlName="end"
+                          (change)="handleReleaseDatesChanges()"
+                        />
+                      </mat-slider>
+                    </div>
+                    <div>
+                      <mat-label
+                        >Durée des films comprise entre
+                        {{ runtimeLabel() }}</mat-label
+                      >
+                      <mat-slider
+                        formGroupName="runtime"
+                        min="0"
+                        max="300"
+                        showTickMarks
+                        discrete
+                        [displayWith]="formatLabel"
+                      >
+                        <input
+                          matSliderStartThumb
+                          formControlName="start"
+                          (change)="handleRuntimeChanges()"
+                        />
+                        <input
+                          matSliderEndThumb
+                          formControlName="end"
+                          (change)="handleRuntimeChanges()"
+                        />
+                      </mat-slider>
                     </div>
                   </div>
                 </div>

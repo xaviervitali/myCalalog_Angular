@@ -27,6 +27,8 @@ import { WatchProvidersComponent } from './watch-providers/watch-providers.compo
 import { WatchProviderResult } from '../../_models/watch_providers';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatRadioChange, MatRadioModule } from '@angular/material/radio';
+import { MinutesToHoursPipe } from '../../_pipe/minutes-to-hours.pipe';
+import { HeaderComponent } from '../header/header.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -61,10 +63,12 @@ export const MY_FORMATS = {
     MatDividerModule,
     MatSliderModule,
     MatRadioModule,
+    MinutesToHoursPipe,
+    HeaderComponent,
   ],
   templateUrl: './preferences.component.html',
   styleUrl: './preferences.component.css',
-  providers: [provideNativeDateAdapter(MY_FORMATS)],
+  providers: [provideNativeDateAdapter(MY_FORMATS), MinutesToHoursPipe],
 })
 export class PreferencesComponent implements OnInit {
   public includeAdult = !!this.userService.getOption('include_adult');
@@ -89,8 +93,12 @@ export class PreferencesComponent implements OnInit {
   public formGroup = this.formBuilder.group({
     includeAdult: this.formBuilder.control(this.includeAdult),
     releaseDates: this.formBuilder.group({
-      start: null,
-      end: null,
+      start: 1895,
+      end: moment().year(),
+    }),
+    runtime: this.formBuilder.group({
+      start: 0,
+      end: 300,
     }),
     selectedAge: this.formBuilder.control('0'),
   });
@@ -102,7 +110,8 @@ export class PreferencesComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private userService: UserService
+    private userService: UserService,
+    private minutesToHoursPipe: MinutesToHoursPipe
   ) {}
 
   ngOnInit(): void {
@@ -183,5 +192,50 @@ export class PreferencesComponent implements OnInit {
     } else {
       this.userService.removeOption('certification.lte');
     }
+  }
+
+  handleReleaseDatesChanges() {
+    if (
+      this.formGroup.value.releaseDates?.start &&
+      this.formGroup.value.releaseDates?.end
+    ) {
+      this.userService.setOption(
+        'release_date.gte',
+        String(this.formGroup.value.releaseDates.start)
+      );
+      this.userService.setOption(
+        'release_date.lte',
+        String(this.formGroup.value.releaseDates.end)
+      );
+    }
+  }
+  handleRuntimeChanges() {
+    if (
+      this.formGroup.value.runtime?.start &&
+      this.formGroup.value.runtime?.end
+    ) {
+      this.userService.setOption(
+        'with_runtime.gte',
+        this.formGroup.value.runtime.start
+      );
+      this.userService.setOption(
+        'with_runtime.lte',
+        this.formGroup.value.runtime.end
+      );
+    }
+  }
+  runtimeLabel() {
+    if (
+      (!!this.formGroup.value.runtime?.start ||
+        this.formGroup.value.runtime?.start === 0) &&
+      !!this.formGroup.value.runtime?.end
+    ) {
+      return (
+        this.minutesToHoursPipe.transform(+this.formGroup.value.runtime.start) +
+        ' et ' +
+        this.minutesToHoursPipe.transform(+this.formGroup.value.runtime.end)
+      );
+    }
+    return '';
   }
 }
