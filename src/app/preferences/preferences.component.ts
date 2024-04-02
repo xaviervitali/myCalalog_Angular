@@ -1,50 +1,98 @@
 import { Component, OnInit } from '@angular/core';
 import { PreferencesService } from '../../_services/preferences.service';
-import { forkJoin } from 'rxjs';
-import {
-  FormArray,
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { WatchProviderResult } from '../../_models/watch_providers';
 import { environment } from '../../environment/environment';
 import { UserService } from '../../_services/user.service';
 import { GenreResults } from '../../_models/genre';
+
+// Material
+import { provideNativeDateAdapter } from '@angular/material/core';
 import {
-  CdkDragDrop,
-  DragDropModule,
-  moveItemInArray,
-  transferArrayItem,
-} from '@angular/cdk/drag-drop';
+  MatDatepicker,
+  MatDatepickerModule,
+} from '@angular/material/datepicker';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import moment, { Moment } from 'moment';
+import { GenresComponent } from './genres/genres.component';
+import { MapPipe } from '../../_pipe/map.pipe';
+import { WatchProvidersComponent } from './watch-providers/watch-providers.component';
+import { WatchProviderResult } from '../../_models/watch_providers';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatRadioChange, MatRadioModule } from '@angular/material/radio';
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'MM/YYYY',
+  },
+  display: {
+    dateInput: 'MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 @Component({
   selector: 'app-preferences',
   standalone: true,
   imports: [
-    ReactiveFormsModule,
     CommonModule,
-    DragDropModule,
     MatFormFieldModule,
     MatSelectModule,
+    ReactiveFormsModule,
+    MatAccordion,
+    MatExpansionModule,
+    MatIconModule,
+    MatDatepickerModule,
+    MatTooltipModule,
+    MatButtonModule,
+    GenresComponent,
+    MatCheckboxModule,
+    MapPipe,
+    WatchProvidersComponent,
+    MatDividerModule,
+    MatSliderModule,
+    MatRadioModule,
   ],
   templateUrl: './preferences.component.html',
   styleUrl: './preferences.component.css',
+  providers: [provideNativeDateAdapter(MY_FORMATS)],
 })
 export class PreferencesComponent implements OnInit {
-  //public watchProviders: any = [];
-  public with_genres: string[] = [];
-  public without_genres: string[] = [];
+  public includeAdult = !!this.userService.getOption('include_adult');
 
-  private genres: GenreResults[] = [];
+  public withoutGenres: GenreResults[] = [];
+  public watchProviders: WatchProviderResult[] = [];
+
+  public toto = `Pictogramme signalétique -10 ans
+
+  Lorsqu’un programme (série, film, documentaire, etc.) comporte des scènes qui risquent de choquer les plus jeunes ou abordent des sujets risquant de les perturber, le pictogramme -10 est affiché. Ces programmes peuvent être diffusés en journée, s’ils ne sont pas programmés à l’intérieur des émissions jeunesse.
+  
+  Pictogramme signalétique -12 ans
+  Le pictogramme -12 permet de repérer les programmes comportant de la violence physique et/ou psychologique de façon répétée ou des scènes relatives à la sexualité des adultes. Les programmes risquant de perturber les repères des enfants de moins de 12 ans de manière plus générale sont également concernés. 
+  
+  Ils ne peuvent être diffusés qu’à partir de 22 h (ou 20 h 30 sur les chaînes cinéma ou de paiement à la demande).
+  
+  Pictogramme signalétique -16 ans
+  Le pictogramme -16 concerne essentiellement les programmes érotiques ou ceux comportant des scènes de grande violence. Ils ne peuvent être diffusés qu’à partir de 22 h 30. Les chaînes cinéma, de paiement à la demande ou les plateformes de streaming vidéo (comme Netflix ou Amazon Video Prime) sont soumises à un régime différent.
+  
+  Pictogramme signalétique -18 ans
+  Enfin, les films ou programmes interdits aux moins de 18 ans sont ceux d’ordre pornographique ou de très grande violence réservés à un public adulte averti. Ils ne peuvent être diffusés qu’entre minuit et 5 h du matin.`;
   public formGroup = this.formBuilder.group({
-    watchProviders: this.formBuilder.array([]),
-    includeAdult: this.formBuilder.control(
-      !!this.getUserOption('include_adult')
-    ),
+    includeAdult: this.formBuilder.control(this.includeAdult),
+    releaseDates: this.formBuilder.group({
+      start: null,
+      end: null,
+    }),
+    selectedAge: this.formBuilder.control('0'),
   });
 
   public apiPosterPath = environment.apiPosterPath;
@@ -52,145 +100,21 @@ export class PreferencesComponent implements OnInit {
 
   public orderBySelectValue = 'popularity';
 
-  get watchProvidersCount(): number {
-    return this.watchProvidersFormArray.value.filter(
-      (watchProvider: WatchProviderResult) => watchProvider.checked
-    ).length;
-  }
-  get watchProvidersFormArray(): FormArray {
-    return this.formGroup.get('watchProviders') as FormArray;
-  }
-
   constructor(
-    private preferencesService: PreferencesService,
     private formBuilder: FormBuilder,
     private userService: UserService
   ) {}
 
   ngOnInit(): void {
-    forkJoin({
-      watchProviders: this.preferencesService.getWatchProviders(),
-      genres: this.preferencesService.getGenres(),
-    }).subscribe((results) => {
-      // WatchProviders
-      const watchProviders = results.watchProviders.results.sort(
-        (
-          watchProviderA: { provider_name: string },
-          watchProviderB: { provider_name: string }
-        ) =>
-          watchProviderA.provider_name.localeCompare(
-            watchProviderB.provider_name
-          )
-      );
-      const userWatchProviders = this.getUserOption(
-        'with_watch_providers',
-        '|'
-      );
-      watchProviders.forEach((watchProvider: WatchProviderResult) => {
-        const isChecked = userWatchProviders?.includes(
-          String(watchProvider.provider_id)
-        );
-
-        this.watchProvidersFormArray.push(
-          this.newWatchProvider(
-            watchProvider.provider_id,
-            watchProvider.provider_name,
-            watchProvider.logo_path,
-            isChecked
-          )
-        );
-      });
-
-      // Genres
-      const userWithoutGenres = this.getUserOption('without_genres', '|');
-      this.genres = results.genres.genres;
-
-      results.genres.genres.forEach((genre) => {
-        if (userWithoutGenres?.includes(genre.id)) {
-          this.without_genres.push(genre.name);
-          return;
-        }
-        this.with_genres.push(genre.name);
-      });
-    });
-    // sort_by
-    const orderBy = this.getUserOption('sort_by', '.');
-    if (!!orderBy.length) {
+    // order_by
+    const orderBy = this.userService.getOption('order_by', '.') as string[];
+    if (!!orderBy?.length) {
       this.orderBySelectValue = orderBy[0];
     }
   }
 
-  private newWatchProvider(
-    provider_id: number,
-    provider_name: string,
-    logo_path: string,
-    checked: boolean
-  ): FormGroup {
-    return this.formBuilder.group({
-      provider_id,
-      provider_name,
-      logo_path,
-      checked: checked,
-    });
-  }
-
-  setWatchProviders() {
-    const selectedWatchProviders = this.watchProvidersFormArray.value.filter(
-      (watchProvider: any) => watchProvider.checked
-    );
-
-    const selectedWatchProvidersIds = selectedWatchProviders.map(
-      (watchProvider: WatchProviderResult) => watchProvider.provider_id
-    );
-
-    this.userService.setOption(
-      'with_watch_providers',
-      selectedWatchProvidersIds.join('|')
-    );
-  }
-
-  getUserOption(name: string, separator = ''): any {
-    let optionValue: any = this.userService.getOption(name);
-    if (!optionValue) {
-      return null;
-    }
-
-    if (!!separator && typeof optionValue === 'string') {
-      optionValue = optionValue.split(separator);
-    }
-
-    return optionValue;
-  }
-  drop(event: CdkDragDrop<string[]>) {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
-    } else {
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
-    }
-    const withoutGenres: number[] = [];
-
-    this.without_genres.forEach((genreName) => {
-      const currentGenre = this.genres.find(
-        (genre) => genre.name === genreName
-      );
-      if (currentGenre) {
-        withoutGenres.push(currentGenre.id);
-      }
-    });
-    this.userService.setOption('without_genres', withoutGenres.join('|'));
-  }
-
   handleAdultContentCheckbox(event: any) {
-    const isChecked = event.target.checked;
+    const isChecked = event.checked;
     const optionName = 'include_adult';
     if (isChecked) {
       this.userService.setOption(optionName, true);
@@ -201,13 +125,63 @@ export class PreferencesComponent implements OnInit {
 
   toggleSortOrder() {
     this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc'; // Inversion de l'ordre de tri
-    let orderBy = this.getUserOption('sort_by', '.');
+    let orderBy = this.userService.getOption('order_by', '.') as string[];
     if (!!orderBy?.length) {
-      this.userService.setOption('sort_by', orderBy[0] + '.' + this.sortOrder);
+      this.userService.setOption('order_by', orderBy[0] + '.' + this.sortOrder);
     }
   }
 
   handleOrderByChange(event: any) {
-    this.userService.setOption('sort_by', event + '.' + this.sortOrder);
+    this.userService.setOption('order_by', event + '.' + this.sortOrder);
+  }
+
+  chosenMonthHandler(
+    normalizedMonth: Moment | null,
+    datepicker: MatDatepicker<Moment> | null,
+    formControlName: string
+  ) {
+    const form = this.formGroup.get(formControlName);
+    if (form) {
+      if (normalizedMonth) {
+        form.setValue(normalizedMonth);
+      } else {
+        form.setValue('');
+      }
+
+      if (datepicker != null) datepicker.close();
+    }
+  }
+
+  inputChosenMonthHandler(normalizedMonth: string, formControlName: string) {
+    if (normalizedMonth) {
+      this.chosenMonthHandler(
+        moment(normalizedMonth, ['MMM YYYY', 'MM YYYY']),
+        null,
+        formControlName
+      );
+    } else {
+      this.chosenMonthHandler(null, null, formControlName);
+    }
+  }
+
+  setWithoutGenres(genres: GenreResults[]) {
+    this.withoutGenres = genres;
+  }
+
+  setWatchProviders(watchProviders: WatchProviderResult[]) {
+    this.watchProviders = watchProviders;
+  }
+
+  formatLabel(value: number): string {
+    return `${value}`;
+  }
+
+  handleAgeLimitChange(event: MatRadioChange) {
+    const value = event.value;
+    if (!!event.value) {
+      this.userService.setOption('certification.lte', value);
+    } else {
+      this.userService.removeOption('certification.lte');
+    }
   }
 }

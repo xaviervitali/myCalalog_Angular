@@ -1,186 +1,122 @@
 <div class="container px-4 px-lg-5">
   <div class="row gx-4 gx-lg-5 justify-content-center">
     <div class="col-md-10 col-lg-8 col-xl-7">
-      <form [formGroup]="formGroup" *ngIf="formGroup.get('watchProviders')">
-        <article class="mb-4">
-          <div class="accordion">
-            <!--Watch Providers-->
-            <div class="accordion-item">
-              <h2 class="accordion-header">
-                <button
-                  class="accordion-button collapsed"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#watch-providers-content"
-                  aria-expanded="false"
-                  aria-controls="watchProviders"
-                >
-                  Services de streaming ({{ watchProvidersCount }})
-                </button>
-              </h2>
-              <div
-                id="watch-providers-content"
-                class="accordion-collapse collapse"
-                data-bs-parent="#watchProviders"
-              >
-                <div class="accordion-body">
-                  <div formArrayName="watchProviders" class="watchProviders">
-                    <ng-container
-                      *ngFor="
-                        let provider of watchProvidersFormArray.controls;
-                        let i = index
-                      "
+      <form [formGroup]="formGroup">
+        <div>
+          <article class="mb-4">
+            <mat-accordion multi class="example-headers-align">
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title> Services de streaming </mat-panel-title>
+                  <mat-panel-description
+                    ><span
+                      [matTooltip]="watchProviders | map : 'provider_name'"
                     >
-                      <div [formGroupName]="i">
-                        <input
-                          type="checkbox"
-                          [id]="'provider_' + provider.value.provider_id"
-                          class="form-check-input"
-                          formControlName="checked"
-                          [value]="provider.value.provider_id"
-                          [(checked)]="provider.value.checked"
-                          (change)="setWatchProviders()"
-                        />
-                        <label [for]="'provider_' + provider.value.provider_id">
-                          <img
-                            [src]="apiPosterPath + provider.value.logo_path"
-                            alt=""
-                          />
-                          {{ provider.value.provider_name }}
-                        </label>
-                      </div>
-                    </ng-container>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!--/Watch Providers-->
-            <!--Genres-->
-            <div class="accordion-item">
-              <h2 class="accordion-header">
-                <button
-                  class="accordion-button collapsed"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#genre-content"
-                  aria-expanded="false"
-                  aria-controls="genre-content"
-                >
-                  Genres (exclus : {{ without_genres.length }})
-                </button>
-              </h2>
-              <div
-                id="genre-content"
-                class="accordion-collapse collapse"
-                data-bs-parent="#accordionFlushExample"
-              >
-                <div class="accordion-body">
-                  <blockquote class="blockquote">
-                    Déplacer les genres selon vos préférences
-                  </blockquote>
-                  <div class="d-flex justify-content-between">
-                    <div class="example-container">
-                      <!--Drag & Drop-->
-                      <h2>Souhaités</h2>
-                      <div
-                        cdkDropList
-                        #with_genresList="cdkDropList"
-                        [cdkDropListData]="with_genres"
-                        [cdkDropListConnectedTo]="[without_genresList]"
-                        class="example-list"
-                        (cdkDropListDropped)="drop($event)"
-                      >
-                        @for (item of with_genres; track item) {
-                        <div class="example-box" cdkDrag>{{ item }}</div>
-                        }
-                      </div>
-                    </div>
-
-                    <div class="example-container">
-                      <h2>Non Souhaités</h2>
-
-                      <div
-                        cdkDropList
-                        #without_genresList="cdkDropList"
-                        [cdkDropListData]="without_genres"
-                        [cdkDropListConnectedTo]="[with_genresList]"
-                        class="example-list"
-                        (cdkDropListDropped)="drop($event)"
-                      >
-                        @for (item of without_genres; track item) {
-                        <div class="example-box" cdkDrag>{{ item }}</div>
-                        }
-                      </div>
-                    </div>
-                    <!--/Drag & Drop-->
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!--/Genres-->
-            <!--Autre-->
-            <div class="accordion-item">
-              <h2 class="accordion-header">
-                <button
-                  class="accordion-button collapsed"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#miscellaneous-content"
-                  aria-expanded="false"
-                  aria-controls="miscellaneous-content"
-                >
-                  Divers
-                </button>
-              </h2>
-              <div
-                id="miscellaneous-content"
-                class="accordion-collapse collapse"
-                data-bs-parent="#accordionFlushExample"
-              >
-                <div class="accordion-body">
-                  <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      value=""
-                      id="includeAdult"
-                      formControlName="includeAdult"
-                      (change)="handleAdultContentCheckbox($event)"
-                    />
-                    <label class="form-check-label" for="includeAdult">
-                      Inclure les contenus pour adulte
-                    </label>
-                  </div>
-                </div>
-                <div class="d-flex">
-                  <mat-form-field>
-                    <mat-label>Trier par</mat-label>
-                    <mat-select
-                      [value]="orderBySelectValue"
-                      (valueChange)="handleOrderByChange($event)"
+                      Sélectionné{{ watchProviders.length > 1 ? "s" : "" }} :
+                      <span> {{ watchProviders.length }}</span></span
                     >
-                      <mat-option value="popularity">Popularité</mat-option>
-                      <mat-option value="revenue">Revenu</mat-option>
-                      <mat-option value="primary_release_date">
-                        Date de Réalisation
-                      </mat-option>
-                      <mat-option value="title">Ordre alphabétique</mat-option>
-                      <mat-option value="vote_average">Note</mat-option>
-                      <mat-option value="vote_count">Nombre de vote</mat-option>
-                    </mat-select>
-                  </mat-form-field>
+                    <mat-icon>live_tv</mat-icon></mat-panel-description
+                  >
+                </mat-expansion-panel-header>
+                <app-watch-providers
+                  (watchProviders)="setWatchProviders($event)"
+                ></app-watch-providers>
+              </mat-expansion-panel>
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title> Genres</mat-panel-title>
+                  <mat-panel-description
+                    ><span [matTooltip]="withoutGenres | map : 'name'">
+                      Exclus : {{ withoutGenres.length }}</span
+                    >
+
+                    <mat-icon> swipe </mat-icon></mat-panel-description
+                  >
+                </mat-expansion-panel-header>
+                <app-genres
+                  (withoutGenres)="setWithoutGenres($event)"
+                ></app-genres>
+              </mat-expansion-panel>
+
+              <!--Misc-->
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title> Autre</mat-panel-title>
+                  <mat-panel-description>
+                    filtres et tris divers
+                    <mat-icon> settings </mat-icon></mat-panel-description
+                  >
+                </mat-expansion-panel-header>
+
+                <div
+                  class="d-flex align-items-center justify-content-between flex-wrap"
+                >
+                  <mat-checkbox
+                    id="includeAdult"
+                    [(ngModel)]="includeAdult"
+                    formControlName="includeAdult"
+                    (change)="handleAdultContentCheckbox($event)"
+                  >
+                    Inclure les contenus pour adulte
+                  </mat-checkbox>
+                  <div class="d-flex align-items-center">
+                    <mat-form-field class="mr-2">
+                      <mat-label>Trier par</mat-label>
+                      <mat-select
+                        [value]="orderBySelectValue"
+                        (valueChange)="handleOrderByChange($event)"
+                      >
+                        <mat-option value="popularity">Popularité</mat-option>
+                        <mat-option value="revenue">Revenu</mat-option>
+                        <mat-option value="primary_release_date"
+                          >Date de Réalisation</mat-option
+                        >
+                        <mat-option value="title"
+                          >Ordre alphabétique</mat-option
+                        >
+                        <mat-option value="vote_average">Note</mat-option>
+                        <mat-option value="vote_count"
+                          >Nombre de vote</mat-option
+                        >
+                      </mat-select>
+                      <button
+                        mat-icon-button
+                        (click)="toggleSortOrder()"
+                        matSuffix
+                      >
+                        <mat-icon>{{
+                          sortOrder === "asc"
+                            ? "arrow_upward"
+                            : "arrow_downward"
+                        }}</mat-icon>
+                      </button>
+                    </mat-form-field>
+                  </div>
+                  <mat-divider></mat-divider>
                   <div>
-                    en ordre
-                    <button (click)="toggleSortOrder()" class="btn">
-                      {{ sortOrder === "asc" ? "Ascendant" : "Descendant" }}
-                    </button>
+                    <mat-label>Limite d'âge</mat-label>
+                    <div>
+                      <mat-radio-group
+                        aria-label="Limite d'âge"
+                        formControlName="selectedAge"
+                        (change)="handleAgeLimitChange($event)"
+                      >
+                        <mat-radio-button value="0">Aucune</mat-radio-button>
+
+                        <mat-radio-button value="TP"
+                          >Tous public</mat-radio-button
+                        >
+                        <mat-radio-button value="12">12 ans</mat-radio-button>
+                        <mat-radio-button value="16">16 ans</mat-radio-button>
+                        <mat-radio-button value="18">18 ans</mat-radio-button>
+                      </mat-radio-group>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            <!--/Autre-->
-          </div>
-        </article>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </article>
+        </div>
       </form>
     </div>
   </div>

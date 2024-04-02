@@ -10,11 +10,11 @@ export interface ApiOptions {
   certification_country?: string;
   include_adult?: boolean;
   include_video?: boolean;
-  'primary_release_date.gte'?: Date;
-  'primary_release_date.lte'?: Date;
+  'primary_release_date.gte'?: string;
+  'primary_release_date.lte'?: string;
   region?: string;
-  'release_date.gte'?: Date;
-  'release_date.lte'?: Date;
+  'release_date.gte'?: string;
+  'release_date.lte'?: string;
   'vote_average.gte'?: number;
   'vote_average.lte'?: number;
   'vote_count.gte'?: number;
@@ -33,5 +33,5 @@ export interface ApiOptions {
   without_keywords?: string;
   without_watch_providers?: string;
   year?: number;
-  [key: string]: string | number | boolean | Date | undefined;
+  [key: string]: string | number | boolean | undefined;
 }

@@ -1,0 +1,24 @@
+<div *ngIf="watchProvidersFormGroup" [formGroup]="watchProvidersFormGroup">
+  <mat-grid-list cols="4" rowHeight="160px" formArrayName="watchProviders">
+    <mat-grid-tile
+      *ngFor="
+        let provider of watchProvidersFormArray.value;
+        let watchProvidersFormArrayIndex = index
+      "
+    >
+      <div [formGroupName]="watchProvidersFormArrayIndex">
+        <mat-checkbox
+          [id]="'provider_' + provider.provider_id"
+          formControlName="checked"
+          [checked]="provider.checked"
+          (change)="setWatchProviders()"
+        >
+          <img [src]="apiPosterPath + provider.logo_path" alt="" />
+        </mat-checkbox>
+        <p class="mt-1">
+          {{ provider.provider_name }}
+        </p>
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

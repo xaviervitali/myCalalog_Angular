@@ -1,0 +1,36 @@
+<div class="watchProviders">
+  <div class="example-container">
+    <!--Drag & Drop-->
+    <h4>Souhaités</h4>
+    <div
+      cdkDropList
+      #with_genresList="cdkDropList"
+      [cdkDropListData]="with_genres"
+      [cdkDropListConnectedTo]="[without_genresList]"
+      class="example-list"
+      (cdkDropListDropped)="drop($event)"
+    >
+      @for (item of with_genres; track item) {
+      <div class="example-box" cdkDrag>{{ item }}</div>
+      }
+    </div>
+  </div>
+
+  <div class="example-container">
+    <h4>Non Souhaités</h4>
+
+    <div
+      cdkDropList
+      #without_genresList="cdkDropList"
+      [cdkDropListData]="without_genres"
+      [cdkDropListConnectedTo]="[with_genresList]"
+      class="example-list"
+      (cdkDropListDropped)="drop($event)"
+    >
+      @for (item of without_genres; track item) {
+      <div class="example-box" cdkDrag>{{ item }}</div>
+      }
+    </div>
+  </div>
+  <!--/Drag & Drop-->
+</div>

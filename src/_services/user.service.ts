@@ -30,8 +30,20 @@ export class UserService {
   }
 
   // Méthode pour récupérer une option
-  getOption<K extends keyof ApiOptions>(keyName: K): ApiOptions[K] | null {
-    return this.optionsSubject.value[keyName] || null;
+  getOption<K extends keyof ApiOptions>(
+    keyName: K,
+    separator = ''
+  ): ApiOptions[K] | null | string[] {
+    let optionValue: any = this.optionsSubject.value[keyName];
+
+    if (!optionValue) {
+      return null;
+    }
+
+    if (!!separator && typeof optionValue === 'string') {
+      optionValue = optionValue.split(separator);
+    }
+    return optionValue;
   }
 
   removeOption(optionKey: keyof ApiOptions): void {

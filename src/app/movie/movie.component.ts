@@ -33,6 +33,7 @@ export class MovieComponent implements OnInit {
   public environment = environment;
   public stars: string[] = [];
   public keywords: any[] = [];
+  public recommendations: any[] = [];
   @ViewChild('.word-cloud', { static: true })
   wordCloud!: ElementRef<HTMLCanvasElement>;
 
@@ -53,6 +54,7 @@ export class MovieComponent implements OnInit {
           credits: this.movieService.getMovieCast(+id),
           // non localisé
           //   keywords: this.movieService.getMovieKeywords(+id),
+          recommendations: this.movieService.getMovieRecommendations(+id),
         }).subscribe((value: any) => {
           this.movie = value.movieDetail;
           const certifications = this.movie?.release_dates.results.find(
@@ -83,7 +85,7 @@ export class MovieComponent implements OnInit {
           if (this.movie?.vote_average) {
             this.generateStars(+this.movie?.vote_average / 2);
           }
-
+          // Non localisé
           // const keywords = value.keywords.keywords;
           // const keywordClasses = ['small', 'large', ''];
           // if (!!keywords.length) {
@@ -99,6 +101,8 @@ export class MovieComponent implements OnInit {
           //     this.keywords.push({ keyword: keyword.name, className });
           //   });
           // }
+
+          this.recommendations = value.recommendations.results;
         });
       }
     });
