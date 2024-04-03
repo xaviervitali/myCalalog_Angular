@@ -4,20 +4,8 @@
 ></app-header>
 <body>
   <div class="container px-4 px-lg-5">
-    <div class="row justify-content-center">
-      <!-- <form class="my-3">
-      <div class="input-group mb-3" [formGroup]="movieSearch">
-        <input
-          formControlName="name"
-          type="text"
-          class="form-control"
-          aria-label="Default"
-          aria-describedby="inputGroup-sizing-default"
-          placeholder="Chercher un film"
-        />
-      </div>
-    </form> -->
-      <div class="results">
+    <div class="justify-content-center">
+      <div class="results" *ngIf="userWatchProviders; else goPref">
         <div
           infinite-scroll
           [infiniteScrollDistance]="scrollDistance"
@@ -54,6 +42,10 @@
           </div>
         </div>
       </div>
+      <ng-template #goPref class="text-center"
+        >Aucun service de streaming choisit. Veuillez suivre ce
+        <a routerLink="/preferences">lien</a> pour en selectionner</ng-template
+      >
     </div>
   </div>
 </body>

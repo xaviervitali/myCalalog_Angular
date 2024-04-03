@@ -76,20 +76,6 @@ export class PreferencesComponent implements OnInit {
   public withoutGenres: GenreResults[] = [];
   public watchProviders: WatchProviderResult[] = [];
 
-  public toto = `Pictogramme signalétique -10 ans
-
-  Lorsqu’un programme (série, film, documentaire, etc.) comporte des scènes qui risquent de choquer les plus jeunes ou abordent des sujets risquant de les perturber, le pictogramme -10 est affiché. Ces programmes peuvent être diffusés en journée, s’ils ne sont pas programmés à l’intérieur des émissions jeunesse.
-  
-  Pictogramme signalétique -12 ans
-  Le pictogramme -12 permet de repérer les programmes comportant de la violence physique et/ou psychologique de façon répétée ou des scènes relatives à la sexualité des adultes. Les programmes risquant de perturber les repères des enfants de moins de 12 ans de manière plus générale sont également concernés. 
-  
-  Ils ne peuvent être diffusés qu’à partir de 22 h (ou 20 h 30 sur les chaînes cinéma ou de paiement à la demande).
-  
-  Pictogramme signalétique -16 ans
-  Le pictogramme -16 concerne essentiellement les programmes érotiques ou ceux comportant des scènes de grande violence. Ils ne peuvent être diffusés qu’à partir de 22 h 30. Les chaînes cinéma, de paiement à la demande ou les plateformes de streaming vidéo (comme Netflix ou Amazon Video Prime) sont soumises à un régime différent.
-  
-  Pictogramme signalétique -18 ans
-  Enfin, les films ou programmes interdits aux moins de 18 ans sont ceux d’ordre pornographique ou de très grande violence réservés à un public adulte averti. Ils ne peuvent être diffusés qu’entre minuit et 5 h du matin.`;
   public formGroup = this.formBuilder.group({
     includeAdult: this.formBuilder.control(this.includeAdult),
     releaseDates: this.formBuilder.group({

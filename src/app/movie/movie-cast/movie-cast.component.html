@@ -1,0 +1,17 @@
+<h2 class="section-heading">Avec</h2>
+<div class="cast">
+  <div class="card" *ngFor="let actor of cast">
+    <a [routerLink]="['/actor', actor.id]">
+      <img
+        class="card-img-top"
+        [src]="environment.apiPosterPath + actor.profile_path"
+        [alt]="actor.name"
+        onerror="this.src='/assets/img/avatar.png';"
+      />
+      <div class="card-body">
+        <h5 class="card-title">{{ actor.name }}</h5>
+        <p class="card-text">{{ actor.character }}</p>
+      </div></a
+    >
+  </div>
+</div>

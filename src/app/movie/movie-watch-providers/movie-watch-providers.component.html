@@ -1,0 +1,62 @@
+<div *ngIf="!!watchProviders; else noAvailable" class="watchProviders">
+  <h2 class="section-heading">Disponible sur</h2>
+  <div *ngIf="!!watchProviders.flatrate?.length">
+    <blockquote class="blockquote">Compris dans l'abonnement</blockquote>
+    <div class="d-flex gap-3">
+      <div *ngFor="let watchProvider of watchProviders.flatrate">
+        <div [ngSwitch]="watchProvider.provider_id">
+          <!-- <p *ngSwitchCase="8">
+            <a
+              [href]="'https://www.netflix.com/search?q=' + movie.title"
+              target="_blank"
+            >
+              <img
+                [src]="environment.apiPosterPath + watchProvider.logo_path"
+                [alt]="watchProvider.provider_name"
+            /></a>
+          </p>
+          <p *ngSwitchCase="337">
+            <a href="https://www.disneyplus.com" target="_blank">
+              <img
+                [src]="environment.apiPosterPath + watchProvider.logo_path"
+                [alt]="watchProvider.provider_name"
+            /></a>
+          </p> -->
+          <p *ngSwitchDefault>
+            <img
+              [src]="environment.apiPosterPath + watchProvider.logo_path"
+              [alt]="watchProvider.provider_name"
+            />
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!!watchProviders.buy?.length">
+    <blockquote class="blockquote">A l'achat</blockquote>
+    <div class="d-flex gap-3">
+      <p *ngFor="let watchProvider of watchProviders.buy">
+        <img
+          [src]="environment.apiPosterPath + watchProvider.logo_path"
+          [alt]="watchProvider.provider_name"
+        />
+      </p>
+    </div>
+  </div>
+  <div *ngIf="!!watchProviders.rent?.length">
+    <blockquote class="blockquote">A la location</blockquote>
+    <div class="d-flex gap-3">
+      <p *ngFor="let watchProvider of watchProviders.rent">
+        <img
+          [src]="environment.apiPosterPath + watchProvider.logo_path"
+          [alt]="watchProvider.provider_name"
+        />
+      </p>
+    </div>
+  </div>
+</div>
+<ng-template #noAvailable>
+  <blockquote class="blockquote">
+    Non disponible en streaming
+  </blockquote></ng-template
+>

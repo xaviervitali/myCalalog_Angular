@@ -1,0 +1,17 @@
+<h2 class="section-heading">Sociétés de production</h2>
+<div class="production_companies">
+  <div class="card" *ngFor="let production_companie of production_companies">
+    <img
+      class="card-img-top"
+      [src]="environment.apiPosterPath + production_companie.logo_path"
+      [alt]="production_companie.name"
+      (error)="production_companie.error = true"
+      onerror="this.style.display='none'"
+    />
+    <div class="card-body">
+      <ng-container *ngIf="production_companie.error">
+        <p class="card-text">{{ production_companie.name }}</p>
+      </ng-container>
+    </div>
+  </div>
+</div>

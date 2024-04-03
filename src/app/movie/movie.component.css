@@ -5,37 +5,7 @@
     color: orange;
   }
 }
-.cast {
-  width: 100% !important;
-  display: flex;
-  overflow: scroll;
-  gap: 8px;
-  .card {
-    display: flex;
-    min-width: 300px;
-    img {
-      height: 400px;
-      margin: 8px;
-      width: auto;
-      object-fit: cover;
-      border-radius: 16px !important    ;
-    }
-  }
-}
-.watchProviders img {
-  border-radius: 8px;
-}
 
-.production_companies {
-  display: flex;
-  flex-wrap: wrap;
-  .card {
-    width: 200px;
-    margin: 8px;
-    text-align: center;
-    border: 0;
-  }
-}
 .videos {
   display: flex;
   flex-wrap: wrap;
@@ -63,46 +33,4 @@ a {
   color: white; /* Couleur du texte */
   font-size: 24px;
   font-weight: bold;
-}
-
-.word-cloud {
-  /*width: 300px;*/
-  margin-top: 0;
-  margin-bottom: 0;
-  padding-left: 0;
-  list-style: none;
-  text-align: justify;
-}
-
-.word-cloud__word {
-  display: inline-block;
-  font-size: 18px;
-  line-height: 24px;
-  color: #90d6f3;
-}
-
-.word-cloud__word--x-small,
-.word-cloud__word--small {
-  font-weight: 100;
-}
-
-.word-cloud__word--x-small {
-  font-size: 10px;
-  color: #c6e8f7;
-}
-
-.word-cloud__word--small {
-  font-size: 13px;
-  color: #b0def2;
-}
-
-.word-cloud__word--large {
-  font-size: 22px;
-  color: #0fa0dd;
-}
-
-.word-cloud__word--x-large {
-  font-size: 32px;
-  letter-spacing: -0.0125em;
-  color: #0a79a7;
 }

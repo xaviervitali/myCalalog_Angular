@@ -83,6 +83,9 @@ export class WatchProvidersComponent implements OnInit {
             )
           );
         });
+        // [...this.watchProviderCheckedList()].forEach((element) => {
+        //   this.watchProviders.emit(element);
+        // });
       });
   }
 
@@ -93,15 +96,11 @@ export class WatchProvidersComponent implements OnInit {
   }
 
   setWatchProviders() {
-    const selectedWatchProviders = this.watchProvidersFormArray.value.filter(
-      (watchProvider: any) => watchProvider.checked
-    );
-
-    const selectedWatchProvidersIds = selectedWatchProviders.map(
+    const selectedWatchProvidersIds = this.watchProviderCheckedList().map(
       (watchProvider: WatchProviderResult) => watchProvider.provider_id
     );
 
-    this.watchProviders.emit(selectedWatchProviders);
+    this.watchProviders.emit(this.watchProviderCheckedList());
 
     this.userService.setOption(
       'with_watch_providers',

@@ -10,6 +10,17 @@ import { KebabCasePipe } from '../../_pipe/kebab-case.pipe';
 import { MovieService } from '../../_services/movie.service';
 import { MapPipe } from '../../_pipe/map.pipe';
 import { MinutesToHoursPipe } from '../../_pipe/minutes-to-hours.pipe';
+import { MatCardModule } from '@angular/material/card';
+import {
+  ProgressSpinnerMode,
+  MatProgressSpinnerModule,
+} from '@angular/material/progress-spinner';
+import { MovieCastComponent } from './movie-cast/movie-cast.component';
+import { MovieWatchProvidersComponent } from './movie-watch-providers/movie-watch-providers.component';
+import { MovieVideosComponent } from './movie-videos/movie-videos.component';
+import { MovieProductionCompaniesComponent } from './movie-production-companies/movie-production-companies.component';
+import { MovieRecommandationsComponent } from './movie-recommandations/movie-recommandations.component';
+import { MovieOverviewComponent } from './movie-overview/movie-overview.component';
 
 @Component({
   selector: 'app-movie',
@@ -23,6 +34,14 @@ import { MinutesToHoursPipe } from '../../_pipe/minutes-to-hours.pipe';
     RouterLink,
     MapPipe,
     MinutesToHoursPipe,
+    MatCardModule,
+    MatProgressSpinnerModule,
+    MovieCastComponent,
+    MovieWatchProvidersComponent,
+    MovieVideosComponent,
+    MovieProductionCompaniesComponent,
+    MovieRecommandationsComponent,
+    MovieOverviewComponent,
   ],
 })
 export class MovieComponent implements OnInit {

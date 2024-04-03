@@ -1,29 +1,4 @@
 @import "../app.component.css";
-.col-3 {
-  width: 33% !important;
-}
-
-/* .watchProviders {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 10px;
-  grid-auto-rows: minmax(100px, auto);
-  align-items: center;
-  > * {
-    display: flex;
-    align-items: center;
-  }
-  img {
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
-    border-radius: 50%;
-  }
-
-  .form-check-input {
-    margin-right: 8px;
-  }
-} */
 
 ::ng-deep .mat-grid-tile-content {
   justify-content: flex-start !important;
@@ -31,4 +6,13 @@
 
 mat-slider {
   width: 100%;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.example-headers-align .mat-mdc-form-field + .mat-mdc-form-field {
+  margin-left: 8px;
 }
