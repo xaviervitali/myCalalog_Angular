@@ -1,0 +1,79 @@
+<div class="container px-4 px-lg-5">
+  <div class="row justify-content-center">
+    <div *ngIf="movie">
+      <h2 class="section-heading">Films</h2>
+      <div class="d-flex flex-wrap justify-content-center">
+        <div *ngFor="let movie of movie">
+          <div class="d-flex movie">
+            <div>
+              <a [routerLink]="['/movie', movie.id]">
+                <img
+                  [src]="environment.apiPosterPath + movie.poster_path"
+                  [alt]="movie.title"
+                  onerror="movie.error = true;"
+                  [ngClass]="movie.error ? 'd-none' : ''"
+                />
+                <ng-template *ngIf="movie.error"
+                  >{{ movie.title ?? movie.name }}</ng-template
+                >
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Divider-->
+      <hr class="my-4" />
+    </div>
+
+    <div *ngIf="tv">
+      <h2 class="section-heading">Series</h2>
+      <div class="d-flex flex-wrap justify-content-center">
+        <div *ngFor="let tvShow of tv">
+          <div class="d-flex tvShow">
+            <div>
+              <a [routerLink]="['/tvShow', tvShow.id]">
+                <img
+                  [src]="environment.apiPosterPath + tvShow.poster_path"
+                  [alt]="tvShow.title"
+                  onerror="tvShow.error = true;"
+                  [ngClass]="tvShow.error ? 'd-none' : ''"
+                />
+                <ng-template *ngIf="tvShow.error"
+                  >{{ tvShow.title ?? tvShow.name }}</ng-template
+                >
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Divider-->
+      <hr class="my-4" />
+    </div>
+    <div *ngIf="person">
+      <h2 class="section-heading">Personnalités</h2>
+      <div class="d-flex flex-wrap justify-content-center">
+        <div *ngFor="let person of person">
+          <div class="d-flex tvShow">
+            <div>
+              <a [routerLink]="['/actor', person.id]">
+                <img
+                  [src]="
+                    environment.apiPosterPath +
+                    (person.profile_path ?? person.poster_path)
+                  "
+                  onerror="person.error = true"
+                  [ngClass]="person.error ? 'd-none' : ''"
+                />
+                <ng-template *ngIf="person.error"
+                  >{{ person.name ?? person.title }}</ng-template
+                >
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- Divider-->
+        <hr class="my-4" />
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,12 @@
+<mat-card *ngFor="let result of results.results">
+  <mat-card-content
+    ><img [src]="environment.apiPosterPath + result.poster_path" alt="" />
+    {{ result.name ?? result.title }}</mat-card-content
+  >
+</mat-card>
+<mat-paginator
+  [length]="results.total_pages"
+  [pageSize]="20"
+  aria-label="Select page"
+>
+</mat-paginator>
