@@ -3,7 +3,7 @@
     class="masthead"
     [ngStyle]="{
       'background-image':
-        'url(' + environment.apiPosterPath + movie.poster_path + ')'
+        'url(' + environment.apiPosterPath + movie.backdrop_path + ')'
     }"
     *ngIf="movie"
   >
@@ -52,6 +52,7 @@
             </div>
           </div>
         </div>
+        <div>Réalisé par {{ directors | map : "name" }}</div>
         <app-movie-overview
           [overview]="movie.overview"
           *ngIf="!!movie.overview"

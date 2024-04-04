@@ -1,1 +1,8 @@
-@import "../movie-cast/movie-cast.component.css";
+.carousel-caption p {
+  color: white;
+  text-shadow: 0 0 10px black;
+}
+img {
+  height: 500px;
+  object-fit: cover;
+}

@@ -29,6 +29,10 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatRadioChange, MatRadioModule } from '@angular/material/radio';
 import { MinutesToHoursPipe } from '../../_pipe/minutes-to-hours.pipe';
 import { HeaderComponent } from '../header/header.component';
+import { MatInputModule } from '@angular/material/input';
+
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 export const MY_FORMATS = {
   parse: {
@@ -65,6 +69,7 @@ export const MY_FORMATS = {
     MatRadioModule,
     MinutesToHoursPipe,
     HeaderComponent,
+    MatInputModule,
   ],
   templateUrl: './preferences.component.html',
   styleUrl: './preferences.component.css',
@@ -93,6 +98,7 @@ export class PreferencesComponent implements OnInit {
   sortOrder: 'asc' | 'desc' = 'desc'; // Ordre de tri par défaut
 
   public orderBySelectValue = 'popularity';
+  private voteCountGteSubject = new Subject<string>();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -106,6 +112,17 @@ export class PreferencesComponent implements OnInit {
     if (!!orderBy?.length) {
       this.orderBySelectValue = orderBy[0];
     }
+    this.voteCountGteSubject
+      .pipe(
+        debounceTime(300) // Délai de debounce en millisecondes
+      )
+      .subscribe((inputValue: string) => {
+        if (!!inputValue) {
+          this.userService.setOption('vote_count.gte', +inputValue);
+        } else {
+          this.userService.removeOption('vote_count.gte');
+        }
+      });
   }
 
   handleAdultContentCheckbox(event: any) {
@@ -120,14 +137,14 @@ export class PreferencesComponent implements OnInit {
 
   toggleSortOrder() {
     this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc'; // Inversion de l'ordre de tri
-    let orderBy = this.userService.getOption('order_by', '.') as string[];
+    let orderBy = this.userService.getOption('sort_by', '.') as string[];
     if (!!orderBy?.length) {
-      this.userService.setOption('order_by', orderBy[0] + '.' + this.sortOrder);
+      this.userService.setOption('sort_by', orderBy[0] + '.' + this.sortOrder);
     }
   }
 
   handleOrderByChange(event: any) {
-    this.userService.setOption('order_by', event + '.' + this.sortOrder);
+    this.userService.setOption('sort_by', event + '.' + this.sortOrder);
   }
 
   chosenMonthHandler(
@@ -223,5 +240,8 @@ export class PreferencesComponent implements OnInit {
       );
     }
     return '';
+  }
+  handleVoteCountGte(event: any) {
+    this.voteCountGteSubject.next(event.target.value);
   }
 }

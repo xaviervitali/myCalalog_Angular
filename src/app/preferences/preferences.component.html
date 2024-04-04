@@ -38,7 +38,7 @@
             </mat-expansion-panel>
 
             <!--Misc-->
-            <mat-expansion-panel>
+            <mat-expansion-panel expanded="true">
               <mat-expansion-panel-header>
                 <mat-panel-title> Autre</mat-panel-title>
                 <mat-panel-description>
@@ -48,7 +48,8 @@
               </mat-expansion-panel-header>
 
               <div>
-                <div class="d-flex align-items-center">
+                <h3>Tri et ordre</h3>
+                <div class="order-and-filter">
                   <mat-form-field class="mr-2">
                     <mat-label>Trier par</mat-label>
                     <mat-select
@@ -74,13 +75,23 @@
                       }}</mat-icon>
                     </button>
                   </mat-form-field>
+
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Nombre de vote minimum</mat-label>
+                    <input
+                      matInput
+                      type="number"
+                      placeholder="Vote"
+                      value="0"
+                      (change)="handleVoteCountGte($event)"
+                    />
+                  </mat-form-field>
                 </div>
                 <mat-divider></mat-divider>
                 <div>
-                  <mat-label>Limite d'âge</mat-label>
                   <div>
+                    <h3>Limite d'âge</h3>
                     <mat-radio-group
-                      aria-label="Limite d'âge"
                       formControlName="selectedAge"
                       (change)="handleAgeLimitChange($event)"
                     >
@@ -106,14 +117,15 @@
                       >
                     </mat-radio-group>
                     <blockquote>
-                      Attention selon certains services de streaming ces
-                      certifications peuvent changer
+                      Veuillez noter que selon certains services de streaming,
+                      les classifications par âge des contenus peuvent varier.
                     </blockquote>
                   </div>
                 </div>
                 <mat-divider></mat-divider>
-                <div class="d-flex justify-content-between flex-wrap">
+                <div class="order-and-filter">
                   <div>
+                    <h3>Filter par années de sortie</h3>
                     <mat-label
                       >Années de sortie comprises entre
                       {{ formGroup.value.releaseDates?.start }} et
@@ -140,6 +152,7 @@
                     </mat-slider>
                   </div>
                   <div>
+                    <h3>Filter par durée</h3>
                     <mat-label
                       >Durée des films comprise entre
                       {{ runtimeLabel() }}</mat-label

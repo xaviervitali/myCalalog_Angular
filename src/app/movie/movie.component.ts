@@ -56,6 +56,7 @@ export class MovieComponent implements OnInit {
   public stars: string[] = [];
   public keywords: any[] = [];
   public recommendations: any[] = [];
+  public directors: any[] = [];
   @ViewChild('.word-cloud', { static: true })
   wordCloud!: ElementRef<HTMLCanvasElement>;
 
@@ -104,9 +105,13 @@ export class MovieComponent implements OnInit {
           this.cast = value.credits.cast.filter(
             (member: any) => member.known_for_department === 'Acting'
           );
-          if (this.movie?.vote_average) {
-            this.generateStars(+this.movie?.vote_average / 2);
-          }
+
+          this.directors = value.credits.cast.filter(
+            (member: any) =>
+              member.known_for_department === 'Directing' ||
+              member.department === 'Directing'
+          );
+
           // Non localisé
           // const keywords = value.keywords.keywords;
           // const keywordClasses = ['small', 'large', ''];
@@ -128,21 +133,5 @@ export class MovieComponent implements OnInit {
         });
       }
     });
-  }
-
-  generateStars(rating: number): void {
-    this.stars = [];
-    const fullStars = Math.floor(rating); // Nombre d'étoiles pleines
-    const halfStar = rating - fullStars >= 0.5; // Vérifie s'il y a une demi-étoile
-
-    for (let i = 1; i <= 5; i++) {
-      if (i <= fullStars) {
-        this.stars.push('bi bi-star-fill');
-      } else if (i === fullStars + 1 && halfStar) {
-        this.stars.push('bi bi-star-half');
-      } else {
-        this.stars.push('bi bi-star');
-      }
-    }
   }
 }
