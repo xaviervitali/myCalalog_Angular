@@ -1,26 +1,7 @@
 <div class="recommendations">
-  <h2 class="section-heading">{{ title }}</h2>
-  <div class="cast">
-    <!-- <div class="card" *ngFor="let recommendation of recommendations">
-      <a [routerLink]="['/movie', recommendation.id]">
-        <div class="card-body text-center">
-          <img
-            class="card-img-top"
-            [src]="environment.apiPosterPath + recommendation.poster_path"
-            [alt]="recommendation.title"
-            (error)="recommendation.error = true"
-            onerror="this.style.display='none'"
-          />
-
-          <ng-container *ngIf="recommendation.error">
-            <p class="card-text">{{ recommendation.title.name }}</p>
-          </ng-container>
-          {{ recommendation.release_date | date : "YYYY" }}
-        </div>
-      </a>
-    </div>
-  </div> -->
-  </div>
+  <h2 class="section-heading">
+    {{ title }} ({{ recommendations.length }} titres)
+  </h2>
   <div
     id="carouselExampleInterval"
     class="carousel slide my-4"
