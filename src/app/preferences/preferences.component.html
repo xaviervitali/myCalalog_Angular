@@ -89,6 +89,50 @@
                 </div>
                 <mat-divider></mat-divider>
                 <div>
+                  <h3>Afficher les contenus</h3>
+                  <mat-checkbox
+                    checked
+                    (change)="
+                      handleWithWatchMonetizationTypesCheckboxChange($event)
+                    "
+                    value="flatrate"
+                    >Inclus dans l'abonnement</mat-checkbox
+                  >
+                  <mat-checkbox
+                    checked
+                    (change)="
+                      handleWithWatchMonetizationTypesCheckboxChange($event)
+                    "
+                    value="free"
+                    >Gratuit</mat-checkbox
+                  >
+                  <mat-checkbox
+                    checked
+                    (change)="
+                      handleWithWatchMonetizationTypesCheckboxChange($event)
+                    "
+                    value="ads"
+                    >Avec publicité</mat-checkbox
+                  >
+                  <mat-checkbox
+                    checked
+                    (change)="
+                      handleWithWatchMonetizationTypesCheckboxChange($event)
+                    "
+                    value="rent"
+                    >A la location</mat-checkbox
+                  >
+                  <mat-checkbox
+                    checked
+                    (change)="
+                      handleWithWatchMonetizationTypesCheckboxChange($event)
+                    "
+                    value="buy"
+                    >A la vente</mat-checkbox
+                  >
+                </div>
+                <mat-divider></mat-divider>
+                <div>
                   <div>
                     <h3>Limite d'âge</h3>
                     <mat-radio-group

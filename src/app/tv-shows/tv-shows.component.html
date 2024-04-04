@@ -1,1 +1,6 @@
-<p>tv-shows works!</p>
+<app-discover
+  [items]="tvs"
+  [userWatchProviders]="userWatchProviders"
+  route="/tv-show"
+  (scrollDown)="onScrollDown($event)"
+></app-discover>

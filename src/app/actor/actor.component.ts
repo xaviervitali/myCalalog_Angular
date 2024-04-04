@@ -5,7 +5,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import localeFr from '@angular/common/locales/fr';
 import { ActorService } from '../../_services/actor.service';
-import { MovieRecommandationsComponent } from '../movie/movie-recommandations/movie-recommandations.component';
+import { MovieRecommandationsComponent } from '../_shared/movie-recommandations/movie-recommandations.component';
 import moment from 'moment';
 
 @Component({

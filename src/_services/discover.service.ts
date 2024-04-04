@@ -10,15 +10,15 @@ export class DiscoverService extends CommonService {
   getMovieList(page: number): Observable<Discover> {
     let params = super.getOptions();
     params = params.set('page', page);
-    return this.http.get<any>(this.API_URL + '/discover/movie', {
+    return this.http.get<Discover>(this.API_URL + '/discover/movie', {
       params,
     });
   }
 
-  getTVShowList(page: number = 1) {
+  getTVShowList(page: number = 1): Observable<Discover> {
     let params = super.getOptions();
     params = params.set('page', page);
-    return this.http.get<any>(this.API_URL + '/discover/movie', {
+    return this.http.get<Discover>(this.API_URL + '/discover/tv', {
       params,
     });
   }

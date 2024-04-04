@@ -10,6 +10,8 @@ import { DiscoverService } from '../_services/discover.service';
 import { MultiSearchService } from '../_services/multi-search.service';
 import { SearchResultsComponent } from './seach-results/search-results.component';
 import { TvShowsComponent } from './tv-shows/tv-shows.component';
+import { TvShowComponent } from './tv-show/tv-show.component';
+import { TvShowService } from '../_services/tv-show.service';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/movies', pathMatch: 'full' },
@@ -42,5 +44,10 @@ export const routes: Routes = [
     path: 'search/:query',
     component: SearchResultsComponent,
     providers: [MultiSearchService],
+  },
+  {
+    path: 'tv-show/:id',
+    component: TvShowComponent,
+    providers: [TvShowService],
   },
 ];

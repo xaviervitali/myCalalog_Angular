@@ -16,6 +16,8 @@ export class UserService {
     append_to_response: 'release_dates',
     sort_by: 'popularity.desc',
     certification_country: 'FR',
+    with_watch_providers: '337|8|119',
+    with_watch_monetization_types: 'flatrate|free|ads|rent|buy',
   });
 
   // Méthode pour mettre à jour une option

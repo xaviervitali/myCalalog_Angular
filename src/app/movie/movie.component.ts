@@ -11,16 +11,13 @@ import { MovieService } from '../../_services/movie.service';
 import { MapPipe } from '../../_pipe/map.pipe';
 import { MinutesToHoursPipe } from '../../_pipe/minutes-to-hours.pipe';
 import { MatCardModule } from '@angular/material/card';
-import {
-  ProgressSpinnerMode,
-  MatProgressSpinnerModule,
-} from '@angular/material/progress-spinner';
-import { MovieCastComponent } from './movie-cast/movie-cast.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MovieCastComponent } from '../_shared/movie-cast/movie-cast.component';
 import { MovieWatchProvidersComponent } from './movie-watch-providers/movie-watch-providers.component';
 import { MovieVideosComponent } from './movie-videos/movie-videos.component';
 import { MovieProductionCompaniesComponent } from './movie-production-companies/movie-production-companies.component';
-import { MovieRecommandationsComponent } from './movie-recommandations/movie-recommandations.component';
-import { MovieOverviewComponent } from './movie-overview/movie-overview.component';
+import { MovieRecommandationsComponent } from '../_shared/movie-recommandations/movie-recommandations.component';
+import { MovieOverviewComponent } from '../_shared/movie-overview/movie-overview.component';
 import { RoundPipe } from '../../_pipe/round.pipe';
 
 @Component({

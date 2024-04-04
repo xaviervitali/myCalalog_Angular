@@ -1,51 +1,29 @@
 import { Component, OnInit } from '@angular/core';
 import { DiscoverMovie } from '../../_models/discover';
 import { TruncatePipe } from '../../_pipe/truncate.pipe';
-import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { DiscoverService } from '../../_services/discover.service';
 import { environment } from '../../environment/environment';
-import { HeaderComponent } from '../header/header.component';
+import { HeaderComponent } from '../_shared/header/header.component';
 import { UserService } from '../../_services/user.service';
+import { DiscoverComponent } from '../_shared/discover/discover.component';
 
 @Component({
   selector: 'app-movies',
   templateUrl: './movies.component.html',
   styleUrl: './movies.component.css',
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterLink,
-    TruncatePipe,
-    ReactiveFormsModule,
-    InfiniteScrollModule,
-    HeaderComponent,
-  ],
+  imports: [CommonModule, TruncatePipe, HeaderComponent, DiscoverComponent],
 })
 export class MoviesComponent implements OnInit {
-  public movieList: DiscoverMovie[] = [];
-  public environment = environment;
-  public searchMovieName: string = '';
+  public movies: DiscoverMovie[] = [];
   private page = 1;
   private maxPage = 1;
-  public scrollDistance = 1;
-  public scrollUpDistance = 2;
-  public throttle = 500;
   public userWatchProviders = false;
-  public movieSearch = new FormGroup({
-    name: new FormControl(this.searchMovieName),
-  });
-  private defaultList: DiscoverMovie[] = [];
-  private defaultMaxPage = 1;
   constructor(
     private discoverService: DiscoverService,
     private userService: UserService
-  ) {
-    this.movieList = this.defaultList;
-    this.maxPage = this.defaultMaxPage;
-  }
+  ) {}
 
   ngOnInit(): void {
     this.userWatchProviders = !!this.userService.getOption(
@@ -57,22 +35,18 @@ export class MoviesComponent implements OnInit {
   }
 
   getDefaultList() {
-    if (this.defaultList.length === 0) {
-      this.discoverService.getMovieList(this.page).subscribe((discover) => {
-        this.movieList = this.defaultList = discover.results;
-        this.defaultMaxPage = this.maxPage = discover.total_pages;
-      });
-    }
+    this.discoverService.getMovieList(this.page).subscribe((discover) => {
+      this.movies = discover.results as DiscoverMovie[];
+      this.maxPage = discover.total_pages;
+    });
   }
 
-  onScrollDown() {
-    this.page++;
+  onScrollDown(page: any) {
+    this.page = page;
     if (this.page <= this.maxPage) {
       this.discoverService.getMovieList(this.page).subscribe((discover) => {
-        this.movieList.push(...discover.results);
+        this.movies.push(...(discover.results as DiscoverMovie[]));
       });
     }
   }
-
-  onUp() {}
 }

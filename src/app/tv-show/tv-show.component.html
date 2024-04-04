@@ -1,0 +1,44 @@
+<header
+  class="masthead"
+  [ngStyle]="{
+    'background-image':
+      'url(' + environment.apiPosterPath + tvShow.backdrop_path + ')'
+  }"
+  *ngIf="tvShow"
+>
+  <div class="container position-relative px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <div class="post-heading">
+          <h1 class="d-flex align-items-center">
+            {{ tvShow.name }}
+          </h1>
+          <div class="meta">
+            {{ tvShow.first_air_date | date : "YYYY" }}
+          </div>
+          <h2 class="meta">{{ tvShow.number_of_seasons }} Saisons</h2>
+          <div class="meta">
+            {{ tvShow.genres | map : "name" }}
+          </div>
+
+          <div class="meta">
+            {{ tvShow.runtime }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<article class="mb-4">
+  <div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div>
+        <app-movie-overview [overview]="tvShow.overview"></app-movie-overview>
+        <app-movie-watch-providers
+          [watchProviders]="watchProviders"
+        ></app-movie-watch-providers>
+        <app-movie-cast [cast]="cast"></app-movie-cast>
+      </div>
+    </div>
+  </div>
+</article>

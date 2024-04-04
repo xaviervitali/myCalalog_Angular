@@ -28,7 +28,7 @@ import { WatchProviderResult } from '../../_models/watch_providers';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatRadioChange, MatRadioModule } from '@angular/material/radio';
 import { MinutesToHoursPipe } from '../../_pipe/minutes-to-hours.pipe';
-import { HeaderComponent } from '../header/header.component';
+import { HeaderComponent } from '../_shared/header/header.component';
 import { MatInputModule } from '@angular/material/input';
 
 import { Subject } from 'rxjs';
@@ -207,7 +207,15 @@ export class PreferencesComponent implements OnInit {
         String(this.formGroup.value.releaseDates.start)
       );
       this.userService.setOption(
+        'first_air_date..gte',
+        String(this.formGroup.value.releaseDates.start)
+      );
+      this.userService.setOption(
         'release_date.lte',
+        String(this.formGroup.value.releaseDates.end)
+      );
+      this.userService.setOption(
+        'first_air_date.lte',
         String(this.formGroup.value.releaseDates.end)
       );
     }
@@ -243,5 +251,25 @@ export class PreferencesComponent implements OnInit {
   }
   handleVoteCountGte(event: any) {
     this.voteCountGteSubject.next(event.target.value);
+  }
+
+  handleWithWatchMonetizationTypesCheckboxChange(event: any) {
+    let userWithWatchMonetizationTypes = this.userService.getOption(
+      'with_watch_monetization_types',
+      '|'
+    ) as string[];
+    if (event.checked) {
+      userWithWatchMonetizationTypes.push(event.source.value);
+    } else {
+      const index = userWithWatchMonetizationTypes.findIndex(
+        (monetizationType) => monetizationType === event.source.value
+      );
+      userWithWatchMonetizationTypes.splice(index, 1);
+    }
+
+    this.userService.setOption(
+      'with_watch_monetization_types',
+      [...new Set(userWithWatchMonetizationTypes)].join('|')
+    );
   }
 }

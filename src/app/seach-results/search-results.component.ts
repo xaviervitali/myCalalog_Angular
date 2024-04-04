@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { environment } from '../../environment/environment';
 import { TruncatePipe } from '../../_pipe/truncate.pipe';
 import { MatChipsModule } from '@angular/material/chips';
-import { HeaderComponent } from '../header/header.component';
+import { HeaderComponent } from '../_shared/header/header.component';
 import { MatListModule } from '@angular/material/list';
 import { forkJoin } from 'rxjs';
 import { ResultsComponent } from './results/results.component';
