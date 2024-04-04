@@ -2,3 +2,10 @@ img {
   height: 200px;
   object-fit: contain;
 }
+
+.results {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+  grid-auto-rows: minmax(100px, auto);
+}

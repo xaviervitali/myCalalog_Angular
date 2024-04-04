@@ -83,9 +83,7 @@ export class WatchProvidersComponent implements OnInit {
             )
           );
         });
-        // [...this.watchProviderCheckedList()].forEach((element) => {
-        //   this.watchProviders.emit(element);
-        // });
+        this.setWatchProviders();
       });
   }
 

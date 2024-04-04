@@ -1,13 +1,19 @@
-<app-header></app-header>
+<app-header [displaySearch]="true"></app-header>
 <div class="container px-4 px-lg-5">
-  <div class="row gx-4 gx-lg-5 justify-content-center">
-    <div class="col-md-10 col-lg-8 col-xl-7 d-flex align-items-start">
-      <mat-action-list>
-        <button mat-list-item>Films {{ movies.total_results }}</button>
-        <button mat-list-item>Series {{ tvs.total_results }}</button>
-        <button mat-list-item>Personnalités {{ persons.total_results }}</button>
-      </mat-action-list>
-      <!-- <app-results [results]="movies"></app-results> -->
-    </div>
+  <h2>
+    Résultats pour <i>{{ query }}</i>
+  </h2>
+  <div class="row gx-4 gx-lg-5 justify-content-center d-flex align-items-start">
+    <mat-tab-group>
+      <mat-tab [label]="'Films (' + movies.total_results + ')'">
+        <app-results [results]="movies" path="/movie"></app-results>
+      </mat-tab>
+      <mat-tab [label]="'Series TV (' + tvs.total_results + ')'">
+        <app-results [results]="tvs" path="/movie"></app-results>
+      </mat-tab>
+      <mat-tab [label]="'Personnalités (' + persons.total_results + ')'"
+        ><app-results [results]="persons" path="/actor"></app-results
+      ></mat-tab>
+    </mat-tab-group>
   </div>
 </div>

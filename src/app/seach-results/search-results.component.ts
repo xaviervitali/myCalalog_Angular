@@ -10,6 +10,7 @@ import { HeaderComponent } from '../header/header.component';
 import { MatListModule } from '@angular/material/list';
 import { forkJoin } from 'rxjs';
 import { ResultsComponent } from './results/results.component';
+import { MatTabsModule } from '@angular/material/tabs';
 @Component({
   selector: 'app-seach-results',
   standalone: true,
@@ -20,6 +21,7 @@ import { ResultsComponent } from './results/results.component';
     HeaderComponent,
     MatListModule,
     ResultsComponent,
+    MatTabsModule,
   ],
   templateUrl: './search-results.component.html',
   styleUrl: './search-results.component.css',
@@ -37,7 +39,7 @@ export class SearchResultsComponent implements OnInit {
     results: [],
     total_results: 0,
   };
-
+  query = '';
   public environment = environment;
   constructor(
     private multiSearchService: MultiSearchService,
@@ -48,6 +50,7 @@ export class SearchResultsComponent implements OnInit {
       const query = params.get('query');
 
       if (!!query) {
+        this.query = query;
         this.persons =
           this.movies =
           this.persons =

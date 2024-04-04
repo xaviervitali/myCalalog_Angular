@@ -1,181 +1,175 @@
 <app-header></app-header>
 <div class="container px-4 px-lg-5">
   <div class="row gx-4 gx-lg-5 justify-content-center">
-    <div class="col-md-10 col-lg-8 col-xl-7">
-      <form [formGroup]="formGroup">
-        <div>
-          <article class="mb-4">
-            <mat-accordion multi class="example-headers-align">
-              <mat-expansion-panel>
-                <mat-expansion-panel-header>
-                  <mat-panel-title> Services de streaming </mat-panel-title>
-                  <mat-panel-description
-                    ><span
-                      [matTooltip]="watchProviders | map : 'provider_name'"
-                    >
-                      Sélectionné{{ watchProviders.length > 1 ? "s" : "" }} :
-                      <span> {{ watchProviders.length }}</span></span
-                    >
-
-                    <mat-icon>live_tv</mat-icon></mat-panel-description
+    <form [formGroup]="formGroup">
+      <div>
+        <article class="mb-4">
+          <mat-accordion multi class="example-headers-align">
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title> Services de streaming </mat-panel-title>
+                <mat-panel-description
+                  ><span [matTooltip]="watchProviders | map : 'provider_name'">
+                    Sélectionné{{ watchProviders.length > 1 ? "s" : "" }} :
+                    <span> {{ watchProviders.length }}</span></span
                   >
-                </mat-expansion-panel-header>
-                <app-watch-providers
-                  (watchProviders)="setWatchProviders($event)"
-                ></app-watch-providers>
-              </mat-expansion-panel>
-              <mat-expansion-panel>
-                <mat-expansion-panel-header>
-                  <mat-panel-title> Genres</mat-panel-title>
-                  <mat-panel-description
-                    ><span [matTooltip]="withoutGenres | map : 'name'">
-                      Exclus : {{ withoutGenres.length }}</span
+
+                  <mat-icon>live_tv</mat-icon></mat-panel-description
+                >
+              </mat-expansion-panel-header>
+              <app-watch-providers
+                (watchProviders)="setWatchProviders($event)"
+              ></app-watch-providers>
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title> Genres</mat-panel-title>
+                <mat-panel-description
+                  ><span [matTooltip]="withoutGenres | map : 'name'">
+                    Exclus : {{ withoutGenres.length }}</span
+                  >
+
+                  <mat-icon> swipe </mat-icon></mat-panel-description
+                >
+              </mat-expansion-panel-header>
+              <app-genres
+                (withoutGenres)="setWithoutGenres($event)"
+              ></app-genres>
+            </mat-expansion-panel>
+
+            <!--Misc-->
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title> Autre</mat-panel-title>
+                <mat-panel-description>
+                  filtres et tris divers
+                  <mat-icon> settings </mat-icon></mat-panel-description
+                >
+              </mat-expansion-panel-header>
+
+              <div>
+                <div class="d-flex align-items-center">
+                  <mat-form-field class="mr-2">
+                    <mat-label>Trier par</mat-label>
+                    <mat-select
+                      [value]="orderBySelectValue"
+                      (valueChange)="handleOrderByChange($event)"
                     >
-
-                    <mat-icon> swipe </mat-icon></mat-panel-description
-                  >
-                </mat-expansion-panel-header>
-                <app-genres
-                  (withoutGenres)="setWithoutGenres($event)"
-                ></app-genres>
-              </mat-expansion-panel>
-
-              <!--Misc-->
-              <mat-expansion-panel>
-                <mat-expansion-panel-header>
-                  <mat-panel-title> Autre</mat-panel-title>
-                  <mat-panel-description>
-                    filtres et tris divers
-                    <mat-icon> settings </mat-icon></mat-panel-description
-                  >
-                </mat-expansion-panel-header>
-
+                      <mat-option value="popularity">Popularité</mat-option>
+                      <mat-option value="revenue">Revenu</mat-option>
+                      <mat-option value="primary_release_date"
+                        >Date de Réalisation</mat-option
+                      >
+                      <mat-option value="title">Ordre alphabétique</mat-option>
+                      <mat-option value="vote_average">Note</mat-option>
+                      <mat-option value="vote_count">Nombre de vote</mat-option>
+                    </mat-select>
+                    <button
+                      mat-icon-button
+                      (click)="toggleSortOrder()"
+                      matSuffix
+                    >
+                      <mat-icon>{{
+                        sortOrder === "asc" ? "arrow_upward" : "arrow_downward"
+                      }}</mat-icon>
+                    </button>
+                  </mat-form-field>
+                </div>
+                <mat-divider></mat-divider>
                 <div>
-                  <div class="d-flex align-items-center">
-                    <mat-form-field class="mr-2">
-                      <mat-label>Trier par</mat-label>
-                      <mat-select
-                        [value]="orderBySelectValue"
-                        (valueChange)="handleOrderByChange($event)"
-                      >
-                        <mat-option value="popularity">Popularité</mat-option>
-                        <mat-option value="revenue">Revenu</mat-option>
-                        <mat-option value="primary_release_date"
-                          >Date de Réalisation</mat-option
-                        >
-                        <mat-option value="title"
-                          >Ordre alphabétique</mat-option
-                        >
-                        <mat-option value="vote_average">Note</mat-option>
-                        <mat-option value="vote_count"
-                          >Nombre de vote</mat-option
-                        >
-                      </mat-select>
-                      <button
-                        mat-icon-button
-                        (click)="toggleSortOrder()"
-                        matSuffix
-                      >
-                        <mat-icon>{{
-                          sortOrder === "asc"
-                            ? "arrow_upward"
-                            : "arrow_downward"
-                        }}</mat-icon>
-                      </button>
-                    </mat-form-field>
-                  </div>
-                  <mat-divider></mat-divider>
+                  <mat-label>Limite d'âge</mat-label>
                   <div>
-                    <mat-label>Limite d'âge</mat-label>
-                    <div>
-                      <mat-radio-group
-                        aria-label="Limite d'âge"
-                        formControlName="selectedAge"
-                        (change)="handleAgeLimitChange($event)"
-                      >
-                        <mat-radio-button value="0">Aucune</mat-radio-button>
+                    <mat-radio-group
+                      aria-label="Limite d'âge"
+                      formControlName="selectedAge"
+                      (change)="handleAgeLimitChange($event)"
+                    >
+                      <mat-radio-button value="0">Aucune</mat-radio-button>
 
-                        <mat-radio-button value="TP"
-                          >Tous public</mat-radio-button
-                        >
-                        <mat-radio-button
-                          value="12"
-                          matTooltip="Le pictogramme -12 permet de repérer les programmes comportant de la violence physique et/ou psychologique de façon répétée ou des scènes relatives à la sexualité des adultes. Les programmes risquant de perturber les repères des enfants de moins de 12 ans de manière plus générale sont également concernés. "
-                          >12 ans</mat-radio-button
-                        >
-                        <mat-radio-button
-                          value="16"
-                          matTooltip=" Le pictogramme -16 concerne essentiellement les programmes érotiques ou ceux comportant des scènes de grande violence"
-                          >16 ans</mat-radio-button
-                        >
-                        <mat-radio-button
-                          value="18"
-                          matTooltip="les films ou programmes interdits aux moins de 18 ans sont ceux d’ordre pornographique ou de très grande violence réservés à un public adulte averti."
-                          >18 ans</mat-radio-button
-                        >
-                      </mat-radio-group>
-                    </div>
-                  </div>
-                  <mat-divider></mat-divider>
-                  <div class="d-flex justify-content-between flex-wrap">
-                    <div>
-                      <mat-label
-                        >Années de sortie comprises entre
-                        {{ formGroup.value.releaseDates?.start }} et
-                        {{ formGroup.value.releaseDates?.end }}</mat-label
+                      <mat-radio-button value="TP"
+                        >Tous public</mat-radio-button
                       >
-                      <mat-slider
-                        formGroupName="releaseDates"
-                        min="1895"
-                        max="2024"
-                        showTickMarks
-                        discrete
-                        [displayWith]="formatLabel"
+                      <mat-radio-button
+                        value="12"
+                        matTooltip="Le pictogramme -12 permet de repérer les programmes comportant de la violence physique et/ou psychologique de façon répétée ou des scènes relatives à la sexualité des adultes. Les programmes risquant de perturber les repères des enfants de moins de 12 ans de manière plus générale sont également concernés. "
+                        >12 ans</mat-radio-button
                       >
-                        <input
-                          matSliderStartThumb
-                          formControlName="start"
-                          (change)="handleReleaseDatesChanges()"
-                        />
-                        <input
-                          matSliderEndThumb
-                          formControlName="end"
-                          (change)="handleReleaseDatesChanges()"
-                        />
-                      </mat-slider>
-                    </div>
-                    <div>
-                      <mat-label
-                        >Durée des films comprise entre
-                        {{ runtimeLabel() }}</mat-label
+                      <mat-radio-button
+                        value="16"
+                        matTooltip=" Le pictogramme -16 concerne essentiellement les programmes érotiques ou ceux comportant des scènes de grande violence"
+                        >16 ans</mat-radio-button
                       >
-                      <mat-slider
-                        formGroupName="runtime"
-                        min="0"
-                        max="300"
-                        showTickMarks
-                        discrete
-                        [displayWith]="formatLabel"
+                      <mat-radio-button
+                        value="18"
+                        matTooltip="les films ou programmes interdits aux moins de 18 ans sont ceux d’ordre pornographique ou de très grande violence réservés à un public adulte averti."
+                        >18 ans</mat-radio-button
                       >
-                        <input
-                          matSliderStartThumb
-                          formControlName="start"
-                          (change)="handleRuntimeChanges()"
-                        />
-                        <input
-                          matSliderEndThumb
-                          formControlName="end"
-                          (change)="handleRuntimeChanges()"
-                        />
-                      </mat-slider>
-                    </div>
+                    </mat-radio-group>
+                    <blockquote>
+                      Attention selon certains services de streaming ces
+                      certifications peuvent changer
+                    </blockquote>
                   </div>
                 </div>
-              </mat-expansion-panel>
-            </mat-accordion>
-          </article>
-        </div>
-      </form>
-    </div>
+                <mat-divider></mat-divider>
+                <div class="d-flex justify-content-between flex-wrap">
+                  <div>
+                    <mat-label
+                      >Années de sortie comprises entre
+                      {{ formGroup.value.releaseDates?.start }} et
+                      {{ formGroup.value.releaseDates?.end }}</mat-label
+                    >
+                    <mat-slider
+                      formGroupName="releaseDates"
+                      min="1895"
+                      max="2024"
+                      showTickMarks
+                      discrete
+                      [displayWith]="formatLabel"
+                    >
+                      <input
+                        matSliderStartThumb
+                        formControlName="start"
+                        (change)="handleReleaseDatesChanges()"
+                      />
+                      <input
+                        matSliderEndThumb
+                        formControlName="end"
+                        (change)="handleReleaseDatesChanges()"
+                      />
+                    </mat-slider>
+                  </div>
+                  <div>
+                    <mat-label
+                      >Durée des films comprise entre
+                      {{ runtimeLabel() }}</mat-label
+                    >
+                    <mat-slider
+                      formGroupName="runtime"
+                      min="0"
+                      max="300"
+                      showTickMarks
+                      discrete
+                      [displayWith]="formatLabel"
+                    >
+                      <input
+                        matSliderStartThumb
+                        formControlName="start"
+                        (change)="handleRuntimeChanges()"
+                      />
+                      <input
+                        matSliderEndThumb
+                        formControlName="end"
+                        (change)="handleRuntimeChanges()"
+                      />
+                    </mat-slider>
+                  </div>
+                </div>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </article>
+      </div>
+    </form>
   </div>
 </div>

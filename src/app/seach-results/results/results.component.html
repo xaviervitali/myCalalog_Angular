@@ -1,9 +1,16 @@
-<mat-card *ngFor="let result of results.results">
-  <mat-card-content
-    ><img [src]="environment.apiPosterPath + result.poster_path" alt="" />
-    {{ result.name ?? result.title }}</mat-card-content
-  >
-</mat-card>
+<div class="results">
+  <mat-card *ngFor="let result of results.results">
+    <mat-card-content class="d-flex gap-1">
+      <a [routerLink]="[path, result.id]">
+        <img [src]="getImgPath(result)" alt="" />
+        <article>
+          <p>{{ result.name ?? result.title }}</p>
+          <p>{{ getDisplayDate(result) }}</p>
+        </article>
+      </a>
+    </mat-card-content>
+  </mat-card>
+</div>
 <mat-paginator
   [length]="results.total_pages"
   [pageSize]="20"

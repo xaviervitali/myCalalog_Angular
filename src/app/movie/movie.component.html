@@ -14,7 +14,7 @@
             <h1 class="d-flex align-items-center">
               {{ movie.title }}
               <div class="circle" *ngIf="age">
-                <span class="age">{{ age }}+</span>
+                <span class="age">{{ age }}</span>
               </div>
             </h1>
             <div class="meta">
@@ -39,36 +39,40 @@
   <article class="mb-4">
     <div class="container px-4 px-lg-5">
       <div class="row gx-4 gx-lg-5 justify-content-center">
-        <div class="col-md-10 col-lg-8 col-xl-7">
-          <h2 class="section-heading">Note</h2>
-          <mat-progress-spinner
-            [value]="+movie.vote_average * 10"
-            [matTooltip]="movie.vote_average + '/10'"
-          >
-          </mat-progress-spinner>
-
-          <app-movie-overview
-            [overview]="movie.overview"
-            *ngIf="!!movie.overview"
-          ></app-movie-overview>
-          <app-movie-watch-providers
-            [watchProviders]="watchProviders"
-          ></app-movie-watch-providers>
-          <app-movie-cast [cast]="cast" *ngIf="!!cast.length"></app-movie-cast>
-
-          <app-movie-videos
-            [videos]="videos"
-            *ngIf="!!videos.length"
-          ></app-movie-videos>
-          <app-movie-production-companies
-            *ngIf="!!movie.production_companies.length"
-            [production_companies]="movie.production_companies"
-          ></app-movie-production-companies>
-          <app-movie-recommandations
-            *ngIf="!!recommendations.length"
-            [recommendations]="recommendations"
-          ></app-movie-recommandations>
+        <div class="section-heading d-flex align-items-center">
+          <h2>Note</h2>
+          <div class="progress-container">
+            <mat-progress-spinner
+              [value]="+movie.vote_average * 10"
+              [matTooltip]="'Nombre de votes : ' + movie.vote_count"
+            >
+            </mat-progress-spinner>
+            <div class="progress-text">
+              {{ (+movie.vote_average | round : 1) + "/10" }}
+            </div>
+          </div>
         </div>
+        <app-movie-overview
+          [overview]="movie.overview"
+          *ngIf="!!movie.overview"
+        ></app-movie-overview>
+        <app-movie-watch-providers
+          [watchProviders]="watchProviders"
+        ></app-movie-watch-providers>
+        <app-movie-cast [cast]="cast" *ngIf="!!cast.length"></app-movie-cast>
+
+        <app-movie-videos
+          [videos]="videos"
+          *ngIf="!!videos.length"
+        ></app-movie-videos>
+        <app-movie-production-companies
+          *ngIf="!!movie.production_companies.length"
+          [production_companies]="movie.production_companies"
+        ></app-movie-production-companies>
+        <app-movie-recommandations
+          *ngIf="!!recommendations.length"
+          [recommendations]="recommendations"
+        ></app-movie-recommandations>
       </div>
     </div>
   </article>

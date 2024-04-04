@@ -13,4 +13,5 @@ import { environment } from '../../../environment/environment';
 export class MovieRecommandationsComponent {
   environment = environment;
   @Input() recommendations: any;
+  @Input() title: string = 'Similaire à';
 }

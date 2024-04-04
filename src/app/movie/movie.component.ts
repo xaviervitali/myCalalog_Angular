@@ -21,6 +21,7 @@ import { MovieVideosComponent } from './movie-videos/movie-videos.component';
 import { MovieProductionCompaniesComponent } from './movie-production-companies/movie-production-companies.component';
 import { MovieRecommandationsComponent } from './movie-recommandations/movie-recommandations.component';
 import { MovieOverviewComponent } from './movie-overview/movie-overview.component';
+import { RoundPipe } from '../../_pipe/round.pipe';
 
 @Component({
   selector: 'app-movie',
@@ -42,6 +43,7 @@ import { MovieOverviewComponent } from './movie-overview/movie-overview.componen
     MovieProductionCompaniesComponent,
     MovieRecommandationsComponent,
     MovieOverviewComponent,
+    RoundPipe,
   ],
 })
 export class MovieComponent implements OnInit {

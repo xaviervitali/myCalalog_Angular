@@ -5,11 +5,13 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import localeFr from '@angular/common/locales/fr';
 import { ActorService } from '../../_services/actor.service';
+import { MovieRecommandationsComponent } from '../movie/movie-recommandations/movie-recommandations.component';
+import moment from 'moment';
 
 @Component({
   selector: 'app-actor',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, MovieRecommandationsComponent],
   templateUrl: './actor.component.html',
   styleUrl: './actor.component.css',
   providers: [{ provide: LOCALE_ID, useValue: 'fr-FR' }],
@@ -35,7 +37,11 @@ export class ActorComponent implements OnInit {
           credits: this.actorService.getActorMovieCredits(+id),
         }).subscribe((response) => {
           this.actor = response.detail;
-          this.credits = response.credits.cast;
+          this.credits = response.credits.cast.sort(
+            (a: any, b: any) =>
+              new Date(b.release_date).getTime() -
+              new Date(a.release_date).getTime()
+          );
         });
       }
     });

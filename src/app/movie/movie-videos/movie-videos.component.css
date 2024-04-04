@@ -1,0 +1,6 @@
+.videos {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  overflow: scroll;
+}
