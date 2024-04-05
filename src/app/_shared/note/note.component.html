@@ -1,0 +1,13 @@
+<div class="section-heading d-flex align-items-center">
+  <h2>Note</h2>
+  <div
+    class="progress-container"
+    [matTooltip]="'Nombre de votes : ' + media.vote_count"
+  >
+    <mat-progress-spinner [value]="+media.vote_average * 10">
+    </mat-progress-spinner>
+    <div class="progress-text">
+      {{ (+media.vote_average | round : 1) + "/10" }}
+    </div>
+  </div>
+</div>

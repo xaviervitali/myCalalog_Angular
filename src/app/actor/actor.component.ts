@@ -5,13 +5,13 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import localeFr from '@angular/common/locales/fr';
 import { ActorService } from '../../_services/actor.service';
-import { MovieRecommandationsComponent } from '../_shared/movie-recommandations/movie-recommandations.component';
+import { RecommandationsComponent } from '../_shared/recommandations/recommandations.component';
 import moment from 'moment';
 
 @Component({
   selector: 'app-actor',
   standalone: true,
-  imports: [CommonModule, RouterLink, MovieRecommandationsComponent],
+  imports: [CommonModule, RouterLink, RecommandationsComponent],
   templateUrl: './actor.component.html',
   styleUrl: './actor.component.css',
   providers: [{ provide: LOCALE_ID, useValue: 'fr-FR' }],

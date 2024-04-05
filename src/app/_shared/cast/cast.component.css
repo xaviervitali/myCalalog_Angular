@@ -1,19 +1,18 @@
 .cast {
   width: 100% !important;
   display: flex;
-  overflow: scroll;
+  overflow-x: auto;
   gap: 8px;
   .card {
-    display: flex;
     min-width: 300px;
     a {
       text-decoration: none;
       color: inherit;
+      text-align: center;
     }
     img {
-      height: 400px;
       margin: 8px;
-      width: auto;
+      width: 280px;
       object-fit: cover;
       border-radius: 16px !important    ;
     }

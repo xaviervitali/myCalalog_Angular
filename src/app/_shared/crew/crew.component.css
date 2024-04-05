@@ -1,0 +1,21 @@
+.crew {
+  width: 100% !important;
+  display: flex;
+  overflow-x: auto;
+  gap: 8px;
+  .card {
+    min-width: 200px;
+    overflow: hidden;
+    a {
+      text-decoration: none;
+      color: inherit;
+      text-align: center;
+    }
+    img {
+      margin: 8px;
+      width: 180px;
+      object-fit: cover;
+      border-radius: 16px !important    ;
+    }
+  }
+}

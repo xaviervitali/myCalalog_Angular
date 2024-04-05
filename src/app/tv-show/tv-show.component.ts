@@ -5,8 +5,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TvShowService } from '../../_services/tv-show.service';
 import { CommonModule } from '@angular/common';
-import { MovieOverviewComponent } from '../_shared/movie-overview/movie-overview.component';
-import { MovieCastComponent } from '../_shared/movie-cast/movie-cast.component';
+import { OverviewComponent } from '../_shared/overview/overview.component';
+import { CastComponent } from '../_shared/cast/cast.component';
+import { CrewComponent } from '../_shared/crew/crew.component';
+import { NoteComponent } from '../_shared/note/note.component';
 
 @Component({
   selector: 'app-tv-show',
@@ -14,9 +16,11 @@ import { MovieCastComponent } from '../_shared/movie-cast/movie-cast.component';
   imports: [
     CommonModule,
     MapPipe,
-    MovieOverviewComponent,
+    OverviewComponent,
     MovieWatchProvidersComponent,
-    MovieCastComponent,
+    CastComponent,
+    CrewComponent,
+    NoteComponent,
   ],
   templateUrl: './tv-show.component.html',
   styleUrl: './tv-show.component.css',
@@ -26,6 +30,7 @@ export class TvShowComponent implements OnInit {
   public watchProviders: any;
   public tvShow: any;
   public cast: any;
+  public producer: any;
   constructor(
     private route: ActivatedRoute,
     private tvShowService: TvShowService
@@ -41,6 +46,7 @@ export class TvShowComponent implements OnInit {
           this.cast = tvShow.credits.cast.filter(
             (cast: any) => cast.known_for_department === 'Acting'
           );
+          this.producer = tvShow.created_by;
         });
       }
     });

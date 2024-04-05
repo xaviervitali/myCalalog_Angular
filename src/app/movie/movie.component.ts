@@ -12,13 +12,15 @@ import { MapPipe } from '../../_pipe/map.pipe';
 import { MinutesToHoursPipe } from '../../_pipe/minutes-to-hours.pipe';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MovieCastComponent } from '../_shared/movie-cast/movie-cast.component';
+import { CastComponent } from '../_shared/cast/cast.component';
 import { MovieWatchProvidersComponent } from './movie-watch-providers/movie-watch-providers.component';
 import { MovieVideosComponent } from './movie-videos/movie-videos.component';
 import { MovieProductionCompaniesComponent } from './movie-production-companies/movie-production-companies.component';
-import { MovieRecommandationsComponent } from '../_shared/movie-recommandations/movie-recommandations.component';
-import { MovieOverviewComponent } from '../_shared/movie-overview/movie-overview.component';
+import { RecommandationsComponent } from '../_shared/recommandations/recommandations.component';
+import { OverviewComponent } from '../_shared/overview/overview.component';
 import { RoundPipe } from '../../_pipe/round.pipe';
+import { NoteComponent } from '../_shared/note/note.component';
+import { CrewComponent } from '../_shared/crew/crew.component';
 
 @Component({
   selector: 'app-movie',
@@ -33,14 +35,14 @@ import { RoundPipe } from '../../_pipe/round.pipe';
     MapPipe,
     MinutesToHoursPipe,
     MatCardModule,
-    MatProgressSpinnerModule,
-    MovieCastComponent,
+    CastComponent,
     MovieWatchProvidersComponent,
     MovieVideosComponent,
     MovieProductionCompaniesComponent,
-    MovieRecommandationsComponent,
-    MovieOverviewComponent,
-    RoundPipe,
+    RecommandationsComponent,
+    OverviewComponent,
+    NoteComponent,
+    CrewComponent,
   ],
 })
 export class MovieComponent implements OnInit {
@@ -103,10 +105,8 @@ export class MovieComponent implements OnInit {
             (member: any) => member.known_for_department === 'Acting'
           );
 
-          this.directors = value.credits.cast.filter(
-            (member: any) =>
-              member.known_for_department === 'Directing' ||
-              member.department === 'Directing'
+          this.directors = value.credits.crew.filter(
+            (member: any) => member.job === 'Director'
           );
 
           // Non localisé

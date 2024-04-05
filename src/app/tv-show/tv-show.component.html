@@ -33,11 +33,13 @@
   <div class="container px-4 px-lg-5">
     <div class="row gx-4 gx-lg-5 justify-content-center">
       <div>
-        <app-movie-overview [overview]="tvShow.overview"></app-movie-overview>
+        <app-note [media]="tvShow"></app-note>
+        <app-overview [overview]="tvShow.overview"></app-overview>
         <app-movie-watch-providers
           [watchProviders]="watchProviders"
         ></app-movie-watch-providers>
-        <app-movie-cast [cast]="cast"></app-movie-cast>
+        <app-cast [cast]="cast"></app-cast>
+        <app-crew title="Crée par" [crew]="producer"></app-crew>
       </div>
     </div>
   </div>

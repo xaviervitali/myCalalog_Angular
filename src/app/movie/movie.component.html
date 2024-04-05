@@ -39,28 +39,16 @@
   <article class="mb-4">
     <div class="container px-4 px-lg-5">
       <div class="row gx-4 gx-lg-5 justify-content-center">
-        <div class="section-heading d-flex align-items-center">
-          <h2>Note</h2>
-          <div class="progress-container">
-            <mat-progress-spinner
-              [value]="+movie.vote_average * 10"
-              [matTooltip]="'Nombre de votes : ' + movie.vote_count"
-            >
-            </mat-progress-spinner>
-            <div class="progress-text">
-              {{ (+movie.vote_average | round : 1) + "/10" }}
-            </div>
-          </div>
-        </div>
-        <div>Réalisé par {{ directors | map : "name" }}</div>
-        <app-movie-overview
+        <app-note [media]="movie"></app-note>
+        <app-crew [crew]="directors" title="De"></app-crew>
+        <app-overview
           [overview]="movie.overview"
           *ngIf="!!movie.overview"
-        ></app-movie-overview>
+        ></app-overview>
         <app-movie-watch-providers
           [watchProviders]="watchProviders"
         ></app-movie-watch-providers>
-        <app-movie-cast [cast]="cast" *ngIf="!!cast.length"></app-movie-cast>
+        <app-cast [cast]="cast" *ngIf="!!cast.length"></app-cast>
 
         <app-movie-videos
           [videos]="videos"
@@ -70,10 +58,10 @@
           *ngIf="!!movie.production_companies.length"
           [production_companies]="movie.production_companies"
         ></app-movie-production-companies>
-        <app-movie-recommandations
+        <app-recommandations
           *ngIf="!!recommendations.length"
           [recommendations]="recommendations"
-        ></app-movie-recommandations>
+        ></app-recommandations>
       </div>
     </div>
   </article>

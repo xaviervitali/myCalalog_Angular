@@ -1,0 +1,16 @@
+<h2 class="section-heading">{{ title }}</h2>
+<div class="crew">
+  <div class="card" *ngFor="let actor of crew">
+    <a [routerLink]="['/actor', actor.id]">
+      <img
+        class="card-img-top"
+        [src]="environment.apiPosterPath + actor.profile_path"
+        [alt]="actor.name"
+        onerror="this.src='/assets/img/avatar.png';"
+      />
+      <div class="card-body">
+        <h5 class="card-title">{{ actor.name }}</h5>
+      </div></a
+    >
+  </div>
+</div>

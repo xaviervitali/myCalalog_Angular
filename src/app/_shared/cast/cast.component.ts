@@ -4,13 +4,13 @@ import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-movie-cast',
+  selector: 'app-cast',
   standalone: true,
   imports: [RouterLink, CommonModule],
-  templateUrl: './movie-cast.component.html',
-  styleUrl: './movie-cast.component.css',
+  templateUrl: './cast.component.html',
+  styleUrl: './cast.component.css',
 })
-export class MovieCastComponent {
+export class CastComponent {
   @Input() cast: any[] = [];
   environment = environment;
 }
