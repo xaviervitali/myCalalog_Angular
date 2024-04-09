@@ -1,11 +1,11 @@
 export interface SearchMulti {
   page: number;
-  results: SearchMltiResult[];
+  results: SearchMultiResult[];
   total_pages: number;
   total_results: number;
 }
 
-export interface SearchMltiResult {
+export interface SearchMultiResult {
   adult: boolean;
   backdrop_path?: string;
   id: number;
