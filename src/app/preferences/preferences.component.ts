@@ -101,8 +101,16 @@ export class PreferencesComponent implements OnInit {
   public apiPosterPath = environment.apiPosterPath;
   sortOrder: 'asc' | 'desc' = 'desc'; // Ordre de tri par défaut
   public voteCountGte = 0;
-  public displayContent = ['flatrate', 'free', 'buy', 'rent', 'ads'];
-  public userDisplayContent: string[] = [];
+  // public displayContent = ['flatrate', 'free', 'buy', 'rent', 'ads'];
+  public displayContent = [
+    { value: 'flatrate', label: "Inclus dans l'abonnment" },
+    { value: 'free', label: 'Gratuit' },
+    { value: 'buy', label: "A l'achat" },
+    { value: 'rent', label: 'A la location' },
+    { value: 'ads', label: 'Avec contenu publicitaire' },
+  ];
+
+  public userDisplayContent = this.displayContent;
   public orderBySelectValue = 'popularity';
   public userCertificationLte = '0';
   private voteCountGteSubject = new Subject<string>();
@@ -294,11 +302,17 @@ export class PreferencesComponent implements OnInit {
       'with_watch_monetization_types',
       '|'
     ) as string[];
-
-    this.userDisplayContent =
-      !!userDisplayContent && !!userDisplayContent.length
-        ? userDisplayContent
-        : this.displayContent;
+    let userDisplay: any[] = [];
+    if (!!userDisplayContent && !!userDisplayContent.length) {
+      userDisplayContent.forEach((content: any) => {
+        userDisplay.push(
+          this.displayContent.find(
+            (displayContent) => displayContent.value === content
+          )
+        );
+      });
+      this.userDisplayContent = userDisplay;
+    }
 
     // certification.lte
     const certificationLte = this.userService.getOption('certification.lte');
