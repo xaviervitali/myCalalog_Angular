@@ -91,10 +91,6 @@ export class PreferencesComponent implements OnInit {
       start: 0,
       end: 300,
     }),
-    // runtime: this.formBuilder.group({
-    //   start: 0,
-    //   end: 300,
-    // }),
     selectedAge: this.formBuilder.control('0'),
   });
 
@@ -288,13 +284,13 @@ export class PreferencesComponent implements OnInit {
 
   setUserSettings() {
     // order_by
-    const orderBy = this.userService.getOption('order_by', '.') as string[];
+    const orderBy = this.userService.getOption('sort_by', '.') as string[];
     if (!!orderBy?.length) {
       this.orderBySelectValue = orderBy[0];
     }
     // vote_count.gte
     const voteCountGte = this.userService.getOption('vote_count.gte');
-    if (!!voteCountGte && typeof voteCountGte === 'string') {
+    if (!!voteCountGte) {
       this.voteCountGte = +voteCountGte;
     }
     // with_watch_monetization_types

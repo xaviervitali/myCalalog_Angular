@@ -1,7 +1,7 @@
-<div class="watchProviders">
-  <div class="example-container">
-    <!--Drag & Drop-->
-    <h4>Souhaités</h4>
+<!-- <div class="watchProviders">
+  <div class="example-container"> -->
+<!--Drag & Drop-->
+<!-- <h4>Souhaités</h4>
     <div
       cdkDropList
       #with_genresList="cdkDropList"
@@ -31,6 +31,17 @@
       <div class="example-box" cdkDrag>{{ item }}</div>
       }
     </div>
-  </div>
-  <!--/Drag & Drop-->
+  </div> -->
+<!--/Drag & Drop-->
+<div class="row">
+  <mat-checkbox
+    class="col-3"
+    *ngFor="let genre of genres"
+    [value]="genre.id.toString()"
+    [checked]="!without_genres.includes(genre.id.toString())"
+    (change)="handleCheckboxChange($event)"
+    >{{ genre.name }}</mat-checkbox
+  >
 </div>
+<!-- </div>
+</div> -->
