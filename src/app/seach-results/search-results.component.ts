@@ -47,7 +47,7 @@ export class SearchResultsComponent implements OnInit {
         this.persons = this.movies = this.persons = null;
         this.getMoviesResults();
         this.getTVSResults();
-        // this.getPersonsResults();
+        this.getPersonsResults();
       }
     });
   }
