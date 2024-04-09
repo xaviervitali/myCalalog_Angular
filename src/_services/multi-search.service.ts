@@ -7,41 +7,42 @@ import { SearchMulti } from '../_models/search';
   providedIn: 'root',
 })
 export class MultiSearchService extends CommonService {
-  searchMovies(
-    query: string
-  ): Observable<SearchMulti | { results: []; total_results: 0 }> {
+  searchMovies(query: string, page = 1): Observable<SearchMulti | null> {
     let params = super.getOptions();
+
     if (!!query) {
       params = params.set('query', query);
+      params = params.set('page', page);
       return this.http.get<SearchMulti>(this.API_URL + '/search/movie', {
         params,
       });
     }
-    return of({ results: [], total_results: 0 });
+    return of(null);
   }
 
-  searchTVs(
-    query: string
-  ): Observable<SearchMulti | { results: []; total_results: 0 }> {
+  searchTVs(query: string, page = 1): Observable<SearchMulti | null> {
     let params = super.getOptions();
     if (!!query) {
       params = params.set('query', query);
+      params = params.set('page', page);
+
       return this.http.get<SearchMulti>(this.API_URL + '/search/tv', {
         params,
       });
     }
-    return of({ results: [], total_results: 0 });
+    return of(null);
   }
-  searchPersons(
-    query: string
-  ): Observable<SearchMulti | { results: []; total_results: 0 }> {
+
+  searchPersons(query: string, page = 1): Observable<SearchMulti | null> {
     let params = super.getOptions();
     if (!!query) {
       params = params.set('query', query);
+      params = params.set('page', page);
+
       return this.http.get<SearchMulti>(this.API_URL + '/search/person', {
         params,
       });
     }
-    return of({ results: [], total_results: 0 });
+    return of(null);
   }
 }

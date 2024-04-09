@@ -1,5 +1,5 @@
 img {
-  height: 200px;
+  height: 100px;
   object-fit: contain;
 }
 
@@ -8,4 +8,9 @@ img {
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 10px;
   grid-auto-rows: minmax(100px, auto);
+}
+
+p {
+  margin: 0;
+  padding: 0;
 }

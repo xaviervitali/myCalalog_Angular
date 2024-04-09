@@ -1,10 +1,11 @@
 <div *ngIf="watchProvidersFormGroup" [formGroup]="watchProvidersFormGroup">
-  <mat-grid-list cols="4" rowHeight="160px" formArrayName="watchProviders">
-    <mat-grid-tile
+  <div class="row" formArrayName="watchProviders">
+    <div
       *ngFor="
         let provider of watchProvidersFormArray.value;
         let watchProvidersFormArrayIndex = index
       "
+      class="col-lg-3 col-xl-2 col-sm-6 col-md-4"
     >
       <div [formGroupName]="watchProvidersFormArrayIndex">
         <mat-checkbox
@@ -19,6 +20,6 @@
           {{ provider.provider_name }}
         </p>
       </div>
-    </mat-grid-tile>
-  </mat-grid-list>
+    </div>
+  </div>
 </div>

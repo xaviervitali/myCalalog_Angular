@@ -5,14 +5,29 @@
   </h2>
   <div class="row gx-4 gx-lg-5 justify-content-center d-flex align-items-start">
     <mat-tab-group>
-      <mat-tab [label]="'Films (' + movies.total_results + ')'">
-        <app-results [results]="movies" path="/movie"></app-results>
+      <mat-tab [label]="'Films (' + movies?.total_results + ')'">
+        <app-results
+          [results]="movies_showed"
+          path="/movie"
+          (moreResults)="getMoviesResults($event)"
+          [totalPage]="movies?.total_pages ?? 0"
+        ></app-results>
       </mat-tab>
-      <mat-tab [label]="'Series TV (' + tvs.total_results + ')'">
-        <app-results [results]="tvs" path="/tv-show"></app-results>
+      <mat-tab [label]="'Series TV (' + tvs?.total_results + ')'">
+        <app-results
+          [results]="tvs_showed"
+          path="/tv-show"
+          (moreResults)="getTVSResults($event)"
+          [totalPage]="tvs?.total_pages ?? 0"
+        ></app-results>
       </mat-tab>
-      <mat-tab [label]="'Personnalités (' + persons.total_results + ')'"
-        ><app-results [results]="persons" path="/actor"></app-results
+      <mat-tab [label]="'Personnalités (' + persons?.total_results + ')'"
+        ><app-results
+          [results]="persons_showed"
+          path="/actor"
+          (moreResults)="getPersonsResults($event)"
+          [totalPage]="persons?.total_pages ?? 0"
+        ></app-results
       ></mat-tab>
     </mat-tab-group>
   </div>

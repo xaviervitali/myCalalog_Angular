@@ -14,7 +14,7 @@ import { TvShowComponent } from './tv-show/tv-show.component';
 import { TvShowService } from '../_services/tv-show.service';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/movies', pathMatch: 'full' },
+  { path: '', redirectTo: 'movies', pathMatch: 'full' },
   {
     path: 'movies',
     component: MoviesComponent,

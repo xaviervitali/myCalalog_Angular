@@ -1,12 +1,11 @@
-.mat-grid-tile {
-  img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 50%;
-  }
-  p {
-    text-align: center;
-    font-style: italic;
-  }
+img {
+  width: 5vw;
+  min-width: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+p {
+  text-align: center;
+  font-style: italic;
+  font-size: 0.8em;
 }

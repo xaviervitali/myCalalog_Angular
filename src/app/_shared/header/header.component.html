@@ -11,7 +11,13 @@
             [(ngModel)]="query"
             [ngModelOptions]="{ standalone: true }"
           />
-          <a class="btn" [routerLink]="['/search', query]"> C'est parti </a>
+          <button
+            mat-raised-button
+            color="primary"
+            [routerLink]="['/search', query]"
+          >
+            Rechercher
+          </button>
         </form>
       </div>
     </div>

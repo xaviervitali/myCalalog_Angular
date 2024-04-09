@@ -1,19 +1,23 @@
 <div class="results">
-  <mat-card *ngFor="let result of results.results">
-    <mat-card-content class="d-flex gap-1">
+  <mat-card *ngFor="let result of results">
+    <mat-card-content>
       <a [routerLink]="[path, result.id]">
-        <img [src]="getImgPath(result)" alt="" />
-        <article>
-          <p>{{ result.name ?? result.title }}</p>
-          <p>{{ getDisplayDate(result) }}</p>
-        </article>
+        <div class="d-flex">
+          <img [src]="getImgPath(result)" alt="" />
+          <article>
+            <p>{{ result.name ?? result.title }}</p>
+            <p>{{ getDisplayDate(result) }}</p>
+          </article>
+        </div>
       </a>
     </mat-card-content>
   </mat-card>
 </div>
 <mat-paginator
-  [length]="results.total_pages"
   [pageSize]="20"
-  aria-label="Select page"
+  [length]="totalPage * 20"
+  [pageIndex]="pageIndex"
+  (page)="handlePageEvent($event)"
+  [hidePageSize]="true"
 >
 </mat-paginator>

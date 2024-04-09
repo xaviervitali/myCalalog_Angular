@@ -91,13 +91,20 @@ export class PreferencesComponent implements OnInit {
       start: 0,
       end: 300,
     }),
+    // runtime: this.formBuilder.group({
+    //   start: 0,
+    //   end: 300,
+    // }),
     selectedAge: this.formBuilder.control('0'),
   });
 
   public apiPosterPath = environment.apiPosterPath;
   sortOrder: 'asc' | 'desc' = 'desc'; // Ordre de tri par défaut
-
+  public voteCountGte = 0;
+  public displayContent = ['flatrate', 'free', 'buy', 'rent', 'ads'];
+  public userDisplayContent: string[] = [];
   public orderBySelectValue = 'popularity';
+  public userCertificationLte = '0';
   private voteCountGteSubject = new Subject<string>();
 
   constructor(
@@ -107,11 +114,6 @@ export class PreferencesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // order_by
-    const orderBy = this.userService.getOption('order_by', '.') as string[];
-    if (!!orderBy?.length) {
-      this.orderBySelectValue = orderBy[0];
-    }
     this.voteCountGteSubject
       .pipe(
         debounceTime(300) // Délai de debounce en millisecondes
@@ -123,6 +125,7 @@ export class PreferencesComponent implements OnInit {
           this.userService.removeOption('vote_count.gte');
         }
       });
+    this.setUserSettings();
   }
 
   handleAdultContentCheckbox(event: any) {
@@ -204,26 +207,28 @@ export class PreferencesComponent implements OnInit {
     ) {
       this.userService.setOption(
         'release_date.gte',
-        String(this.formGroup.value.releaseDates.start)
+        this.formatYearToDate(this.formGroup.value.releaseDates.start)
       );
       this.userService.setOption(
-        'first_air_date..gte',
-        String(this.formGroup.value.releaseDates.start)
+        'first_air_date.gte',
+        this.formatYearToDate(this.formGroup.value.releaseDates.start)
       );
       this.userService.setOption(
         'release_date.lte',
-        String(this.formGroup.value.releaseDates.end)
+        this.formatYearToDate(this.formGroup.value.releaseDates.end)
       );
       this.userService.setOption(
         'first_air_date.lte',
-        String(this.formGroup.value.releaseDates.end)
+        this.formatYearToDate(this.formGroup.value.releaseDates.end)
       );
     }
   }
   handleRuntimeChanges() {
     if (
-      this.formGroup.value.runtime?.start &&
-      this.formGroup.value.runtime?.end
+      (this.formGroup.value.runtime?.start ||
+        this.formGroup.value.runtime?.start == 0) &&
+      (this.formGroup.value.runtime?.end ||
+        this.formGroup.value.runtime?.end == 0)
     ) {
       this.userService.setOption(
         'with_runtime.gte',
@@ -271,5 +276,61 @@ export class PreferencesComponent implements OnInit {
       'with_watch_monetization_types',
       [...new Set(userWithWatchMonetizationTypes)].join('|')
     );
+  }
+
+  setUserSettings() {
+    // order_by
+    const orderBy = this.userService.getOption('order_by', '.') as string[];
+    if (!!orderBy?.length) {
+      this.orderBySelectValue = orderBy[0];
+    }
+    // vote_count.gte
+    const voteCountGte = this.userService.getOption('vote_count.gte');
+    if (!!voteCountGte && typeof voteCountGte === 'string') {
+      this.voteCountGte = +voteCountGte;
+    }
+    // with_watch_monetization_types
+    const userDisplayContent = this.userService.getOption(
+      'with_watch_monetization_types',
+      '|'
+    ) as string[];
+
+    this.userDisplayContent =
+      !!userDisplayContent && !!userDisplayContent.length
+        ? userDisplayContent
+        : this.displayContent;
+
+    // certification.lte
+    const certificationLte = this.userService.getOption('certification.lte');
+    if (!!certificationLte) {
+      this.userCertificationLte = certificationLte as string;
+    }
+
+    //with_runtime
+    const withRunTimeLte = this.userService.getOption('with_runtime.lte');
+    const withRunTimeGte = this.userService.getOption('with_runtime.gte');
+    if (
+      (!!withRunTimeLte || withRunTimeLte == 0) &&
+      (!!withRunTimeGte || withRunTimeGte == 0)
+    ) {
+      this.formGroup.controls.runtime.controls.start.setValue(+withRunTimeGte);
+      this.formGroup.controls.runtime.controls.end.setValue(+withRunTimeLte);
+    }
+
+    //with_release_date
+    const releaseDateLte = this.userService.getOption('release_date.lte');
+    const releaseDateGte = this.userService.getOption('release_date.gte');
+    if (!!releaseDateLte && releaseDateGte) {
+      this.formGroup.controls.releaseDates.controls.start.setValue(
+        moment(releaseDateGte).year()
+      );
+      this.formGroup.controls.releaseDates.controls.end.setValue(
+        moment(releaseDateLte).year()
+      );
+    }
+  }
+
+  formatYearToDate(year: number) {
+    return moment(year, 'YYYY').format('DD-MM-YYYY');
   }
 }

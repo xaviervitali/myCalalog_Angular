@@ -35,6 +35,13 @@ export class GenresComponent implements OnInit {
         '|'
       ) as string[];
 
+      if (!!userWithoutGenres?.length) {
+        let whithoutGenre: GenreResults[] = [];
+        userWithoutGenres.forEach((genreId) => {
+          whithoutGenre.push(this.getGenreFullInfoById(+genreId));
+        });
+        this.withoutGenres.emit(whithoutGenre as GenreResults[]);
+      }
       this.genres.forEach((genre) => {
         if (userWithoutGenres?.includes(String(genre.id))) {
           this.without_genres.push(genre.name);
@@ -73,5 +80,9 @@ export class GenresComponent implements OnInit {
     this.withoutGenres.emit(withoutGenres);
     const withoutGenreIds = withoutGenres.map((genre) => genre.id);
     this.userService.setOption('without_genres', withoutGenreIds.join('|'));
+  }
+
+  getGenreFullInfoById(id: number): GenreResults {
+    return this.genres.find((genre) => genre.id === id) as GenreResults;
   }
 }

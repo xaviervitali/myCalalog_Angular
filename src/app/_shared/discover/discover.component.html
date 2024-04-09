@@ -16,28 +16,30 @@
         >
           <!-- Post preview-->
           <div *ngFor="let item of items">
-            <div class="d-flex movie">
-              <div>
-                <img
-                  [src]="environment.apiPosterPath + item.poster_path"
-                  [alt]="item.title"
-                />
-              </div>
-              <div class="post-preview">
-                <a [routerLink]="[route, item.id]">
+            <a [routerLink]="[route, item.id]">
+              <div class="d-flex movie justify-content-center">
+                <div>
+                  <img
+                    [src]="environment.apiPosterPath + item.poster_path"
+                    [alt]="item.title"
+                  />
+                </div>
+                <div class="post-preview d-md-block d-none">
                   <h2 class="post-title">
                     {{ item.title ?? item.name }}
                   </h2>
-                  <h3 class="post-subtitle">
+                  <p class="post-subtitle">
                     {{ item.overview | truncate : 50 }}
-                  </h3>
-                </a>
-                <p class="post-meta">
-                  Année de sortie
-                  {{ item.release_date ?? item.first_air_date | date : "YYYY" }}
-                </p>
+                  </p>
+                  <p class="post-meta">
+                    Année de sortie
+                    {{
+                      item.release_date ?? item.first_air_date | date : "YYYY"
+                    }}
+                  </p>
+                </div>
               </div>
-            </div>
+            </a>
             <!-- Divider-->
             <hr class="my-4" />
           </div>

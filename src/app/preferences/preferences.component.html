@@ -38,7 +38,7 @@
             </mat-expansion-panel>
 
             <!--Misc-->
-            <mat-expansion-panel expanded="true">
+            <mat-expansion-panel>
               <mat-expansion-panel-header>
                 <mat-panel-title> Autre</mat-panel-title>
                 <mat-panel-description>
@@ -82,7 +82,7 @@
                       matInput
                       type="number"
                       placeholder="Vote"
-                      value="0"
+                      [value]="voteCountGte"
                       (change)="handleVoteCountGte($event)"
                     />
                   </mat-form-field>
@@ -91,44 +91,13 @@
                 <div>
                   <h3>Afficher les contenus</h3>
                   <mat-checkbox
-                    checked
+                    *ngFor="let content of displayContent"
+                    [checked]="userDisplayContent.includes(content)"
                     (change)="
                       handleWithWatchMonetizationTypesCheckboxChange($event)
                     "
-                    value="flatrate"
+                    [value]="content"
                     >Inclus dans l'abonnement</mat-checkbox
-                  >
-                  <mat-checkbox
-                    checked
-                    (change)="
-                      handleWithWatchMonetizationTypesCheckboxChange($event)
-                    "
-                    value="free"
-                    >Gratuit</mat-checkbox
-                  >
-                  <mat-checkbox
-                    checked
-                    (change)="
-                      handleWithWatchMonetizationTypesCheckboxChange($event)
-                    "
-                    value="ads"
-                    >Avec publicité</mat-checkbox
-                  >
-                  <mat-checkbox
-                    checked
-                    (change)="
-                      handleWithWatchMonetizationTypesCheckboxChange($event)
-                    "
-                    value="rent"
-                    >A la location</mat-checkbox
-                  >
-                  <mat-checkbox
-                    checked
-                    (change)="
-                      handleWithWatchMonetizationTypesCheckboxChange($event)
-                    "
-                    value="buy"
-                    >A la vente</mat-checkbox
                   >
                 </div>
                 <mat-divider></mat-divider>
@@ -139,25 +108,35 @@
                       formControlName="selectedAge"
                       (change)="handleAgeLimitChange($event)"
                     >
-                      <mat-radio-button value="0">Aucune</mat-radio-button>
+                      <mat-radio-button
+                        value="0"
+                        [checked]="'0' === userCertificationLte"
+                        >Aucune</mat-radio-button
+                      >
 
-                      <mat-radio-button value="TP"
+                      <mat-radio-button
+                        value="TP"
+                        [checked]="'TP' === userCertificationLte"
+                        matTooltip="programme télévisé qui est considéré comme adapté à un large public, y compris aux enfants et aux adultes. Il est conçu de manière à ne pas contenir de contenu inapproprié ou choquant pour les jeunes spectateurs. "
                         >Tous public</mat-radio-button
                       >
                       <mat-radio-button
                         value="12"
-                        matTooltip="Le pictogramme -12 permet de repérer les programmes comportant de la violence physique et/ou psychologique de façon répétée ou des scènes relatives à la sexualité des adultes. Les programmes risquant de perturber les repères des enfants de moins de 12 ans de manière plus générale sont également concernés. "
-                        >12 ans</mat-radio-button
+                        [checked]="'12' === userCertificationLte"
+                        matTooltip="Programmes comportant de la violence physique et/ou psychologique de façon répétée ou des scènes relatives à la sexualité des adultes. "
+                        >- 12 ans</mat-radio-button
                       >
                       <mat-radio-button
                         value="16"
-                        matTooltip=" Le pictogramme -16 concerne essentiellement les programmes érotiques ou ceux comportant des scènes de grande violence"
-                        >16 ans</mat-radio-button
+                        [checked]="'16' === userCertificationLte"
+                        matTooltip="Programmes érotiques ou ceux comportant des scènes de grande violence"
+                        >- 16 ans</mat-radio-button
                       >
                       <mat-radio-button
                         value="18"
-                        matTooltip="les films ou programmes interdits aux moins de 18 ans sont ceux d’ordre pornographique ou de très grande violence réservés à un public adulte averti."
-                        >18 ans</mat-radio-button
+                        [checked]="'18' === userCertificationLte"
+                        matTooltip="Programmes d’ordre pornographique ou de très grande violence réservés à un public adulte averti."
+                        >- 18 ans</mat-radio-button
                       >
                     </mat-radio-group>
                     <blockquote>
@@ -179,9 +158,6 @@
                       formGroupName="releaseDates"
                       min="1895"
                       max="2024"
-                      showTickMarks
-                      discrete
-                      [displayWith]="formatLabel"
                     >
                       <input
                         matSliderStartThumb
@@ -201,14 +177,7 @@
                       >Durée des films comprise entre
                       {{ runtimeLabel() }}</mat-label
                     >
-                    <mat-slider
-                      formGroupName="runtime"
-                      min="0"
-                      max="300"
-                      showTickMarks
-                      discrete
-                      [displayWith]="formatLabel"
-                    >
+                    <mat-slider formGroupName="runtime" min="0" max="300">
                       <input
                         matSliderStartThumb
                         formControlName="start"
