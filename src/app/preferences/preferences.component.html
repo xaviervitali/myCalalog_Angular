@@ -154,22 +154,24 @@
                       {{ formGroup.value.releaseDates?.start }} et
                       {{ formGroup.value.releaseDates?.end }}</mat-label
                     >
-                    <mat-slider
-                      formGroupName="releaseDates"
-                      min="1895"
-                      max="2024"
-                    >
-                      <input
-                        matSliderStartThumb
-                        formControlName="start"
-                        (change)="handleReleaseDatesChanges()"
-                      />
-                      <input
-                        matSliderEndThumb
-                        formControlName="end"
-                        (change)="handleReleaseDatesChanges()"
-                      />
-                    </mat-slider>
+                    <div>
+                      <mat-slider
+                        formGroupName="releaseDates"
+                        min="1895"
+                        max="2024"
+                      >
+                        <input
+                          matSliderStartThumb
+                          formControlName="start"
+                          (change)="handleReleaseDatesChanges()"
+                        />
+                        <input
+                          matSliderEndThumb
+                          formControlName="end"
+                          (change)="handleReleaseDatesChanges()"
+                        />
+                      </mat-slider>
+                    </div>
                   </div>
                   <div>
                     <h3>Filter par durée</h3>
@@ -177,18 +179,20 @@
                       >Durée des films comprise entre
                       {{ runtimeLabel() }}</mat-label
                     >
-                    <mat-slider formGroupName="runtime" min="0" max="300">
-                      <input
-                        matSliderStartThumb
-                        formControlName="start"
-                        (change)="handleRuntimeChanges()"
-                      />
-                      <input
-                        matSliderEndThumb
-                        formControlName="end"
-                        (change)="handleRuntimeChanges()"
-                      />
-                    </mat-slider>
+                    <div>
+                      <mat-slider formGroupName="runtime" min="0" max="300">
+                        <input
+                          matSliderStartThumb
+                          formControlName="start"
+                          (change)="handleRuntimeChanges()"
+                        />
+                        <input
+                          matSliderEndThumb
+                          formControlName="end"
+                          (change)="handleRuntimeChanges()"
+                        />
+                      </mat-slider>
+                    </div>
                   </div>
                 </div>
               </div>

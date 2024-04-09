@@ -5,11 +5,11 @@
 }
 
 mat-slider {
-  width: 100%;
+  width: 80%;
 }
 
 .example-headers-align .mat-expansion-panel-header-description {
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
 }
 
@@ -18,10 +18,15 @@ mat-slider {
 }
 .order-and-filter {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  align-items: flex-start;
+  justify-content: space-around;
   flex-wrap: wrap;
+  div {
+    width: 50%;
+    min-width: 300px;
+  }
 }
 .mat-mdc-form-field {
   width: 45% !important;
+  min-width: 300px;
 }
