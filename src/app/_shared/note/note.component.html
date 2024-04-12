@@ -1,4 +1,7 @@
-<div class="section-heading d-flex align-items-center">
+<div
+  class="section-heading d-flex align-items-center"
+  *ngIf="!!media.vote_count"
+>
   <h2>Note</h2>
   <div
     class="progress-container"

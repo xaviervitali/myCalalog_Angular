@@ -9,7 +9,7 @@ mat-slider {
 }
 
 .example-headers-align .mat-expansion-panel-header-description {
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
 }
 

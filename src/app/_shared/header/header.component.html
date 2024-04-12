@@ -15,6 +15,7 @@
             mat-raised-button
             color="primary"
             [routerLink]="['/search', query]"
+            (submit)="onSubmit()"
           >
             Rechercher
           </button>

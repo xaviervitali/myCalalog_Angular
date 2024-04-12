@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
@@ -20,4 +20,8 @@ export class HeaderComponent {
   @Input() subheading: string[] = [];
   @Input() meta: string[] = [];
   query: string = '';
+  constructor(private router: Router) {}
+  onSubmit() {
+    this.router.navigate(['search', this.query]);
+  }
 }

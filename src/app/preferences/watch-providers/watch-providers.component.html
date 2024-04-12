@@ -1,4 +1,12 @@
 <div *ngIf="watchProvidersFormGroup" [formGroup]="watchProvidersFormGroup">
+  <mat-form-field class="w-100" appearance="outline">
+    <mat-label>Chercher un service streaming</mat-label>
+    <input
+      matInput
+      placeholder="Ex. Netflix"
+      (input)="handleWatchProviderFilter($event)"
+    />
+  </mat-form-field>
   <div class="row" formArrayName="watchProviders">
     <div
       *ngFor="
@@ -12,7 +20,7 @@
           [id]="'provider_' + provider.provider_id"
           formControlName="checked"
           [checked]="provider.checked"
-          (change)="setWatchProviders()"
+          (change)="onWatchProviderCheckboxChange($event, provider.provider_id)"
         >
           <img [src]="apiPosterPath + provider.logo_path" alt="" />
         </mat-checkbox>
