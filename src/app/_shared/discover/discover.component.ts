@@ -27,9 +27,11 @@ export class DiscoverComponent {
   public scrollDistance = 1;
   public scrollUpDistance = 2;
   public throttle = 500;
+
   @Output() scrollDown = new EventEmitter<number>();
   @Input() items: any = [];
   @Input() route: string = '';
+  @Input() backgroundImage: string = '';
   @Input() userWatchProviders: any = [];
   onScrollDown() {
     this.page++;

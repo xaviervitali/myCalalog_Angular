@@ -1,4 +1,9 @@
-<app-header [displaySearch]="true"></app-header>
+<app-header
+  [displaySearch]="true"
+  [background]="{
+    'background-image': 'url(\'/assets/img/search.jpeg\')'
+  }"
+></app-header>
 <div class="container px-4 px-lg-5">
   <h2>
     Résultats pour <i>{{ query }}</i>

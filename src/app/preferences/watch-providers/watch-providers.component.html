@@ -7,7 +7,11 @@
       (input)="handleWatchProviderFilter($event)"
     />
   </mat-form-field>
-  <div class="row" formArrayName="watchProviders">
+  <div
+    class="row"
+    formArrayName="watchProviders"
+    *ngIf="!!watchProvidersFormArray.length; else noResult"
+  >
     <div
       *ngFor="
         let provider of watchProvidersFormArray.value;
@@ -30,4 +34,5 @@
       </div>
     </div>
   </div>
+  <ng-template #noResult>Aucun service de streaming trouvé</ng-template>
 </div>

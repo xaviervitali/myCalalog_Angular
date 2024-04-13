@@ -1,4 +1,8 @@
-<app-header></app-header>
+<app-header
+  [background]="{
+    'background-image': 'url(\'/assets/img/settings.jpeg\')'
+  }"
+></app-header>
 <div class="container px-4 px-lg-5">
   <div class="row gx-4 gx-lg-5 justify-content-center">
     <form [formGroup]="formGroup">
@@ -40,7 +44,7 @@
             <!--Misc-->
             <mat-expansion-panel>
               <mat-expansion-panel-header>
-                <mat-panel-title> Autre</mat-panel-title>
+                <mat-panel-title>Autre</mat-panel-title>
                 <mat-panel-description>
                   filtres et tris divers
                   <mat-icon> settings </mat-icon></mat-panel-description
