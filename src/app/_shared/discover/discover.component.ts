@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { environment } from '../../../environment/environment';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { TruncatePipe } from '../../../_pipe/truncate.pipe';
+import { TruncateByWordsCountPipe } from '../../../_pipe/truncateByWordsCount.pipe';
 import { ReactiveFormsModule } from '@angular/forms';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { HeaderComponent } from '../header/header.component';
@@ -13,7 +13,7 @@ import { HeaderComponent } from '../header/header.component';
   imports: [
     CommonModule,
     RouterLink,
-    TruncatePipe,
+    TruncateByWordsCountPipe,
     ReactiveFormsModule,
     InfiniteScrollModule,
     HeaderComponent,

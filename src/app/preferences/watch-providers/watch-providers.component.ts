@@ -137,7 +137,7 @@ export class WatchProvidersComponent implements OnInit {
   }
 
   handleWatchProviderFilter(event: any) {
-    const filterValue = event.target.value.toLowerCase();
+    const filterValue = event.target.value.toLowerCase().trim();
 
     this.watchProvidersFormArray.clear();
 
@@ -179,7 +179,6 @@ export class WatchProvidersComponent implements OnInit {
       'with_watch_providers',
       selectedWatchProvidersIds.join('|')
     );
-    console.log(this.userService.getOption('with_watch_providers', '|'));
     this.watchProviders.emit(this.watchProviderCheckedList());
   }
 }

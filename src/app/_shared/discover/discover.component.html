@@ -32,7 +32,7 @@
                     {{ item.title ?? item.name }}
                   </h2>
                   <p class="post-subtitle">
-                    {{ item.overview | truncate : 50 }}
+                    {{ item.overview | truncateByWordsCount : 50 }}
                   </p>
                   <p class="post-meta">
                     Année de sortie

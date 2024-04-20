@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { DiscoverMovie } from '../../_models/discover';
-import { TruncatePipe } from '../../_pipe/truncate.pipe';
 import { CommonModule } from '@angular/common';
 import { DiscoverService } from '../../_services/discover.service';
 import { environment } from '../../environment/environment';
@@ -8,6 +7,7 @@ import { HeaderComponent } from '../_shared/header/header.component';
 import { UserService } from '../../_services/user.service';
 import { DiscoverComponent } from '../_shared/discover/discover.component';
 import { ProductionCountriesComponent } from '../preferences/production-countries/production-countries.component';
+import { TruncateByWordsCountPipe } from '../../_pipe/truncateByWordsCount.pipe';
 
 @Component({
   selector: 'app-movies',
@@ -16,7 +16,7 @@ import { ProductionCountriesComponent } from '../preferences/production-countrie
   standalone: true,
   imports: [
     CommonModule,
-    TruncatePipe,
+    TruncateByWordsCountPipe,
     HeaderComponent,
     DiscoverComponent,
     ProductionCountriesComponent,

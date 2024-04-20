@@ -4,10 +4,8 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { SearchMulti, SearchMultiResult } from '../../_models/search';
 import { CommonModule } from '@angular/common';
 import { environment } from '../../environment/environment';
-import { TruncatePipe } from '../../_pipe/truncate.pipe';
 import { HeaderComponent } from '../_shared/header/header.component';
 import { MatListModule } from '@angular/material/list';
-import { forkJoin } from 'rxjs';
 import { ResultsComponent } from './results/results.component';
 import { MatTabsModule } from '@angular/material/tabs';
 @Component({
@@ -16,7 +14,6 @@ import { MatTabsModule } from '@angular/material/tabs';
   imports: [
     CommonModule,
     RouterLink,
-    TruncatePipe,
     HeaderComponent,
     MatListModule,
     ResultsComponent,

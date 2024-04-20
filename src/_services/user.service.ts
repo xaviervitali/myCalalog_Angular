@@ -18,6 +18,8 @@ export class UserService {
     certification_country: 'FR',
     with_watch_providers: '337|8|119',
     with_watch_monetization_types: 'flatrate|free|ads|rent|buy',
+    with_origin_country:
+      'IN|US|CN|JP|FR|GB|DE|KR|IR|ES|IT|TR|RU|AR|MX|BR|AU|CA|EG|PL|NL|TW|SE|IL|BE|DK|NO|AT|CH|FI|GR|HK|HU|ID|IE|MY|NZ|PH|PT|RO|SA|SG|TH|UA|VN|ZA|AE|AL|AM|AZ|BA|BD|BG|CL|CO|CZ|DO|EC|EE|GE|IQ|JO|KE|KZ|LB|LT|LV|MA|MK|MT|NG|PE|PK|PR|QA|SK|SI|SR|TN|UY|VE|XK',
   });
 
   // Méthode pour mettre à jour une option
