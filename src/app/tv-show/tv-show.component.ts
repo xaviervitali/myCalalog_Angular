@@ -9,7 +9,7 @@ import { OverviewComponent } from '../_shared/overview/overview.component';
 import { CastComponent } from '../_shared/cast/cast.component';
 import { CrewComponent } from '../_shared/crew/crew.component';
 import { NoteComponent } from '../_shared/note/note.component';
-
+import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 @Component({
   selector: 'app-tv-show',
   standalone: true,
@@ -21,6 +21,8 @@ import { NoteComponent } from '../_shared/note/note.component';
     CastComponent,
     CrewComponent,
     NoteComponent,
+    MatAccordion,
+    MatExpansionModule,
   ],
   templateUrl: './tv-show.component.html',
   styleUrl: './tv-show.component.css',
@@ -31,6 +33,7 @@ export class TvShowComponent implements OnInit {
   public tvShow: any;
   public cast: any;
   public producer: any;
+  public seasons: any[] = [];
   constructor(
     private route: ActivatedRoute,
     private tvShowService: TvShowService
@@ -41,6 +44,11 @@ export class TvShowComponent implements OnInit {
       let id = params.get('id');
       if (id) {
         this.tvShowService.getTvShowInfo(+id).subscribe((tvShow) => {
+          if (id) {
+            this.tvShowService
+              .getSeasonsDetail(+id, tvShow.number_of_seasons)
+              .subscribe((seasons) => (this.seasons = seasons));
+          }
           this.tvShow = tvShow;
           this.watchProviders = tvShow['watch/providers'].results.FR;
           this.cast = tvShow.credits.cast.filter(

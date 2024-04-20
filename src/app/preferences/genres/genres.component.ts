@@ -4,10 +4,11 @@ import { UserService } from '../../../_services/user.service';
 import { PreferencesService } from '../../../_services/preferences.service';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CommonModule } from '@angular/common';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 @Component({
   selector: 'app-genres',
   standalone: true,
-  imports: [MatCheckboxModule, CommonModule],
+  imports: [MatCheckboxModule, CommonModule, MatSlideToggleModule],
   templateUrl: './genres.component.html',
   styleUrl: './genres.component.css',
 })
@@ -35,22 +36,23 @@ export class GenresComponent implements OnInit {
       this.withoutGenresEmitter();
     });
   }
-  handleCheckboxChange(event: any) {
+  handleCheckboxChange(event: any, genreId: number) {
     let userWithoutGenres =
       (this.userService.getOption('without_genres', '|') as string[]) ?? [];
     if (event.checked) {
       const index = userWithoutGenres.findIndex(
-        (userWithoutGenre) => userWithoutGenre === event.source.value
+        (userWithoutGenre) => userWithoutGenre === String(genreId)
       );
       userWithoutGenres.splice(index, 1);
     } else {
-      userWithoutGenres.push(event.source.value);
+      userWithoutGenres.push(String(genreId));
     }
     this.without_genres = userWithoutGenres;
     this.userService.setOption(
       'without_genres',
       [...new Set(userWithoutGenres)].join('|')
     );
+
     this.withoutGenresEmitter();
   }
   withoutGenresEmitter() {

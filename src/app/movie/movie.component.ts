@@ -21,6 +21,7 @@ import { OverviewComponent } from '../_shared/overview/overview.component';
 import { RoundPipe } from '../../_pipe/round.pipe';
 import { NoteComponent } from '../_shared/note/note.component';
 import { CrewComponent } from '../_shared/crew/crew.component';
+import { ProductionCountriesComponent } from '../_shared/production-countries/production-countries.component';
 
 @Component({
   selector: 'app-movie',
@@ -43,6 +44,7 @@ import { CrewComponent } from '../_shared/crew/crew.component';
     OverviewComponent,
     NoteComponent,
     CrewComponent,
+    ProductionCountriesComponent,
   ],
 })
 export class MovieComponent implements OnInit {

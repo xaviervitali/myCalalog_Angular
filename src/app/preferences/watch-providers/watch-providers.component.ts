@@ -96,8 +96,6 @@ export class WatchProvidersComponent implements OnInit {
   }
 
   private watchProviderCheckedList(): any {
-    console.log(this.userSelectedWP);
-
     return this.watchProvidersApiResponse.results.filter((e: any) =>
       this.userSelectedWP.includes(String(e.provider_id))
     );

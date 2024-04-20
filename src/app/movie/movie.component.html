@@ -39,8 +39,11 @@
   <article class="mb-4">
     <div class="container px-4 px-lg-5">
       <div class="row gx-4 gx-lg-5 justify-content-center">
-        <app-note [media]="movie"></app-note>
+        <app-production-countries
+          [productionCoutries]="movie.production_countries"
+        ></app-production-countries>
         <app-crew [crew]="directors" title="De"></app-crew>
+        <app-note [media]="movie"></app-note>
         <app-overview
           [overview]="movie.overview"
           *ngIf="!!movie.overview"

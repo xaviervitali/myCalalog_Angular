@@ -7,13 +7,20 @@ import { environment } from '../../environment/environment';
 import { HeaderComponent } from '../_shared/header/header.component';
 import { UserService } from '../../_services/user.service';
 import { DiscoverComponent } from '../_shared/discover/discover.component';
+import { ProductionCountriesComponent } from '../preferences/production-countries/production-countries.component';
 
 @Component({
   selector: 'app-movies',
   templateUrl: './movies.component.html',
   styleUrl: './movies.component.css',
   standalone: true,
-  imports: [CommonModule, TruncatePipe, HeaderComponent, DiscoverComponent],
+  imports: [
+    CommonModule,
+    TruncatePipe,
+    HeaderComponent,
+    DiscoverComponent,
+    ProductionCountriesComponent,
+  ],
 })
 export class MoviesComponent implements OnInit {
   public movies: DiscoverMovie[] = [];

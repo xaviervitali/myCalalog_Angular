@@ -1,0 +1,22 @@
+<div class="d-flex flex-wrap align-items-center justify-content-start">
+  <div
+    *ngFor="let countryCode of countriesCode; let index = index"
+    class="col-3 text-center"
+  >
+    <div *ngIf="!countryCode.error">
+      <mat-checkbox
+        [id]="countryCode.key"
+        formControlName="checked"
+        [checked]="countryCode.checked"
+      >
+        <img
+          [src]="'https://flagsapi.com/' + countryCode.key + '/flat/64.png'"
+          (error)="handleImageError(index)"
+        />
+        <p class="mt-1">
+          {{ countryCode.value }}
+        </p>
+      </mat-checkbox>
+    </div>
+  </div>
+</div>

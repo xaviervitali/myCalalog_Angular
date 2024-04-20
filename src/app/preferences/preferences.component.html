@@ -25,6 +25,8 @@
                 (watchProviders)="setWatchProviders($event)"
               ></app-watch-providers>
             </mat-expansion-panel>
+            <!-- Genres -->
+
             <mat-expansion-panel>
               <mat-expansion-panel-header>
                 <mat-panel-title> Genres</mat-panel-title>
@@ -39,6 +41,16 @@
               <app-genres
                 (withoutGenres)="setWithoutGenres($event)"
               ></app-genres>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>Pays de production</mat-panel-title>
+                <mat-panel-description>
+                  <mat-icon> flags </mat-icon></mat-panel-description
+                >
+              </mat-expansion-panel-header>
+              <app-production-countries></app-production-countries>
             </mat-expansion-panel>
 
             <!--Misc-->

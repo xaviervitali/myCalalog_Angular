@@ -1,5 +1,5 @@
+import { ProductionCountriesComponent } from './production-countries/production-countries.component';
 import { Component, OnInit } from '@angular/core';
-import { PreferencesService } from '../../_services/preferences.service';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { environment } from '../../environment/environment';
@@ -70,6 +70,7 @@ export const MY_FORMATS = {
     MinutesToHoursPipe,
     HeaderComponent,
     MatInputModule,
+    ProductionCountriesComponent,
   ],
   templateUrl: './preferences.component.html',
   styleUrl: './preferences.component.css',
