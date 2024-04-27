@@ -23,7 +23,7 @@ import { TruncateByWordsCountPipe } from '../../_pipe/truncateByWordsCount.pipe'
   ],
 })
 export class MoviesComponent implements OnInit {
-  public movies: DiscoverMovie[] = [];
+  public movies: any;
   private page = 1;
   private maxPage = 1;
   public userWatchProviders = false;
@@ -43,7 +43,7 @@ export class MoviesComponent implements OnInit {
 
   getDefaultList() {
     this.discoverService.getMovieList(this.page).subscribe((discover) => {
-      this.movies = discover.results as DiscoverMovie[];
+      this.movies = discover;
       this.maxPage = discover.total_pages;
     });
   }
@@ -52,7 +52,7 @@ export class MoviesComponent implements OnInit {
     this.page = page;
     if (this.page <= this.maxPage) {
       this.discoverService.getMovieList(this.page).subscribe((discover) => {
-        this.movies.push(...(discover.results as DiscoverMovie[]));
+        this.movies.results.push(...(discover.results as DiscoverMovie[]));
       });
     }
   }

@@ -1,7 +1,9 @@
 @import "../app.component.css";
 
-::ng-deep .mat-grid-tile-content {
-  justify-content: flex-start !important;
+::ng-deep {
+  .mat-grid-tile-content {
+    justify-content: flex-start !important;
+  }
 }
 
 mat-slider {
@@ -29,4 +31,7 @@ mat-slider {
 .mat-mdc-form-field {
   width: 45% !important;
   min-width: 300px;
+}
+.mat-expansion-panel {
+  background-color: #ddd;
 }

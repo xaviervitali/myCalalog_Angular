@@ -7,6 +7,7 @@ export interface MovieDetail {
   homepage: string;
   id: number;
   imdb_id: string;
+  origin_country: string[];
   original_language: string;
   original_title: string;
   overview: string;
@@ -22,9 +23,13 @@ export interface MovieDetail {
   tagline: string;
   title: string;
   video: boolean;
-  vote_average: string;
+  vote_average: number;
   vote_count: number;
-  release_dates: ReleaseDates;
+  'watch/providers': WatchProviders;
+  videos: Videos;
+  credits: Credits;
+  recommendations: Recommendations;
+  release_dates: ReleaseDatesResults;
 }
 
 export interface BelongsToCollection {
@@ -44,7 +49,6 @@ export interface ProductionCompany {
   logo_path?: string;
   name: string;
   origin_country: string;
-  error?: boolean;
 }
 
 export interface ProductionCountry {
@@ -58,12 +62,30 @@ export interface SpokenLanguage {
   name: string;
 }
 
-export interface VideoResponse {
-  id: number;
-  results: Video[];
+export interface WatchProviders {
+  results: {
+    [countryCode: string]: {
+      link: string;
+      flatrate: Plan[];
+      rent: Plan[];
+      ads: Plan[];
+      buy: Plan[];
+    };
+  };
 }
 
-export interface Video {
+export interface Plan {
+  logo_path: string;
+  provider_id: number;
+  provider_name: string;
+  display_priority: number;
+}
+
+export interface Videos {
+  results: VideoResults[];
+}
+
+export interface VideoResults {
   iso_639_1: string;
   iso_3166_1: string;
   name: string;
@@ -76,20 +98,75 @@ export interface Video {
   id: string;
 }
 
-export interface ReleaseDates {
-  results: ReleaseDatesResult[];
+export interface Credits {
+  cast: Cast[];
+  crew: Crew[];
 }
 
-export interface ReleaseDatesResult {
-  iso_3166_1: string;
-  release_dates: ReleaseDate[];
+export interface Cast {
+  adult: boolean;
+  gender: number;
+  id: number;
+  known_for_department: string;
+  name: string;
+  original_name: string;
+  popularity: number;
+  profile_path?: string;
+  cast_id: number;
+  character: string;
+  credit_id: string;
+  order: number;
 }
 
-export interface ReleaseDate {
-  certification: string;
-  descriptors: any[];
-  iso_639_1: string;
-  note: string;
+export interface Crew {
+  adult: boolean;
+  gender: number;
+  id: number;
+  known_for_department: string;
+  name: string;
+  original_name: string;
+  popularity: number;
+  profile_path?: string;
+  credit_id: string;
+  department: string;
+  job: string;
+}
+
+export interface Recommendations {
+  page: number;
+  results: RecommandationsResults[];
+  total_pages: number;
+  total_results: number;
+}
+
+export interface RecommandationsResults {
+  backdrop_path: string;
+  id: number;
+  original_title: string;
+  overview: string;
+  poster_path: string;
+  media_type: string;
+  adult: boolean;
+  title: string;
+  original_language: string;
+  genre_ids: number[];
+  popularity: number;
   release_date: string;
-  type: number;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+}
+
+export interface ReleaseDatesResults {
+  results: {
+    iso_3166_1: string;
+    release_dates: {
+      certification: string;
+      descriptors: string[];
+      iso_639_1: string;
+      note: string;
+      release_date: string;
+      type: number;
+    }[];
+  }[];
 }

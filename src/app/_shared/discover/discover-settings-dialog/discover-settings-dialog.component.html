@@ -1,0 +1,20 @@
+<div class="dialog">
+  <h2 mat-dialog-title>Filtres</h2>
+  <mat-dialog-content class="mat-typography">
+    <div class="p-2">
+      <h3>Genres</h3>
+      <app-genres></app-genres>
+      <hr />
+      <h3>Tri</h3>
+      <app-sort></app-sort>
+      <hr />
+      <app-certification [disclaimer]="false"></app-certification>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>
+      Install
+    </button>
+  </mat-dialog-actions>
+</div>

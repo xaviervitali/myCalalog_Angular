@@ -9,10 +9,10 @@
   > -->
 
   <mat-slide-toggle
-    class="col-lg-3 col-md-4 col-sm-6 col m-2 col-xl-2"
     *ngFor="let genre of genres"
     [checked]="!without_genres.includes(genre.id.toString())"
     (change)="handleCheckboxChange($event, genre.id)"
+    class="col-6"
     ><span
       [ngClass]="
         !!without_genres.includes(genre.id.toString()) ? 'disabled' : ''

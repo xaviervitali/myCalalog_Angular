@@ -24,7 +24,7 @@
         (change)="handleCheckValueChange($event, countryCode.key)"
       >
         <img
-          [src]="'/assets/img/flags/' + countryCode.key.toLowerCase() + '.svg'"
+          [src]="'/assets/img/flags/' + countryCode.key + '.svg'"
           (error)="handleImageError(index)"
         />
       </mat-checkbox>

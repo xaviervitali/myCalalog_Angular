@@ -12,5 +12,6 @@ import { CommonModule } from '@angular/common';
 })
 export class CastComponent {
   @Input() cast: any[] = [];
+
   environment = environment;
 }

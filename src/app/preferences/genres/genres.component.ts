@@ -25,7 +25,9 @@ export class GenresComponent implements OnInit {
 
   ngOnInit(): void {
     this.preferencesService.getGenres().subscribe((genresApiResponse) => {
-      this.genres = genresApiResponse.genres;
+      this.genres = genresApiResponse.genres.sort((a, b) =>
+        a.name.localeCompare(b.name)
+      );
 
       let userWithoutGenres = this.userService.getOption('without_genres', '|');
       if (!!userWithoutGenres?.length) {

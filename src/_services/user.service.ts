@@ -13,7 +13,7 @@ export class UserService {
     language: 'fr-FR',
     api_key: API_KEY,
     watch_region: 'FR',
-    append_to_response: 'release_dates',
+    // append_to_response: 'release_dates',
     sort_by: 'popularity.desc',
     certification_country: 'FR',
     with_watch_providers: '337|8|119',

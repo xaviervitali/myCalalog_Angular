@@ -1,0 +1,19 @@
+<mat-form-field class="mr-2">
+  <mat-label>Trier par</mat-label>
+  <mat-select
+    [value]="orderBySelectValue"
+    (valueChange)="handleOrderByChange($event)"
+  >
+    <mat-option value="popularity">Popularité</mat-option>
+    <mat-option value="revenue">Revenu</mat-option>
+    <mat-option value="primary_release_date">Date de Réalisation</mat-option>
+    <mat-option value="title">Ordre alphabétique</mat-option>
+    <mat-option value="vote_average">Note</mat-option>
+    <mat-option value="vote_count">Nombre de vote</mat-option>
+  </mat-select>
+  <button mat-icon-button (click)="toggleSortOrder()" matSuffix>
+    <mat-icon>{{
+      sortOrder === "asc" ? "arrow_upward" : "arrow_downward"
+    }}</mat-icon>
+  </button>
+</mat-form-field>

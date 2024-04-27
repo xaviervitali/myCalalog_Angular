@@ -33,6 +33,8 @@ import { MatInputModule } from '@angular/material/input';
 
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { CertificationComponent } from './certification/certification.component';
+import { SortComponent } from './sort/sort.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -66,11 +68,12 @@ export const MY_FORMATS = {
     WatchProvidersComponent,
     MatDividerModule,
     MatSliderModule,
-    MatRadioModule,
     MinutesToHoursPipe,
     HeaderComponent,
     MatInputModule,
     ProductionCountriesComponent,
+    CertificationComponent,
+    SortComponent,
   ],
   templateUrl: './preferences.component.html',
   styleUrl: './preferences.component.css',
@@ -96,7 +99,6 @@ export class PreferencesComponent implements OnInit {
   });
 
   public apiPosterPath = environment.apiPosterPath;
-  sortOrder: 'asc' | 'desc' = 'desc'; // Ordre de tri par défaut
   public voteCountGte = 0;
   // public displayContent = ['flatrate', 'free', 'buy', 'rent', 'ads'];
   public displayContent = [
@@ -143,18 +145,6 @@ export class PreferencesComponent implements OnInit {
     }
   }
 
-  toggleSortOrder() {
-    this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc'; // Inversion de l'ordre de tri
-    let orderBy = this.userService.getOption('sort_by', '.') as string[];
-    if (!!orderBy?.length) {
-      this.userService.setOption('sort_by', orderBy[0] + '.' + this.sortOrder);
-    }
-  }
-
-  handleOrderByChange(event: any) {
-    this.userService.setOption('sort_by', event + '.' + this.sortOrder);
-  }
-
   chosenMonthHandler(
     normalizedMonth: Moment | null,
     datepicker: MatDatepicker<Moment> | null,
@@ -194,15 +184,6 @@ export class PreferencesComponent implements OnInit {
 
   formatLabel(value: number): string {
     return `${value}`;
-  }
-
-  handleAgeLimitChange(event: MatRadioChange) {
-    const value = event.value;
-    if (!!event.value) {
-      this.userService.setOption('certification.lte', value);
-    } else {
-      this.userService.removeOption('certification.lte');
-    }
   }
 
   handleReleaseDatesChanges() {
@@ -285,10 +266,7 @@ export class PreferencesComponent implements OnInit {
 
   setUserSettings() {
     // order_by
-    const orderBy = this.userService.getOption('sort_by', '.') as string[];
-    if (!!orderBy?.length) {
-      this.orderBySelectValue = orderBy[0];
-    }
+
     // vote_count.gte
     const voteCountGte = this.userService.getOption('vote_count.gte');
     if (!!voteCountGte) {

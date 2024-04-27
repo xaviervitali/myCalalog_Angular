@@ -7,7 +7,7 @@ import { TvShowService } from '../../_services/tv-show.service';
 import { CommonModule } from '@angular/common';
 import { OverviewComponent } from '../_shared/overview/overview.component';
 import { CastComponent } from '../_shared/cast/cast.component';
-import { CrewComponent } from '../_shared/crew/crew.component';
+import { CardComponent } from '../_shared/card/card.component';
 import { NoteComponent } from '../_shared/note/note.component';
 import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 @Component({
@@ -19,7 +19,7 @@ import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
     OverviewComponent,
     MovieWatchProvidersComponent,
     CastComponent,
-    CrewComponent,
+    CardComponent,
     NoteComponent,
     MatAccordion,
     MatExpansionModule,

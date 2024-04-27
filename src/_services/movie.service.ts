@@ -1,54 +1,24 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { MovieDetail, VideoResponse } from '../_models/movie';
+import { MovieDetail } from '../_models/movie';
 import { CommonService } from './common.service';
-import { KeywordResponse } from '../_models/keywords';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MovieService extends CommonService {
   getMovieInfo(id: number): Observable<MovieDetail> {
+    const appendToResponse = [
+      'watch/providers',
+      'videos',
+      'credits',
+      'recommendations',
+      'release_dates',
+    ];
+    let params = super.getOptions();
+    params = params.append('append_to_response', appendToResponse.join());
     return this.http.get<any>(this.API_URL + '/movie/' + id, {
-      params: super.getOptions(),
+      params,
     });
-  }
-
-  getMovieWatchProviders(id: number) {
-    return this.http.get<any>(
-      this.API_URL + '/movie/' + id + '/watch/providers',
-      {
-        params: super.getOptions(),
-      }
-    );
-  }
-
-  getMovieVideos(id: number): Observable<VideoResponse> {
-    return this.http.get<any>(this.API_URL + '/movie/' + id + '/videos', {
-      params: super.getOptions(),
-    });
-  }
-
-  getMovieCast(id: number) {
-    return this.http.get<any>(this.API_URL + '/movie/' + id + '/credits', {
-      params: super.getOptions(),
-    });
-  }
-  getMovieKeywords(id: number): Observable<KeywordResponse> {
-    return this.http.get<KeywordResponse>(
-      this.API_URL + '/movie/' + id + '/keywords',
-      {
-        params: super.getOptions(),
-      }
-    );
-  }
-
-  getMovieRecommendations(id: number): Observable<KeywordResponse> {
-    return this.http.get<KeywordResponse>(
-      this.API_URL + '/movie/' + id + '/recommendations',
-      {
-        params: super.getOptions(),
-      }
-    );
   }
 }

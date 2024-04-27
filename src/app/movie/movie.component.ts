@@ -1,9 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
-import { MovieDetail, Video } from '../../_models/movie';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { MovieDetail } from '../../_models/movie';
 import { environment } from '../../environment/environment';
-import { forkJoin } from 'rxjs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { DomSanitizer } from '@angular/platform-browser';
 import { KebabCasePipe } from '../../_pipe/kebab-case.pipe';
@@ -20,7 +19,7 @@ import { RecommandationsComponent } from '../_shared/recommandations/recommandat
 import { OverviewComponent } from '../_shared/overview/overview.component';
 import { RoundPipe } from '../../_pipe/round.pipe';
 import { NoteComponent } from '../_shared/note/note.component';
-import { CrewComponent } from '../_shared/crew/crew.component';
+import { CardComponent } from '../_shared/card/card.component';
 import { ProductionCountriesComponent } from '../_shared/production-countries/production-countries.component';
 
 @Component({
@@ -43,7 +42,7 @@ import { ProductionCountriesComponent } from '../_shared/production-countries/pr
     RecommandationsComponent,
     OverviewComponent,
     NoteComponent,
-    CrewComponent,
+    CardComponent,
     ProductionCountriesComponent,
   ],
 })
@@ -64,24 +63,17 @@ export class MovieComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private movieService: MovieService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private router: Router
   ) {}
 
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
       let id = params.get('id');
       if (id) {
-        forkJoin({
-          movieDetail: this.movieService.getMovieInfo(+id),
-          videos: this.movieService.getMovieVideos(+id),
-          watchProviders: this.movieService.getMovieWatchProviders(+id),
-          credits: this.movieService.getMovieCast(+id),
-          // non localisé
-          //   keywords: this.movieService.getMovieKeywords(+id),
-          recommendations: this.movieService.getMovieRecommendations(+id),
-        }).subscribe((value: any) => {
-          this.movie = value.movieDetail;
-          const certifications = this.movie?.release_dates.results.find(
+        this.movieService.getMovieInfo(+id).subscribe((movieDetail) => {
+          this.movie = movieDetail;
+          const certifications = this.movie.release_dates.results.find(
             (relaeaseDate) => relaeaseDate.iso_3166_1 === 'FR'
           )?.release_dates;
           if (certifications) {
@@ -92,22 +84,22 @@ export class MovieComponent implements OnInit {
             );
           }
 
-          this.watchProviders = value.watchProviders?.results.FR;
+          this.watchProviders = movieDetail['watch/providers'].results['FR'];
 
-          this.videos = value.videos.results
-            .filter((video: Video) => video.site === 'YouTube')
-            .map((video: Video) => ({
+          this.videos = movieDetail.videos.results
+            .filter((video) => video.site === 'YouTube')
+            .map((video) => ({
               ...video,
               key: this.sanitizer.bypassSecurityTrustResourceUrl(
                 'https://www.youtube.com/embed/' + video.key
               ),
             }));
 
-          this.cast = value.credits.cast.filter(
+          this.cast = movieDetail.credits.cast.filter(
             (member: any) => member.known_for_department === 'Acting'
           );
 
-          this.directors = value.credits.crew.filter(
+          this.directors = movieDetail.credits.crew.filter(
             (member: any) => member.job === 'Director'
           );
 
@@ -128,7 +120,7 @@ export class MovieComponent implements OnInit {
           //   });
           // }
 
-          this.recommendations = value.recommendations.results;
+          this.recommendations = movieDetail.recommendations.results;
         });
       }
     });

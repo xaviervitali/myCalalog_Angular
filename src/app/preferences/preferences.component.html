@@ -3,7 +3,7 @@
     'background-image': 'url(\'/assets/img/settings.jpeg\')'
   }"
 ></app-header>
-<div class="container px-4 px-lg-5">
+<div class="container-xl px-4 px-lg-5">
   <div class="row gx-4 gx-lg-5 justify-content-center">
     <form [formGroup]="formGroup">
       <div>
@@ -66,31 +66,7 @@
               <div>
                 <h3>Tri et ordre</h3>
                 <div class="order-and-filter">
-                  <mat-form-field class="mr-2">
-                    <mat-label>Trier par</mat-label>
-                    <mat-select
-                      [value]="orderBySelectValue"
-                      (valueChange)="handleOrderByChange($event)"
-                    >
-                      <mat-option value="popularity">Popularité</mat-option>
-                      <mat-option value="revenue">Revenu</mat-option>
-                      <mat-option value="primary_release_date"
-                        >Date de Réalisation</mat-option
-                      >
-                      <mat-option value="title">Ordre alphabétique</mat-option>
-                      <mat-option value="vote_average">Note</mat-option>
-                      <mat-option value="vote_count">Nombre de vote</mat-option>
-                    </mat-select>
-                    <button
-                      mat-icon-button
-                      (click)="toggleSortOrder()"
-                      matSuffix
-                    >
-                      <mat-icon>{{
-                        sortOrder === "asc" ? "arrow_upward" : "arrow_downward"
-                      }}</mat-icon>
-                    </button>
-                  </mat-form-field>
+                  <app-sort></app-sort>
 
                   <mat-form-field class="example-full-width">
                     <mat-label>Nombre de vote minimum</mat-label>
@@ -118,48 +94,7 @@
                 </div>
                 <mat-divider></mat-divider>
                 <div>
-                  <div>
-                    <h3>Limite d'âge</h3>
-                    <mat-radio-group
-                      formControlName="selectedAge"
-                      (change)="handleAgeLimitChange($event)"
-                    >
-                      <mat-radio-button
-                        value="0"
-                        [checked]="'0' === userCertificationLte"
-                        >Aucune</mat-radio-button
-                      >
-
-                      <mat-radio-button
-                        value="TP"
-                        [checked]="'TP' === userCertificationLte"
-                        matTooltip="programme télévisé qui est considéré comme adapté à un large public, y compris aux enfants et aux adultes. Il est conçu de manière à ne pas contenir de contenu inapproprié ou choquant pour les jeunes spectateurs. "
-                        >Tous public</mat-radio-button
-                      >
-                      <mat-radio-button
-                        value="12"
-                        [checked]="'12' === userCertificationLte"
-                        matTooltip="Programmes comportant de la violence physique et/ou psychologique de façon répétée ou des scènes relatives à la sexualité des adultes. "
-                        >- 12 ans</mat-radio-button
-                      >
-                      <mat-radio-button
-                        value="16"
-                        [checked]="'16' === userCertificationLte"
-                        matTooltip="Programmes érotiques ou ceux comportant des scènes de grande violence"
-                        >- 16 ans</mat-radio-button
-                      >
-                      <mat-radio-button
-                        value="18"
-                        [checked]="'18' === userCertificationLte"
-                        matTooltip="Programmes d’ordre pornographique ou de très grande violence réservés à un public adulte averti."
-                        >- 18 ans</mat-radio-button
-                      >
-                    </mat-radio-group>
-                    <blockquote>
-                      Veuillez noter que selon certains services de streaming,
-                      les classifications par âge des contenus peuvent varier.
-                    </blockquote>
-                  </div>
+                  <app-certification></app-certification>
                 </div>
                 <mat-divider></mat-divider>
                 <div class="order-and-filter">

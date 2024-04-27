@@ -11,7 +11,7 @@
       <div class="row gx-4 gx-lg-5 justify-content-center">
         <div class="col-md-10 col-lg-8 col-xl-7">
           <div class="post-heading">
-            <h1 class="d-flex align-items-center">
+            <h1 class="d-flex align-items-center justify-content-center">
               {{ movie.title }}
               <div class="circle" *ngIf="age">
                 <span class="age">{{ age }}</span>
@@ -37,12 +37,12 @@
   </header>
 
   <article class="mb-4">
-    <div class="container px-4 px-lg-5">
+    <div class="body px-4 px-lg-5">
       <div class="row gx-4 gx-lg-5 justify-content-center">
         <app-production-countries
           [productionCoutries]="movie.production_countries"
         ></app-production-countries>
-        <app-crew [crew]="directors" title="De"></app-crew>
+        <app-card [media]="directors" title="De"></app-card>
         <app-note [media]="movie"></app-note>
         <app-overview
           [overview]="movie.overview"
@@ -61,10 +61,15 @@
           *ngIf="!!movie.production_companies.length"
           [production_companies]="movie.production_companies"
         ></app-movie-production-companies>
-        <app-recommandations
+        <app-card
+          title="Recommendations"
+          [media]="recommendations"
+          path="/movie"
+        ></app-card>
+        <!-- <app-recommandations
           *ngIf="!!recommendations.length"
           [recommendations]="recommendations"
-        ></app-recommandations>
+        ></app-recommandations> -->
       </div>
     </div>
   </article>

@@ -1,33 +1,52 @@
-<app-header
-  [displaySearch]="true"
-  [background]="{
-    'background-image': 'url(\'/assets/img/' + backgroundImage + '\')'
-  }"
-></app-header>
 <body>
-  <div class="container px-4 px-lg-5">
+  <!-- <div class="d-none d-md-block">
+    <mat-drawer-container class="example-container" autosize>
+      <mat-drawer #drawer class="example-sidenav" mode="side">
+        <h2>Filtres</h2>
+        <h3>Genres</h3>
+        <app-genres></app-genres>
+        <hr />
+        <app-sort></app-sort>
+        <hr />
+        <app-certification [disclaimer]="false"></app-certification>
+      </mat-drawer>
+
+      <div
+        class="example-sidenav-content"
+        (click)="drawer.toggle(); handleDrawerChange(drawer)"
+      >
+        <p class="text-center"></p>
+        <hr />
+        <p>
+          <button type="button" mat-button>{{ drawerText }} les filtres</button>
+        </p>
+      </div>
+    </mat-drawer-container>
+  </div> -->
+
+  <div class="px-4 px-lg-5 discover">
+    <div class="d-flex justify-content-end">
+      {{ items.total_results }} resultats
+      <button mat-button color="primary" class="d-block" (click)="openDialog()">
+        Filtres
+      </button>
+    </div>
     <div class="justify-content-center">
-      <div class="results" *ngIf="userWatchProviders; else goPref">
-        <div
-          infinite-scroll
-          [infiniteScrollDistance]="scrollDistance"
-          [infiniteScrollUpDistance]="scrollUpDistance"
-          [infiniteScrollThrottle]="throttle"
-          (scrolled)="onScrollDown()"
-          (scrolledUp)="onScrollUp()"
-        >
+      <div *ngIf="userWatchProviders; else goPref">
+        <div infinite-scroll (scrolled)="onScrollDown()">
           <!-- Post preview-->
-          <div *ngFor="let item of items">
+          <div *ngFor="let item of items.results">
+            <hr class="my-4" />
             <a [routerLink]="[route, item.id]">
-              <div class="d-flex movie justify-content-center">
-                <div>
+              <div class="d-md-flex movie justify-content-center d-none">
+                <div class="me-2">
                   <img
                     [src]="environment.apiPosterPath + item.poster_path"
                     [alt]="item.title"
                     onerror="this.style.display='none'"
                   />
                 </div>
-                <div class="post-preview d-md-block d-none">
+                <div class="post-preview d-md-block">
                   <h2 class="post-title">
                     {{ item.title ?? item.name }}
                   </h2>
@@ -42,9 +61,24 @@
                   </p>
                 </div>
               </div>
+              <div class="d-md-none d-block backdrop_img">
+                <img
+                  [src]="environment.apiPosterPath + item.poster_path"
+                  [alt]="item.title"
+                  class=""
+                  onerror="this.style.display='none'"
+                />
+                <div
+                  class="centered d-flex justify-content-center flex-column text-center"
+                >
+                  <h4 class="post-title">{{ item.title ?? item.name }}</h4>
+                  <p class="m-0">
+                    {{ item.overview | truncateByWordsCount : 10 }}
+                  </p>
+                </div>
+              </div>
             </a>
             <!-- Divider-->
-            <hr class="my-4" />
           </div>
         </div>
       </div>
