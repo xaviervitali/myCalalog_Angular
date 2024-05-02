@@ -19,9 +19,4 @@ export class HeaderComponent {
   @Input() background: object = {};
   @Input() subheading: string[] = [];
   @Input() meta: string[] = [];
-  query: string = '';
-  constructor(private router: Router) {}
-  onSubmit() {
-    this.router.navigate(['search', this.query]);
-  }
 }

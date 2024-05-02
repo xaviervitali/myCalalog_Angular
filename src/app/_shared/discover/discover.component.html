@@ -1,30 +1,5 @@
 <body>
-  <!-- <div class="d-none d-md-block">
-    <mat-drawer-container class="example-container" autosize>
-      <mat-drawer #drawer class="example-sidenav" mode="side">
-        <h2>Filtres</h2>
-        <h3>Genres</h3>
-        <app-genres></app-genres>
-        <hr />
-        <app-sort></app-sort>
-        <hr />
-        <app-certification [disclaimer]="false"></app-certification>
-      </mat-drawer>
-
-      <div
-        class="example-sidenav-content"
-        (click)="drawer.toggle(); handleDrawerChange(drawer)"
-      >
-        <p class="text-center"></p>
-        <hr />
-        <p>
-          <button type="button" mat-button>{{ drawerText }} les filtres</button>
-        </p>
-      </div>
-    </mat-drawer-container>
-  </div> -->
-
-  <div class="px-4 px-lg-5 discover">
+  <div class="px-4 px-lg-5">
     <div class="d-flex justify-content-end">
       {{ items.total_results }} resultats
       <button mat-button color="primary" class="d-block" (click)="openDialog()">
