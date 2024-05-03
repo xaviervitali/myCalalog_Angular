@@ -1,38 +1,30 @@
-<div *ngIf="watchProvidersFormGroup" [formGroup]="watchProvidersFormGroup">
-  <mat-form-field class="w-100" appearance="outline">
-    <mat-label>Chercher un service streaming</mat-label>
-    <input
-      matInput
-      placeholder="Ex. Netflix"
-      (input)="handleWatchProviderFilter($event)"
-    />
-  </mat-form-field>
-  <div
-    class="row"
-    formArrayName="watchProviders"
-    *ngIf="!!watchProvidersFormArray.length; else noResult"
+<mat-form-field class="w-100">
+  <input
+    type="text"
+    placeholder="Choisir un fournisseur"
+    matInput
+    [formControl]="providerCtrl"
+    [matAutocomplete]="auto"
+  />
+  <mat-autocomplete
+    #auto="matAutocomplete"
+    (optionSelected)="addProvider($event.option.value)"
   >
-    <div
-      *ngFor="
-        let provider of watchProvidersFormArray.value;
-        let watchProvidersFormArrayIndex = index
-      "
-      class="col-lg-3 col-xl-2 col-sm-4 col-6"
+    <mat-option
+      *ngFor="let provider of filteredProviders | async"
+      [value]="provider"
     >
-      <div [formGroupName]="watchProvidersFormArrayIndex">
-        <mat-checkbox
-          [id]="'provider_' + provider.provider_id"
-          formControlName="checked"
-          [checked]="provider.checked"
-          (change)="onWatchProviderCheckboxChange($event, provider.provider_id)"
-        >
-          <img [src]="apiPosterPath + provider.logo_path" alt="" />
-        </mat-checkbox>
-        <p class="mt-1">
-          {{ provider.provider_name }}
-        </p>
-      </div>
-    </div>
+      {{ provider.provider_name }}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>
+<div class="d-flex gap-5 flex-wrap">
+  <div
+    *ngFor="let selectedProvider of selectedProviders"
+    class="my-1 w-auto"
+    (click)="removeSelectedProvider(selectedProvider)"
+  >
+    <img [src]="apiPosterPath + selectedProvider.logo_path" alt="" />
+    <!-- {{ selectedProvider.provider_name }} -->
   </div>
-  <ng-template #noResult>Aucun service de streaming trouvé</ng-template>
 </div>

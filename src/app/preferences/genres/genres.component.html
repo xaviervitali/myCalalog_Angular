@@ -1,4 +1,4 @@
-<div class="row">
+<div>
   <!-- <mat-checkbox
     class="col-lg-3 col-md-4 col-sm-6 col"
     *ngFor="let genre of genres"
@@ -12,7 +12,8 @@
     *ngFor="let genre of genres"
     [checked]="!without_genres.includes(genre.id.toString())"
     (change)="handleCheckboxChange($event, genre.id)"
-    class="col-6"
+    color="primary"
+    class="col-lg-3 col-md-4 col-sm-6 col my-2"
     ><span
       [ngClass]="
         !!without_genres.includes(genre.id.toString()) ? 'disabled' : ''

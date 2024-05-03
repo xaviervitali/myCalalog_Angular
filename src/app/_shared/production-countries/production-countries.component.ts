@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ProductionCountry } from '../../../_models/movie';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { CountriesCode as CountriesCodeEnum } from '../../_enum/CountryCode';
+import { CountriesCodes as CountriesCodeEnum } from '../../_enum/CountryCode';
 import { enumToArray } from '../../_helper/enumToArray';
 
 @Component({

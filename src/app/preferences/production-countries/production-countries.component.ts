@@ -1,6 +1,13 @@
 import { UserService } from './../../../_services/user.service';
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { CountriesCode } from '../../_enum/CountryCode';
+import {
+  Component,
+  EventEmitter,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
+import { CountriesCodes } from '../../_enum/CountryCode';
 import { CommonModule } from '@angular/common';
 
 import { enumToArray } from '../../_helper/enumToArray';
@@ -10,88 +17,89 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { TruncatePipe } from '../../../_pipe/truncate.pipe';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { Observable, map, startWith } from 'rxjs';
+import { MatListModule } from '@angular/material/list';
 
 @Component({
   selector: 'app-production-countries',
   standalone: true,
   imports: [
+    ReactiveFormsModule,
     CommonModule,
-    MatTooltipModule,
-    MatCheckboxModule,
-    MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    TruncatePipe,
-    FormsModule,
+    MatAutocompleteModule,
+    MatListModule,
+    MatButtonModule,
+    MatTooltipModule,
   ],
   templateUrl: './production-countries.component.html',
   styleUrl: './production-countries.component.css',
 })
 export class ProductionCountriesComponent implements OnInit {
-  checkAll = true;
-  filter = '';
-  private _countriesCode: any;
-  private _countriesCodeBackup: any;
-  get countriesCode() {
-    return this._countriesCode;
-  }
+  public countryCtrl = new FormControl();
+  public filteredCountries!: Observable<any[]>;
+  @Output() userCountries = new EventEmitter<string[]>();
+  _selectedCountries: any[] = [];
+  countries: any[] = [];
 
+  get selectedCountries() {
+    return this._selectedCountries.sort((countryA, countryB) =>
+      countryA.value.localeCompare(countryB.value)
+    );
+  }
   constructor(private userService: UserService) {}
   ngOnInit(): void {
-    const userSetting = this.userService.getOption('with_origin_country', '|');
-    let countriesCodes = [];
-    enumToArray(CountriesCode).forEach((country) => {
-      countriesCodes.push({
-        ...country,
-        checked: userSetting?.includes(country.key),
-      });
-    });
-    this._countriesCode = this._countriesCodeBackup =
-      enumToArray(CountriesCode);
-  }
+    const userSelectedCountries = this.userService.getOption(
+      'with_origin_country',
+      '|'
+    ) as string[];
 
-  handleImageError(index: number) {
-    this.countriesCode.splice(index, 1);
-  }
-
-  handleBatchCheck() {
-    this._countriesCodeBackup = this.countriesCode.map((countryCode: any) => ({
-      ...countryCode,
-      checked: this.checkAll,
-    }));
-    this._countriesCode = this._countriesCodeBackup;
-    this.setUserSetting();
-  }
-
-  handleInputChange(event: any) {
-    const filterValue = event.target.value.toLowerCase().trim().toLowerCase();
-    this._countriesCode = [];
-    const filteredCountries = this._countriesCodeBackup.filter((country: any) =>
-      country.value.toLowerCase().includes(filterValue)
+    this.countries = enumToArray(CountriesCodes).sort((countryA, countryB) =>
+      countryA.value.localeCompare(countryB.value)
     );
-    this._countriesCode = filteredCountries.map((country: any) => ({
-      key: country.key,
-      value: country.value,
-      checked: country.checked || false, // utilisez la valeur de checked d'origine ou false par défaut
-    }));
-  }
+    this.filteredCountries = this.countryCtrl.valueChanges.pipe(
+      startWith(''),
+      map((value) => (typeof value === 'string' ? value : value.value)),
+      map((name) =>
+        name ? this._filterCountries(name) : this.countries.slice()
+      )
+    );
 
-  handleCheckValueChange(event: any, currentCountry: string) {
-    this._countriesCodeBackup.find(
-      (country: any) => country.key === currentCountry
-    ).checked = event.checked;
-    this._countriesCode = this._countriesCodeBackup;
-    this.setUserSetting();
+    userSelectedCountries.forEach((countryCode) => {
+      const country = this.countries.find(
+        (country) => country.key === countryCode
+      );
+      this.selectedCountries.push(country);
+      this.filteredCountries = this.filteredCountries.pipe(
+        map((countries) => countries.filter((p) => p !== country))
+      );
+      this.userCountries.emit(userSelectedCountries);
+    });
   }
 
   setUserSetting() {
-    this.userService.setOption(
-      'with_origin_country',
-      this._countriesCodeBackup
-        .filter((country: any) => country.checked)
-        .map((country: any) => country.key)
-        .join('|')
+    this.userService.setOption('with_origin_country', '');
+  }
+
+  addCountry(country: any) {
+    this.selectedCountries.push(country);
+
+    this.countryCtrl.setValue('');
+    this.filteredCountries = this.filteredCountries.pipe(
+      map((countries) => countries.filter((p) => p !== country))
     );
+    this.userCountries.emit(this.selectedCountries);
+  }
+  removeSelectedCountry(country: any) {}
+
+  private _filterCountries(value: string): any[] {
+    const filterValue = value.toLowerCase();
+
+    return this.countries.filter((country: any) => {
+      country.value.toLowerCase().indexOf(filterValue) === 0;
+    });
   }
 }

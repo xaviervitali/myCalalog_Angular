@@ -1,18 +1,20 @@
-<h2 class="section-heading">{{ title }}</h2>
-<div class="crew">
-  <div class="card" *ngFor="let item of media">
-    <a [routerLink]="[path, item.id]" (click)="scrollToTop()">
-      <img
-        class="card-img-top"
-        [src]="
-          environment.apiPosterPath + (item.profile_path ?? item.poster_path)
-        "
-        [alt]="item.name"
-        onerror="this.src='/assets/img/avatar.png';"
-      />
-      <div class="card-body">
-        <h5 class="card-title">{{ item.name ?? item.title }}</h5>
-      </div></a
-    >
+<div *ngIf="!!media.length">
+  <h2 class="section-heading">{{ title }}</h2>
+  <div class="crew">
+    <div class="card" *ngFor="let item of media">
+      <a [routerLink]="[path, item.id]" (click)="scrollToTop()">
+        <img
+          class="card-img-top"
+          [src]="
+            environment.apiPosterPath + (item.profile_path ?? item.poster_path)
+          "
+          [alt]="item.name"
+          onerror="this.src='/assets/img/avatar.png';"
+        />
+        <div class="card-body">
+          <h5 class="card-title">{{ item.name ?? item.title }}</h5>
+        </div></a
+      >
+    </div>
   </div>
 </div>

@@ -12,7 +12,7 @@ export class MovieService extends CommonService {
       'watch/providers',
       'videos',
       'credits',
-      'recommendations',
+      'similar',
       'release_dates',
     ];
     let params = super.getOptions();

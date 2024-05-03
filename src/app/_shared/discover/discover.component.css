@@ -81,3 +81,7 @@ body {
     background-color: red;
   }
 }
+
+.backdrop_path {
+  height: 100% !important;
+}

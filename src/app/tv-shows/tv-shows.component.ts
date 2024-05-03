@@ -12,7 +12,7 @@ import { DiscoverComponent } from '../_shared/discover/discover.component';
   styleUrl: './tv-shows.component.css',
 })
 export class TvShowsComponent {
-  public tvs: DiscoverTV[] = [];
+  public tvs: any = [];
   private page = 1;
   private maxPage = 1;
   public userWatchProviders = false;
@@ -32,7 +32,7 @@ export class TvShowsComponent {
 
   getDefaultList() {
     this.discoverService.getTVShowList(this.page).subscribe((discover) => {
-      this.tvs = discover.results as DiscoverTV[];
+      this.tvs = discover;
       this.maxPage = discover.total_pages;
     });
   }

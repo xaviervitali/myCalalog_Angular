@@ -1,0 +1,17 @@
+<div class="dialog">
+  <h2 mat-dialog-title>Supprimer le service de streaming</h2>
+  <mat-dialog-content class="mat-typography">
+    <p>
+      Vous êtes sur le point de supprimer -- <b>{{ data.provider_name }}</b> --
+      de la liste de vos services de streaming.
+    </p>
+
+    <p>Souhaitez-vous valider votre choix</p>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Annuler</button>
+    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>
+      Valider
+    </button>
+  </mat-dialog-actions>
+</div>

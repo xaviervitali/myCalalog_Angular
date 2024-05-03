@@ -16,6 +16,7 @@
               <div class="d-md-flex movie justify-content-center d-none">
                 <div class="me-2">
                   <img
+                    class="d-none d-md-block"
                     [src]="environment.apiPosterPath + item.poster_path"
                     [alt]="item.title"
                     onerror="this.style.display='none'"
@@ -38,9 +39,9 @@
               </div>
               <div class="d-md-none d-block backdrop_img">
                 <img
-                  [src]="environment.apiPosterPath + item.poster_path"
+                  [src]="environment.apiPosterPath + item.backdrop_path"
                   [alt]="item.title"
-                  class=""
+                  class="backdrop_path"
                   onerror="this.style.display='none'"
                 />
                 <div

@@ -28,7 +28,7 @@ export interface MovieDetail {
   'watch/providers': WatchProviders;
   videos: Videos;
   credits: Credits;
-  recommendations: Recommendations;
+  similar: Recommendations;
   release_dates: ReleaseDatesResults;
 }
 

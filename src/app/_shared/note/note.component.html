@@ -1,15 +1,17 @@
 <div
-  class="section-heading d-flex align-items-center"
+  class="section-heading d-flex align-items-center gap-3"
   *ngIf="!!media.vote_count"
 >
   <h2>Note</h2>
   <div
-    class="progress-container"
+    class="progress-container position-relative"
     [matTooltip]="'Nombre de votes : ' + media.vote_count"
   >
-    <mat-progress-spinner [value]="+media.vote_average * 10">
+    <mat-progress-spinner [value]="+media.vote_average * 10" class="">
     </mat-progress-spinner>
-    <div class="progress-text">
+    <div
+      class="progress-text position-absolute top-50 start-50 translate-middle"
+    >
       {{ (+media.vote_average | round : 1) + "/10" }}
     </div>
   </div>

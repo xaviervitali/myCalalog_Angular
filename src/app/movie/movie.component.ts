@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { MovieDetail } from '../../_models/movie';
+import { Cast, Credits, Crew, MovieDetail } from '../../_models/movie';
 import { environment } from '../../environment/environment';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -57,14 +57,15 @@ export class MovieComponent implements OnInit {
   public keywords: any[] = [];
   public recommendations: any[] = [];
   public directors: any[] = [];
+  public writers: any[] = [];
+
   @ViewChild('.word-cloud', { static: true })
   wordCloud!: ElementRef<HTMLCanvasElement>;
 
   constructor(
     private route: ActivatedRoute,
     private movieService: MovieService,
-    private sanitizer: DomSanitizer,
-    private router: Router
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit() {
@@ -95,12 +96,22 @@ export class MovieComponent implements OnInit {
               ),
             }));
 
-          this.cast = movieDetail.credits.cast.filter(
-            (member: any) => member.known_for_department === 'Acting'
+          this.cast = this.castFilter(
+            movieDetail.credits.cast,
+            'known_for_department',
+            'Acting'
           );
 
-          this.directors = movieDetail.credits.crew.filter(
-            (member: any) => member.job === 'Director'
+          this.directors = this.castFilter(
+            movieDetail.credits.crew,
+            'job',
+            'Director'
+          );
+
+          this.writers = this.castFilter(
+            movieDetail.credits.crew,
+            'job',
+            'Screenplay'
           );
 
           // Non localisé
@@ -120,9 +131,16 @@ export class MovieComponent implements OnInit {
           //   });
           // }
 
-          this.recommendations = movieDetail.recommendations.results;
+          this.recommendations = movieDetail.similar.results.sort(
+            (recommandationA, recommandationB) =>
+              recommandationB.popularity - recommandationA.popularity
+          );
         });
       }
     });
+  }
+
+  castFilter(sourceArray: Cast[] | Crew[], field: string, match: string) {
+    return sourceArray.filter((cast: any) => cast[field] === match);
   }
 }

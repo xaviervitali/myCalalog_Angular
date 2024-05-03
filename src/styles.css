@@ -11264,8 +11264,8 @@ p {
 
 @media (min-width: 992px) {
   #mainNav {
-    padding-top: 1.5rem;
-    padding-bottom: 1.5rem;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
     border: none;
     background-color: transparent;
     transition: padding-top 0.3s ease-in-out, padding-bottom 0.3s ease-in-out;
@@ -11717,5 +11717,10 @@ a {
   font-family: "Roboto", sans-serif;
 }
 body {
-  margin-top: 20vh;
+  margin-top: 2vh;
+}
+@media (min-width: 992px) {
+  body {
+    margin-top: 20vh;
+  }
 }

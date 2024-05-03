@@ -43,6 +43,7 @@
           [productionCoutries]="movie.production_countries"
         ></app-production-countries>
         <app-card [media]="directors" title="De"></app-card>
+        <app-card [media]="writers" title="Par"></app-card>
         <app-note [media]="movie"></app-note>
         <app-overview
           [overview]="movie.overview"
@@ -62,7 +63,7 @@
           [production_companies]="movie.production_companies"
         ></app-movie-production-companies>
         <app-card
-          title="Recommendations"
+          title="Similaire à"
           [media]="recommendations"
           path="/movie"
         ></app-card>

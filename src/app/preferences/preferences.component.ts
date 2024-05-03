@@ -84,6 +84,7 @@ export class PreferencesComponent implements OnInit {
 
   public withoutGenres: GenreResults[] = [];
   public watchProviders: WatchProviderResult[] = [];
+  public countries: string[] = [];
 
   public formGroup = this.formBuilder.group({
     includeAdult: this.formBuilder.control(this.includeAdult),
@@ -182,6 +183,9 @@ export class PreferencesComponent implements OnInit {
     this.watchProviders = watchProviders;
   }
 
+  setCountries(countries: string[]) {
+    this.countries = countries;
+  }
   formatLabel(value: number): string {
     return `${value}`;
   }

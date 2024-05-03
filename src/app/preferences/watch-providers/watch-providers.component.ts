@@ -5,6 +5,7 @@ import { WatchProviderResult } from '../../../_models/watch_providers';
 import {
   FormArray,
   FormBuilder,
+  FormControl,
   FormGroup,
   ReactiveFormsModule,
 } from '@angular/forms';
@@ -14,17 +15,23 @@ import { environment } from '../../../environment/environment';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { Observable, map, startWith } from 'rxjs';
+import { MatListModule } from '@angular/material/list';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
+import { WatchProviderDialogComponent } from './watch-provider-dialog/watch-provider-dialog.component';
 @Component({
   selector: 'app-watch-providers',
   standalone: true,
   imports: [
-    MatGridListModule,
     ReactiveFormsModule,
-    MatCheckboxModule,
     CommonModule,
     MatFormFieldModule,
     MatInputModule,
+    MatAutocompleteModule,
+    MatListModule,
+    MatButtonModule,
   ],
   templateUrl: './watch-providers.component.html',
   styleUrl: './watch-providers.component.css',
@@ -32,42 +39,36 @@ import { MatInputModule } from '@angular/material/input';
 export class WatchProvidersComponent implements OnInit {
   @Output() watchProviders = new EventEmitter<WatchProviderResult[]>();
   public apiPosterPath = environment.apiPosterPath;
-  public watchProvidersFormGroup = this.formBuilder.group({
-    watchProviders: this.formBuilder.array([]),
-  });
+  _selectedProviders: any[] = [];
 
   get watchProvidersCount(): number {
     return this.userSelectedWP.length;
   }
 
-  get watchProvidersFormArray(): FormArray {
-    return this.watchProvidersFormGroup.get('watchProviders') as FormArray;
-  }
-
-  get watchProvidersCheckedName(): string {
-    return this.watchProviderCheckedList()
-      .map((e: any) => e.provider_name)
-      .join(', ');
-  }
-
   public watchProviderFilter: string = '';
-  private watchProvidersApiResponse: any = null;
+  public watchProvidersApiResponse: any = null;
 
   private userSelectedWP: string[] = [];
+  providerCtrl = new FormControl();
+  filteredProviders!: Observable<any[]>;
+
+  get selectedProviders() {
+    return this._selectedProviders.sort((providerA, providerB) =>
+      providerA.provider_name.localeCompare(providerB.provider_name)
+    );
+  }
 
   constructor(
     private userService: UserService,
     private preferencesService: PreferencesService,
-    private formBuilder: FormBuilder
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
     this.preferencesService
       .getWatchProviders()
       .subscribe((watchProvidersApiResponse) => {
-        this.watchProvidersApiResponse = watchProvidersApiResponse;
-        // WatchProviders
-        const watchProviders = watchProvidersApiResponse.results.sort(
+        this.watchProvidersApiResponse = watchProvidersApiResponse.results.sort(
           (
             watchProviderA: { display_priorities: { FR: number } },
             watchProviderB: { display_priorities: { FR: number } }
@@ -75,36 +76,79 @@ export class WatchProvidersComponent implements OnInit {
             watchProviderA.display_priorities.FR -
             watchProviderB.display_priorities.FR
         );
+        this.filteredProviders = this.providerCtrl.valueChanges.pipe(
+          startWith(''),
+          map((value) =>
+            typeof value === 'string' ? value : value.provider_name
+          ),
+          map((name) =>
+            name
+              ? this._filterProviders(name)
+              : this.watchProvidersApiResponse.slice()
+          )
+        );
         this.getUserWatchProvidersIds();
-
-        watchProviders.forEach((watchProvider: WatchProviderResult) => {
-          const isChecked = this.userSelectedWP?.includes(
-            String(watchProvider.provider_id)
+        this.userSelectedWP.forEach((providerId) => {
+          const provider = this.watchProvidersApiResponse.find(
+            (provider: WatchProviderResult) =>
+              provider.provider_id === +providerId
           );
-
-          this.watchProvidersFormArray.push(
-            this.newWatchProvider(
-              watchProvider.provider_id,
-              watchProvider.provider_name,
-              watchProvider.logo_path,
-              isChecked
-            )
+          this.selectedProviders.push(provider);
+          this.filteredProviders = this.filteredProviders.pipe(
+            map((providers) => providers.filter((p) => p !== provider))
           );
         });
-        this.setWatchProviders();
+        this.watchProviders.emit(this.selectedProviders);
       });
   }
+  private _filterProviders(value: string): any[] {
+    const filterValue = value.toLowerCase();
 
-  private watchProviderCheckedList(): any {
-    return this.watchProvidersApiResponse.results.filter((e: any) =>
-      this.userSelectedWP.includes(String(e.provider_id))
+    return this.watchProvidersApiResponse.filter(
+      (provider: any) =>
+        provider.provider_name.toLowerCase().indexOf(filterValue) === 0
     );
   }
 
+  addProvider(provider: any): void {
+    this.selectedProviders.push(provider);
+    this.filteredProviders = this.filteredProviders.pipe(
+      map((providers) => providers.filter((p) => p !== provider))
+    );
+    this.providerCtrl.setValue('');
+    this.setWatchProviders();
+  }
+
+  removeSelectedProvider(selectedProvider: WatchProviderResult) {
+    const dialogRef = this.dialog.open(WatchProviderDialogComponent, {
+      maxWidth: 800,
+      disableClose: true,
+      data: selectedProvider,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        const index = this.selectedProviders.indexOf(selectedProvider);
+
+        if (index !== -1) {
+          this.selectedProviders.splice(index, 1);
+          this.filteredProviders = this.filteredProviders.pipe(
+            map((providers) =>
+              [...providers, selectedProvider].sort(
+                (a, b) => a.display_priorities.FR - b.display_priorities.FR
+              )
+            )
+          );
+          this.setWatchProviders();
+        }
+      }
+    });
+  }
+
   public setWatchProviders() {
-    const selectedWatchProvidersIds = this.watchProvidersFormArray.value
-      .filter((wp: any) => !!wp.checked)
-      .map((wp: any) => wp.provider_id);
+    const selectedWatchProvidersIds = this.selectedProviders.map(
+      (wp: any) => wp.provider_id
+    );
 
     this.userService.setOption(
       'with_watch_providers',
@@ -112,7 +156,7 @@ export class WatchProvidersComponent implements OnInit {
     );
 
     this.getUserWatchProvidersIds();
-    this.watchProviders.emit(this.watchProviderCheckedList());
+    this.watchProviders.emit(this.selectedProviders);
   }
 
   private getUserWatchProvidersIds() {
@@ -120,65 +164,5 @@ export class WatchProvidersComponent implements OnInit {
       'with_watch_providers',
       '|'
     ) as string[];
-  }
-
-  private newWatchProvider(
-    provider_id: number,
-    provider_name: string,
-    logo_path: string,
-    checked: boolean
-  ): FormGroup {
-    return this.formBuilder.group({
-      provider_id: [provider_id],
-      provider_name: [provider_name],
-      logo_path: [logo_path],
-      checked: [checked],
-    });
-  }
-
-  handleWatchProviderFilter(event: any) {
-    const filterValue = event.target.value.toLowerCase().trim();
-
-    this.watchProvidersFormArray.clear();
-
-    const filteredProviders = this.watchProvidersApiResponse.results.filter(
-      (provider: WatchProviderResult) =>
-        provider.provider_name.toLowerCase().includes(filterValue)
-    );
-
-    filteredProviders.forEach((watchProvider: WatchProviderResult) => {
-      const isChecked = this.userSelectedWP?.includes(
-        String(watchProvider.provider_id)
-      );
-
-      this.watchProvidersFormArray.push(
-        this.newWatchProvider(
-          watchProvider.provider_id,
-          watchProvider.provider_name,
-          watchProvider.logo_path,
-          isChecked
-        )
-      );
-    });
-  }
-
-  public onWatchProviderCheckboxChange(event: any, watchProviderId: number) {
-    const selectedWatchProvidersIds = this.watchProvidersFormArray.value
-      .filter((wp: any) => wp.checked)
-      .map((wp: any) => wp.provider_id);
-
-    if (event.checked) {
-      this.userSelectedWP.push(watchProviderId.toString());
-    } else {
-      const index = this.userSelectedWP.indexOf(watchProviderId.toString());
-      if (index > -1) {
-        this.userSelectedWP.splice(index, 1);
-      }
-    }
-    this.userService.setOption(
-      'with_watch_providers',
-      selectedWatchProvidersIds.join('|')
-    );
-    this.watchProviders.emit(this.watchProviderCheckedList());
   }
 }
