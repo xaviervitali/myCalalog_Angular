@@ -14,17 +14,13 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { HeaderComponent } from '../header/header.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
+import { MatMenuModule } from '@angular/material/menu';
 import { DiscoverSettingsDialogComponent } from './discover-settings-dialog/discover-settings-dialog.component';
-import {
-  MatDialog,
-  MAT_DIALOG_DATA,
-  MatDialogRef,
-  MatDialogTitle,
-  MatDialogContent,
-  MatDialogActions,
-  MatDialogClose,
-} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
+
+import { MatChipsModule } from '@angular/material/chips';
+import { GenrePipe } from '../../../_pipe/genre.pipe';
+
 @Component({
   selector: 'app-discover',
   standalone: true,
@@ -35,10 +31,10 @@ import {
     ReactiveFormsModule,
     InfiniteScrollModule,
     HeaderComponent,
-
+    MatChipsModule,
     MatSidenavModule,
     MatButtonModule,
-
+    GenrePipe,
     MatMenuModule,
   ],
   templateUrl: './discover.component.html',

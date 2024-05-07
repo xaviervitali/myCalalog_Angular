@@ -5,6 +5,7 @@ import { PreferencesService } from '../../../_services/preferences.service';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CommonModule } from '@angular/common';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MOVIE_GENRES } from '../../../_const/movieGenres';
 @Component({
   selector: 'app-genres',
   standalone: true,
@@ -13,30 +14,23 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
   styleUrl: './genres.component.css',
 })
 export class GenresComponent implements OnInit {
-  public genres: GenreResults[] = [];
-  public without_genres: string[] = [];
-
+  @Input() genres: GenreResults[] = [];
   @Output() withoutGenres = new EventEmitter<GenreResults[]>();
 
-  constructor(
-    private userService: UserService,
-    private preferencesService: PreferencesService
-  ) {}
+  public without_genres: string[] = [];
+
+  constructor(private userService: UserService) {}
 
   ngOnInit(): void {
-    this.preferencesService.getGenres().subscribe((genresApiResponse) => {
-      this.genres = genresApiResponse.genres.sort((a, b) =>
-        a.name.localeCompare(b.name)
-      );
+    this.genres.sort((a, b) => a.name.localeCompare(b.name));
 
-      let userWithoutGenres = this.userService.getOption('without_genres', '|');
-      if (!!userWithoutGenres?.length) {
-        this.without_genres = (userWithoutGenres as string[]).map(
-          (genre: string) => genre
-        );
-      }
-      this.withoutGenresEmitter();
-    });
+    let userWithoutGenres = this.userService.getOption('without_genres', '|');
+    if (!!userWithoutGenres?.length) {
+      this.without_genres = (userWithoutGenres as string[]).map(
+        (genre: string) => genre
+      );
+    }
+    this.withoutGenresEmitter();
   }
   handleCheckboxChange(event: any, genreId: number) {
     let userWithoutGenres =

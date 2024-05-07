@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../environment/environment';
 import { BehaviorSubject } from 'rxjs';
 import { ApiOptions } from '../_models/apiOptions';
+import { User } from '../_models/user';
 
 export const API_KEY = environment.apiKey;
 
@@ -54,5 +55,13 @@ export class UserService {
       delete currentValue[optionKey]; // Supprimer la clé de la valeur actuelle
       this.optionsSubject.next(currentValue); // Émettre la nouvelle valeur mise à jour
     }
+  }
+  constructor(private http: HttpClient, private auth: AuthService) {}
+  create(user: User) {
+    return this.http.post<User>(environment.apiUrl + '/users', user);
+  }
+
+  update(user: User) {
+    return this.http.put<User>(environment.apiUrl + '/users/' + user.id, user);
   }
 }

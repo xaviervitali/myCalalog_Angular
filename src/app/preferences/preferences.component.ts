@@ -35,6 +35,8 @@ import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { CertificationComponent } from './certification/certification.component';
 import { SortComponent } from './sort/sort.component';
+import { MOVIE_GENRES } from '../../_const/movieGenres';
+import { TV_SHOW_GENRES } from '../../_const/tvShowGenres';
 
 export const MY_FORMATS = {
   parse: {
@@ -81,22 +83,25 @@ export const MY_FORMATS = {
 })
 export class PreferencesComponent implements OnInit {
   public includeAdult = !!this.userService.getOption('include_adult');
+  public movieGenres = MOVIE_GENRES;
+  public tvShowGenres = TV_SHOW_GENRES;
 
   public withoutGenres: GenreResults[] = [];
   public watchProviders: WatchProviderResult[] = [];
   public countries: string[] = [];
-
+  public maxYear = moment().year();
   public formGroup = this.formBuilder.group({
     includeAdult: this.formBuilder.control(this.includeAdult),
     releaseDates: this.formBuilder.group({
       start: 1895,
-      end: moment().year(),
+      end: this.maxYear,
     }),
     runtime: this.formBuilder.group({
       start: 0,
       end: 300,
     }),
     selectedAge: this.formBuilder.control('0'),
+    voteCountGte: this.formBuilder.control(0),
   });
 
   public apiPosterPath = environment.apiPosterPath;
@@ -113,7 +118,6 @@ export class PreferencesComponent implements OnInit {
   public userDisplayContent = this.displayContent;
   public orderBySelectValue = 'popularity';
   public userCertificationLte = '0';
-  private voteCountGteSubject = new Subject<string>();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -122,11 +126,11 @@ export class PreferencesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.voteCountGteSubject
+    this.formGroup.controls.voteCountGte.valueChanges
       .pipe(
         debounceTime(300) // Délai de debounce en millisecondes
       )
-      .subscribe((inputValue: string) => {
+      .subscribe((inputValue) => {
         if (!!inputValue) {
           this.userService.setOption('vote_count.gte', +inputValue);
         } else {
@@ -196,7 +200,7 @@ export class PreferencesComponent implements OnInit {
       this.formGroup.value.releaseDates?.end
     ) {
       this.userService.setOption(
-        'release_date.gte',
+        'primary_release_date.gte',
         this.formatYearToDate(this.formGroup.value.releaseDates.start)
       );
       this.userService.setOption(
@@ -204,7 +208,7 @@ export class PreferencesComponent implements OnInit {
         this.formatYearToDate(this.formGroup.value.releaseDates.start)
       );
       this.userService.setOption(
-        'release_date.lte',
+        'primary_release_date.lte',
         this.formatYearToDate(this.formGroup.value.releaseDates.end)
       );
       this.userService.setOption(
@@ -243,9 +247,6 @@ export class PreferencesComponent implements OnInit {
       );
     }
     return '';
-  }
-  handleVoteCountGte(event: any) {
-    this.voteCountGteSubject.next(event.target.value);
   }
 
   handleWithWatchMonetizationTypesCheckboxChange(event: any) {
@@ -324,6 +325,6 @@ export class PreferencesComponent implements OnInit {
   }
 
   formatYearToDate(year: number) {
-    return moment(year, 'YYYY').format('DD-MM-YYYY');
+    return moment(year, 'YYYY').format('YYYY-MM-DD');
   }
 }

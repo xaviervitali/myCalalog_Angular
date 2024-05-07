@@ -1,13 +1,4 @@
 <div>
-  <!-- <mat-checkbox
-    class="col-lg-3 col-md-4 col-sm-6 col"
-    *ngFor="let genre of genres"
-    [value]="genre.id.toString()"
-    [checked]="!without_genres.includes(genre.id.toString())"
-    (change)="handleCheckboxChange($event)"
-    >{{ genre.name }}</mat-checkbox
-  > -->
-
   <mat-slide-toggle
     *ngFor="let genre of genres"
     [checked]="!without_genres.includes(genre.id.toString())"

@@ -18,10 +18,14 @@ export class CommonService {
 
   constructor(private userService: UserService, protected http: HttpClient) {}
 
-  protected getOptions(): HttpParams {
+  protected getOptions(optionsList: string[] = []): HttpParams {
     let httpParams = new HttpParams();
     this.userService.optionsSubject.subscribe((options) => {
-      (Object.keys(options) as Array<keyof ApiOptions>).forEach((option) => {
+      const optionsArray = !!optionsList.length
+        ? optionsList
+        : (Object.keys(options) as Array<keyof ApiOptions>);
+
+      optionsArray.forEach((option) => {
         const value = options[String(option)];
         if (value) {
           httpParams = httpParams.set(String(option), String(value));

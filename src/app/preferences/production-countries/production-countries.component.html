@@ -1,21 +1,26 @@
 <mat-form-field class="w-100">
   <input
     type="text"
-    placeholder="Choisir un Pays"
+    placeholder="Ajouter un Pays"
     matInput
     [formControl]="countryCtrl"
     [matAutocomplete]="auto"
   />
+  <mat-icon matSuffix>add</mat-icon>
   <mat-autocomplete
     #auto="matAutocomplete"
     (optionSelected)="addCountry($event.option.value)"
   >
-    <mat-option
-      *ngFor="let country of filteredCountries | async"
-      [value]="country"
-    >
-      {{ country.value }}
-    </mat-option>
+    <ng-container *ngFor="let group of filteredCountries | async">
+      <mat-optgroup
+        *ngIf="group.countries.length > 0"
+        [label]="group.firstLetter"
+      >
+        <mat-option *ngFor="let country of group.countries" [value]="country">
+          {{ country.value }}
+        </mat-option>
+      </mat-optgroup>
+    </ng-container>
   </mat-autocomplete>
 </mat-form-field>
 <div class="d-flex gap-5 flex-wrap">

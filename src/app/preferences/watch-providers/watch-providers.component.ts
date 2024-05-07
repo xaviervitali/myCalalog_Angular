@@ -21,6 +21,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { WatchProviderDialogComponent } from './watch-provider-dialog/watch-provider-dialog.component';
+import { MatIconModule } from '@angular/material/icon';
 @Component({
   selector: 'app-watch-providers',
   standalone: true,
@@ -32,6 +33,7 @@ import { WatchProviderDialogComponent } from './watch-provider-dialog/watch-prov
     MatAutocompleteModule,
     MatListModule,
     MatButtonModule,
+    MatIconModule,
   ],
   templateUrl: './watch-providers.component.html',
   styleUrl: './watch-providers.component.css',

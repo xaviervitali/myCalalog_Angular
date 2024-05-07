@@ -1,7 +1,7 @@
 <body>
   <div class="px-4 px-lg-5">
     <div class="d-flex justify-content-end">
-      {{ items.total_results }} resultats
+      {{ items?.total_results }} resultats
       <button mat-button color="primary" class="d-block" (click)="openDialog()">
         Filtres
       </button>
@@ -10,7 +10,7 @@
       <div *ngIf="userWatchProviders; else goPref">
         <div infinite-scroll (scrolled)="onScrollDown()">
           <!-- Post preview-->
-          <div *ngFor="let item of items.results">
+          <div *ngFor="let item of items?.results">
             <hr class="my-4" />
             <a [routerLink]="[route, item.id]">
               <div class="d-md-flex movie justify-content-center d-none">
@@ -26,6 +26,13 @@
                   <h2 class="post-title">
                     {{ item.title ?? item.name }}
                   </h2>
+                  <p>
+                    <mat-chip-set aria-label="Genres">
+                      <mat-chip *ngFor="let genreID of item.genre_ids">{{
+                        genreID | genre
+                      }}</mat-chip>
+                    </mat-chip-set>
+                  </p>
                   <p class="post-subtitle">
                     {{ item.overview | truncateByWordsCount : 50 }}
                   </p>

@@ -6,56 +6,197 @@
 
 <div class="px-4 px-lg-5">
   <div class="row gx-4 gx-lg-5 justify-content-center">
-    <h2 class="mb-3">Filtres</h2>
-    <form [formGroup]="formGroup">
-      <div>
-        <article class="mb-4">
-          <div class="category">
-            <div class="d-flex gap-1 align-items-center">
-              <h3 class="mb-2">Services de streaming</h3>
-              <div *ngIf="!!watchProviders.length">
-                ({{ watchProviders.length }})
+    <h2 class="mb-2">Préférences de tri</h2>
+    <div>
+      <article class="mb-4">
+        <div class="category">
+          <div class="d-flex gap-1 align-items-center"></div>
+          <div class="px-3">
+            <app-sort></app-sort>
+          </div>
+        </div>
+      </article>
+      <h2 class="mb-3">Filtres</h2>
+      <form [formGroup]="formGroup">
+        <div>
+          <article class="mb-4">
+            <div class="category">
+              <div class="d-flex gap-1 align-items-center">
+                <h3 class="mb-2">Services de streaming</h3>
+                <div *ngIf="!!watchProviders.length">
+                  ({{ watchProviders.length }})
+                </div>
+              </div>
+              <div class="px-3">
+                <blockquote>
+                  <i>
+                    Seuls les contenus des services de streaming selectionnés
+                    aparaitrons
+                  </i>
+                </blockquote>
+                <app-watch-providers
+                  (watchProviders)="setWatchProviders($event)"
+                ></app-watch-providers>
               </div>
             </div>
-            <div class="px-3">
+
+            <div class="category">
+              <div class="d-flex gap-1 align-items-center">
+                <h3 class="mb-2">Limite d'age</h3>
+              </div>
+              <div class="px-3">
+                <div>
+                  <blockquote>
+                    <i>
+                      Veuillez noter que selon certains services de streaming,
+                      les classifications par âge des contenus peuvent varier.
+                    </i>
+                  </blockquote>
+                  <app-certification></app-certification>
+                </div>
+              </div>
+            </div>
+            <div class="category">
+              <div class="d-flex gap-1 align-items-center">
+                <div>
+                  <h3>Afficher les contenus</h3>
+                  <mat-checkbox
+                    *ngFor="let content of displayContent"
+                    [checked]="userDisplayContent.includes(content)"
+                    (change)="
+                      handleWithWatchMonetizationTypesCheckboxChange($event)
+                    "
+                    color="primary"
+                    [value]="content.value"
+                    >{{ content.label }}</mat-checkbox
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="category">
+              <div class="d-flex gap-1 align-items-center">
+                <h3 class="mb-2">Genres</h3>
+              </div>
+              <div class="px-3">
+                <h4>Films</h4>
+                <app-genres
+                  [genres]="movieGenres"
+                  (withoutGenres)="setWithoutGenres($event)"
+                ></app-genres>
+                <hr />
+                <h4>Séries</h4>
+                <app-genres
+                  [genres]="tvShowGenres"
+                  (withoutGenres)="setWithoutGenres($event)"
+                ></app-genres>
+              </div>
+            </div>
+
+            <div class="category">
+              <div class="d-flex gap-1 align-items-center">
+                <h3 class="mb-2">Pays de production</h3>
+                <div *ngIf="!!countries.length">({{ countries.length }})</div>
+              </div>
+              <div class="px-3"></div>
               <blockquote>
                 <i>
-                  Seuls les contenus des services de streaming selectionnés
+                  Seuls les contenus des pays de production selectionnés
                   aparaitrons
                 </i>
               </blockquote>
-              <app-watch-providers
-                (watchProviders)="setWatchProviders($event)"
-              ></app-watch-providers>
+              <app-production-countries
+                (userCountries)="setCountries($event)"
+              ></app-production-countries>
             </div>
-          </div>
 
-          <div class="category">
-            <div class="d-flex gap-1 align-items-center">
-              <h3 class="mb-2">Genres</h3>
-            </div>
-            <div class="px-3">
-              <app-genres
-                (withoutGenres)="setWithoutGenres($event)"
-              ></app-genres>
-            </div>
-          </div>
+            <div class="category">
+              <div class="d-flex gap-1 align-items-center">
+                <h3 class="mb-2">N'afficher que les contenus ayant</h3>
+              </div>
+              <div class="px-3">
+                <blockquote>
+                  <i>
+                    Seuls les contenus ayant au moins
+                    {{ formGroup.value.voteCountGte }}
+                  </i>
+                </blockquote>
+                <mat-form-field class="example-full-width w-100">
+                  <mat-label>Nombre de vote minimum</mat-label>
 
-          <div class="category">
-            <div class="d-flex gap-1 align-items-center">
-              <h3 class="mb-2">Pays</h3>
-              <div *ngIf="!!countries.length">({{ countries.length }})</div>
+                  <input
+                    matInput
+                    type="number"
+                    placeholder="Vote"
+                    formControlName="voteCountGte"
+                  />
+                </mat-form-field>
+              </div>
             </div>
-            <div class="px-3"></div>
-            <blockquote>
-              <i> Seuls les contenus des pays selectionnés aparaitrons </i>
-            </blockquote>
-            <app-production-countries
-              (userCountries)="setCountries($event)"
-            ></app-production-countries>
-          </div>
-        </article>
-      </div>
-    </form>
+
+            <div class="category">
+              <div class="d-flex gap-1 align-items-center">
+                <h3 class="mb-2">Années de sortie</h3>
+                <div>
+                  entre {{ formGroup.value.releaseDates?.start }} et
+                  {{ formGroup.value.releaseDates?.end }}
+                </div>
+              </div>
+              <div class="px-3">
+                <div>
+                  <mat-slider
+                    formGroupName="releaseDates"
+                    min="1895"
+                    [max]="maxYear"
+                    class="w-100"
+                    [discrete]="true"
+                    [disableRipple]="true"
+                  >
+                    <input
+                      matSliderStartThumb
+                      formControlName="start"
+                      (valueChange)="handleReleaseDatesChanges()"
+                    />
+                    <input
+                      matSliderEndThumb
+                      formControlName="end"
+                      (valueChange)="handleReleaseDatesChanges()"
+                    />
+                  </mat-slider>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="category">
+                <div class="d-flex gap-1 align-items-center">
+                  <h3 class="mb-2">Durée</h3>
+                  <div>entre {{ runtimeLabel() }}</div>
+                </div>
+                <div class="px-3">
+                  <div>
+                    <mat-slider
+                      formGroupName="runtime"
+                      min="0"
+                      max="300"
+                      class="w-100"
+                    >
+                      <input
+                        matSliderStartThumb
+                        formControlName="start"
+                        (change)="handleRuntimeChanges()"
+                      />
+                      <input
+                        matSliderEndThumb
+                        formControlName="end"
+                        (change)="handleRuntimeChanges()"
+                      />
+                    </mat-slider>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
