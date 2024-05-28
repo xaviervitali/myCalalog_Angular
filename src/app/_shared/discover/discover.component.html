@@ -10,10 +10,10 @@
       <div *ngIf="userWatchProviders; else goPref">
         <div infinite-scroll (scrolled)="onScrollDown()">
           <!-- Post preview-->
-          <div *ngFor="let item of items?.results">
+          <div *ngFor="let item of items?.results" class="item">
             <hr class="my-4" />
             <a [routerLink]="[route, item.id]">
-              <div class="d-md-flex movie justify-content-center d-none">
+              <div class="d-md-flex movie  d-none">
                 <div class="me-2">
                   <img
                     class="d-none d-md-block"
@@ -22,7 +22,7 @@
                     onerror="this.style.display='none'"
                   />
                 </div>
-                <div class="post-preview d-md-block">
+                <div class="post-preview d-md-flex flex-column justify-content-between">
                   <h2 class="post-title">
                     {{ item.title ?? item.name }}
                   </h2>

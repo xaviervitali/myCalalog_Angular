@@ -1,15 +1,18 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnChanges, SimpleChanges } from '@angular/core';
 import { environment } from '../environment/environment';
 import { BehaviorSubject } from 'rxjs';
 import { ApiOptions } from '../_models/apiOptions';
 import { User } from '../_models/user';
+import { HttpClient } from '@angular/common/http';
+import { AuthService } from './auth.service';
 
 export const API_KEY = environment.apiKey;
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class UserService {
+  
   optionsSubject = new BehaviorSubject<ApiOptions>({
     language: 'fr-FR',
     api_key: API_KEY,
@@ -30,6 +33,7 @@ export class UserService {
       ...this.optionsSubject.value,
       [keyName]: value,
     });
+
   }
 
   // Méthode pour récupérer une option
@@ -63,5 +67,9 @@ export class UserService {
 
   update(user: User) {
     return this.http.put<User>(environment.apiUrl + '/users/' + user.id, user);
+  }
+
+  clearCache(){
+
   }
 }

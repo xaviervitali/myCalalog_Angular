@@ -12,6 +12,7 @@ import { SearchResultsComponent } from './seach-results/search-results.component
 import { TvShowsComponent } from './tv-shows/tv-shows.component';
 import { TvShowComponent } from './tv-show/tv-show.component';
 import { TvShowService } from '../_services/tv-show.service';
+import { LoginComponent } from './login/login.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'movies', pathMatch: 'full' },
@@ -50,4 +51,9 @@ export const routes: Routes = [
     component: TvShowComponent,
     providers: [TvShowService],
   },
+
+  {
+    path: 'login',
+    component: LoginComponent
+  }
 ];

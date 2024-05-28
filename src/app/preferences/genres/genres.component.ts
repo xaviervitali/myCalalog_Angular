@@ -1,11 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { GenreResults } from '../../../_models/genre';
 import { UserService } from '../../../_services/user.service';
-import { PreferencesService } from '../../../_services/preferences.service';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CommonModule } from '@angular/common';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MOVIE_GENRES } from '../../../_const/movieGenres';
 @Component({
   selector: 'app-genres',
   standalone: true,
@@ -15,6 +13,7 @@ import { MOVIE_GENRES } from '../../../_const/movieGenres';
 })
 export class GenresComponent implements OnInit {
   @Input() genres: GenreResults[] = [];
+  @Input() userServiceOption: string = 'without_genres';
   @Output() withoutGenres = new EventEmitter<GenreResults[]>();
 
   public without_genres: string[] = [];
@@ -24,8 +23,8 @@ export class GenresComponent implements OnInit {
   ngOnInit(): void {
     this.genres.sort((a, b) => a.name.localeCompare(b.name));
 
-    let userWithoutGenres = this.userService.getOption('without_genres', '|');
-    if (!!userWithoutGenres?.length) {
+    let userWithoutGenres = this.userService.getOption(this.userServiceOption, '|') as string[];
+    if (!!userWithoutGenres.length) {
       this.without_genres = (userWithoutGenres as string[]).map(
         (genre: string) => genre
       );
@@ -34,7 +33,7 @@ export class GenresComponent implements OnInit {
   }
   handleCheckboxChange(event: any, genreId: number) {
     let userWithoutGenres =
-      (this.userService.getOption('without_genres', '|') as string[]) ?? [];
+      (this.userService.getOption(this.userServiceOption, '|') as string[]) ?? [];
     if (event.checked) {
       const index = userWithoutGenres.findIndex(
         (userWithoutGenre) => userWithoutGenre === String(genreId)
@@ -45,7 +44,7 @@ export class GenresComponent implements OnInit {
     }
     this.without_genres = userWithoutGenres;
     this.userService.setOption(
-      'without_genres',
+      this.userServiceOption,
       [...new Set(userWithoutGenres)].join('|')
     );
 

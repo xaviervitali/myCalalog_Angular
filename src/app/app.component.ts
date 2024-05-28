@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 
@@ -14,6 +16,9 @@ import { Router, RouterLink, RouterOutlet } from '@angular/router';
     RouterLink,
     MatButtonModule,
     FormsModule,
+    MatIconModule,
+    MatButtonModule,
+    MatFormFieldModule
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],

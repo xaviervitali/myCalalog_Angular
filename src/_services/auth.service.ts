@@ -33,6 +33,7 @@ export class AuthService {
     localStorage.removeItem('token');
     this.authChanged.next(false);
   }
+  
   authenticate(credentials: Credential) {
     return this.http.post(environment.apiUrl + '/login', credentials).pipe(
       tap((data: TokenResponse) => {

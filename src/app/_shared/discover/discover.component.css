@@ -1,16 +1,17 @@
 @import "../../app.component.css";
 
 img {
+  height: 100%;
   width: 200px;
+  object-fit: contain;
 }
 
 .d-flex {
   gap: 10px;
   align-items: center;
 }
-.post-preview {
-  min-height: 300px;
-  flex-grow: 1;
+.movie {
+  height: 100%;
 }
 
 .progress-container {
@@ -84,4 +85,9 @@ body {
 
 .backdrop_path {
   height: 100% !important;
+}
+
+.item {
+  height: 350px;
+  padding: 10px;
 }
