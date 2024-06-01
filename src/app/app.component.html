@@ -39,7 +39,7 @@
         Menu
         <i class="fas fa-bars ms-1"></i>
       </button>
-      <div class="collapse navbar-collapse gap-2" id="navbarResponsive">
+      <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
           <li class="nav-item">
             <a class="nav-link" routerLink="movies">Films</a>
@@ -56,21 +56,21 @@
         </ul>
         <form
           role="search"
-          class="ms-auto d-flex align-items-center me-5"
+          class=" d-flex align-items-center me-5"
+          (submit)="onSubmit()"
         >
-          <mat-form-field appearance="outline">
+          <mat-form-field>
             <input
-              class="form-control"
+              matInput
               type="search"
-              placeholder="Recherche muli-critères"
-              aria-label="Search"
               [(ngModel)]="query"
               [ngModelOptions]="{ standalone: true }"
             />
-          </mat-form-field>
-          <button mat-raised-button type="submit" (click)="onSubmit()">
-            Rechercher
-          </button>
+            <mat-label>Recherche muli-critères</mat-label>
+            
+            <mat-icon matSuffix color="primary">search</mat-icon>
+        </mat-form-field>
+
         </form>
         <a class="nav-link" routerLink="login">
           <mat-icon class="d-block"> person </mat-icon></a>

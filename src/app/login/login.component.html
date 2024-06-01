@@ -1,9 +1,9 @@
-<h2 class="position-relative text-center top-50">
+<h2 class="text-center m-5">
   S'enregistrer / Se connecter
 </h2>
 
 <div
-  class="d-flex justify-content-center flex-column align-items-center justify-content-center position-relative top-50 w-auto"
+  class="d-flex justify-content-center flex-column align-items-center  justify-content-center w-auto"
 >
   <div class="login">
     <asl-google-signin-button
@@ -11,19 +11,22 @@
       size="medium"
     ></asl-google-signin-button>
     <hr />
-    <div>
-      <div>
-        <mat-form-field appearance="outline">
+    <form [formGroup]="formGroup" (submit)="login()">
+      <div >
+        <mat-form-field appearance="outline" >
           <mat-label>Adresse email</mat-label>
-          <input type="email" matInput />
+          <input type="email" formControlName="username" matInput />
         </mat-form-field>
       </div>
       <div>
         <mat-form-field appearance="outline">
           <mat-label>Mot de passe</mat-label>
-          <input type="password" matInput />
+          <input type="password" formControlName="password" matInput />
         </mat-form-field>
       </div>
-    </div>
+      <div class="text-end">
+        <button mat-raised-button  color="primary" >Valider</button>
+      </div>
+    </form>
   </div>
 </div>

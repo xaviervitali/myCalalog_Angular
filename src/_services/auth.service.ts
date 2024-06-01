@@ -5,6 +5,7 @@ import { User } from '../_models/user';
 import { jwtDecode } from 'jwt-decode';
 import { environment } from '../environment/environment';
 import { TokenResponse } from '../_models/tokenRsponse';
+import { Credential } from '../_models/credential';
 
 @Injectable({
   providedIn: 'root',
@@ -35,7 +36,7 @@ export class AuthService {
   }
   
   authenticate(credentials: Credential) {
-    return this.http.post(environment.apiUrl + '/login', credentials).pipe(
+    return this.http.post(environment.backUrl + '/login_check', credentials).pipe(
       tap((data: TokenResponse) => {
         this.authChanged.next(true);
 

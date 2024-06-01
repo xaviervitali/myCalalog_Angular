@@ -1,6 +1,6 @@
 .login {
-  
-border: 1px solid black;
-margin: auto;
-padding: 10px;
+border: 2px solid grey;
+margin: 1vh auto;
+padding: 20px;
+background-color: #eee;
 }
