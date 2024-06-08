@@ -1,56 +1,52 @@
-<header
-  class="masthead"
+<body
+  *ngIf="tvShow"
   [ngStyle]="{
     'background-image':
-      'url(' + environment.apiPosterPath + tvShow.backdrop_path + ')'
+      'url(' + background + ')'
+      
   }"
-  *ngIf="tvShow"
+  class="body"
 >
-  <div class="container position-relative px-4 px-lg-5">
-    <div class="row gx-4 gx-lg-5 justify-content-center">
-      <div class="col-md-10 col-lg-8 col-xl-7">
-        <div class="post-heading">
-          <h1 class="d-flex align-items-center">
-            {{ tvShow.name }}
-          </h1>
-          <div class="meta">
-            {{ tvShow.first_air_date | date : "YYYY" }}
-          </div>
-          <h2 class="meta">{{ tvShow.number_of_seasons }} Saisons</h2>
-          <div class="meta">
-            {{ tvShow.genres | map : "name" }}
-          </div>
+  <header class="masthead" *ngIf="tvShow">
+    <div class="container position-relative px-4 px-lg-5">
+      <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+          <div class="post-heading">
+            <h1 class="d-flex align-items-center justify-content-center">
+              {{ tvShow.name }}
+            </h1>
+            <div class="meta">
+              {{ tvShow.first_air_date | date : "YYYY" }}
+            </div>
+            <h2 class="meta">{{ tvShow.number_of_seasons }} Saisons</h2>
+            <div class="meta">
+              {{ tvShow.genres | map : "name" }}
+            </div>
 
-          <div class="meta">
-            {{ tvShow.runtime }}
+            <div class="meta">
+              {{ tvShow.runtime }}
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</header>
-<article class="mb-4">
-  <div class="container px-4 px-lg-5">
-    <div class="row gx-4 gx-lg-5 justify-content-center">
-      <div>
-        <app-note [media]="tvShow"></app-note>
-        <app-overview [overview]="tvShow.overview"></app-overview>
-        <app-movie-watch-providers
-          [watchProviders]="watchProviders"
-        ></app-movie-watch-providers>
-        <app-cast [cast]="cast"></app-cast>
-        <app-card title="Crée par" [media]="producer"></app-card>
+  </header>
+  <article class="mb-4">
+    <div class="container-fluid px-4 px-lg-5">
+      <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div>
+          <app-note [media]="tvShow"></app-note>
+          <app-overview [overview]="tvShow.overview"></app-overview>
+          <app-movie-watch-providers
+            [watchProviders]="watchProviders"
+          ></app-movie-watch-providers>
+          <app-cast [cast]="cast"></app-cast>
+          <app-card title="Crée par" [media]="producer"></app-card>
+        </div>
       </div>
     </div>
-  </div>
-  <div>
-    <mat-accordion multi class="example-headers-align">
-      <mat-expansion-panel *ngFor="let season of seasons">
-        <mat-expansion-panel-header>
-          <mat-panel-title> Services de streaming </mat-panel-title>
-          <mat-panel-description></mat-panel-description>
-        </mat-expansion-panel-header>
-      </mat-expansion-panel>
-    </mat-accordion>
-  </div>
-</article>
+    <!-- <div>
+      <app-card [media]="seasons" path="" title="Saisons" class="flex-wrap"></app-card>
+    </div> -->
+  </article>
+</body>

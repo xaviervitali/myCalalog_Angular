@@ -1,9 +1,15 @@
-<body>
+<body *ngIf="!!items; else loading" class="d-done">
   <div class="px-4 px-lg-5">
     <div class="d-flex justify-content-end">
-      {{ items?.total_results }} resultats
-      <button mat-button color="primary" class="d-block" (click)="openDialog()">
-        Filtres
+      {{ items?.total_results | number : "1.0-2" : "fr" }} resultats
+      <button
+        mat-button
+        color="primary"
+        class="d-block"
+        (click)="openDialog()"
+        [disabled]="!isAuthenticated"
+      >
+        Filtres rapide
       </button>
     </div>
     <div class="justify-content-center">
@@ -13,7 +19,7 @@
           <div *ngFor="let item of items?.results" class="item">
             <hr class="my-4" />
             <a [routerLink]="[route, item.id]">
-              <div class="d-md-flex movie  d-none">
+              <div class="d-md-flex movie d-none">
                 <div class="me-2">
                   <img
                     class="d-none d-md-block"
@@ -22,7 +28,9 @@
                     onerror="this.style.display='none'"
                   />
                 </div>
-                <div class="post-preview d-md-flex flex-column justify-content-between">
+                <div
+                  class="post-preview d-md-flex flex-column justify-content-between"
+                >
                   <h2 class="post-title">
                     {{ item.title ?? item.name }}
                   </h2>
@@ -70,5 +78,18 @@
         <a routerLink="/preferences">lien</a> pour en selectionner</ng-template
       >
     </div>
+    <div *ngIf="!isAuthenticated" class="p-3 mt-5 text-center">
+      <mat-card>
+        <mat-card-content>
+          <h4>
+            Seul les 20 premiers résultats apparaissent. Inscrivez-vous pour
+            avoir le catalogue complet.
+          </h4></mat-card-content
+        >
+      </mat-card>
+    </div>
   </div>
 </body>
+<ng-template #loading>
+  <mat-spinner  class="m-auto"></mat-spinner>
+</ng-template>

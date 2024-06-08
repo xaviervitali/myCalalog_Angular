@@ -1,0 +1,12 @@
+  body {
+      background-size: cover;
+      background-attachment: fixed;
+      overflow: auto;
+      background-blend-mode: color;
+      background-color: #fff5;
+      font-size: 1.2rem;
+  }
+
+  .container * {
+    text-shadow: 0 0 10px black;
+  }

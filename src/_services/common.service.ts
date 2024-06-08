@@ -7,12 +7,14 @@ import { UserService } from './user.service';
 import { ApiOptions } from '../_models/apiOptions';
 
 export const API_URL = environment.apiUrl;
+export const BACK_URL = environment.backUrl;
 
 @Injectable({
   providedIn: 'root',
 })
 export class CommonService {
   protected API_URL = API_URL;
+  protected BACK_URL = BACK_URL;
 
   options$ = this.userService.optionsSubject.asObservable();
 

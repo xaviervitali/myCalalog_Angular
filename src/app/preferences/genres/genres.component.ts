@@ -21,19 +21,30 @@ export class GenresComponent implements OnInit {
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
+    if (!!this.genres) {
+      this.sortGenres();
+    }
+  }
+
+  sortGenres() {
     this.genres.sort((a, b) => a.name.localeCompare(b.name));
 
-    let userWithoutGenres = this.userService.getOption(this.userServiceOption, '|') as string[];
-    if (!!userWithoutGenres.length) {
+    let userWithoutGenres = this.userService.getOption(
+      this.userServiceOption,
+      '|'
+    ) as string[];
+    if (!!userWithoutGenres && !!userWithoutGenres.length) {
       this.without_genres = (userWithoutGenres as string[]).map(
         (genre: string) => genre
       );
     }
     this.withoutGenresEmitter();
   }
+
   handleCheckboxChange(event: any, genreId: number) {
     let userWithoutGenres =
-      (this.userService.getOption(this.userServiceOption, '|') as string[]) ?? [];
+      (this.userService.getOption(this.userServiceOption, '|') as string[]) ??
+      [];
     if (event.checked) {
       const index = userWithoutGenres.findIndex(
         (userWithoutGenre) => userWithoutGenre === String(genreId)

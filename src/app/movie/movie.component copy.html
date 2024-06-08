@@ -1,9 +1,11 @@
-<div *ngIf="movie"     [ngStyle]="{
-  'background-image':
-    'url(' + environment.apiPosterPath + movie.backdrop_path + ')'
-}" class="body">
+<div *ngIf="movie">
   <header
-    class="masthead body"
+    class="masthead"
+    [ngStyle]="{
+      'background-image':
+        'url(' + environment.apiPosterPath + movie.backdrop_path + ')'
+    }"
+    *ngIf="movie"
   >
     <div class="container position-relative px-4 px-lg-5">
       <div class="row gx-4 gx-lg-5 justify-content-center">

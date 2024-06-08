@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CommonService } from './common.service';
-import { Observable, concat, of } from 'rxjs';
+import { Observable, concat, of, pipe } from 'rxjs';
 import { map, mergeMap, toArray } from 'rxjs/operators';
 
 @Injectable({
@@ -16,7 +16,7 @@ export class TvShowService extends CommonService {
   }
 
   getSeasonsDetail(tvShowId: number, seasonCount: number): Observable<any> {
-    const chunkSize = 20;
+    const chunkSize = 2;
     const chunks = Array.from(
       { length: Math.ceil(seasonCount / chunkSize) },
       (_, i) => i * chunkSize
@@ -35,11 +35,7 @@ export class TvShowService extends CommonService {
 
         return this.http
           .get<any>(this.API_URL + '/tv/' + tvShowId, { params: options })
-          .pipe(map((response) => Object.values(response).slice(start, end)));
       })
-    ).pipe(
-      toArray(),
-      mergeMap((arrays) => of(arrays.flat()))
-    );
+    )
   }
 }

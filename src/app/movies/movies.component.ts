@@ -8,6 +8,7 @@ import { UserService } from '../../_services/user.service';
 import { DiscoverComponent } from '../_shared/discover/discover.component';
 import { ProductionCountriesComponent } from '../preferences/production-countries/production-countries.component';
 import { TruncateByWordsCountPipe } from '../../_pipe/truncateByWordsCount.pipe';
+import { MOVIE_GENRES } from '../../_const/movieGenres';
 
 @Component({
   selector: 'app-movies',
@@ -27,6 +28,7 @@ export class MoviesComponent implements OnInit {
   private page = 1;
   private maxPage = 1;
   public userWatchProviders = false;
+  public genres = MOVIE_GENRES;
   constructor(
     private discoverService: DiscoverService,
     private userService: UserService
