@@ -12,27 +12,26 @@ import { CommonModule } from '@angular/common';
   styleUrl: './certification.component.css',
 })
 export class CertificationComponent implements OnInit {
-  @Input() setUserSetting = true;
+  @Input() userCertificationLte = 'null';
   @Input() disclaimer = true;
-  @Output() valueChange = new EventEmitter<string>();
+  @Output()  certificationChange = new EventEmitter<string>();
 
-  public userCertificationLte: string = '';
 
-  constructor(private userService: UserService) {}
   ngOnInit(): void {
-    this.userCertificationLte = String(
-      this.userService.getOption('certification.lte')
-    );
+    // this.userCertificationLte = String(
+    //   this.userService.getOption('certification.lte')
+    // );
   }
 
   handleAgeLimitChange(event: MatRadioChange) {
-    if (this.setUserSetting) {
-      const value = event.value;
-      if (!!event.value) {
-        this.userService.setOption('certification.lte', value);
-      } else {
-        this.userService.removeOption('certification.lte');
-      }
-    }
+    this.certificationChange.emit(event.value)
+    // if (this.setUserSetting) {
+    //   const value = event.value;
+    //   if (!!event.value) {
+    //     this.userService.setOption('certification.lte', value);
+    //   } else {
+    //     this.userService.removeOption('certification.lte');
+    //   }
+    // }
   }
 }

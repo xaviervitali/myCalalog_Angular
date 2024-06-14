@@ -156,7 +156,6 @@ export class PreferencesComponent implements OnInit {
 
   handleSortByChange(value: string) {
     this.userPreferences.sort_by = String(value);
-    
   }
   // handleAdultContentCheckbox(event: any) {
   //   const isChecked = event.checked;
@@ -204,6 +203,10 @@ export class PreferencesComponent implements OnInit {
   setWatchProviders(watchProviders: WatchProvider[]) {
     this.watchProviders = watchProviders;
     this.userPreferences.with_watch_providers = watchProviders.map(watchProvider=>watchProvider.provider_id).join('|')
+  }
+
+  setCertificationLte(certificationLte:string){
+    this.userPreferences.certification_lte = certificationLte
   }
 
   // setCountries(countries: string[]) {
@@ -346,6 +349,8 @@ export class PreferencesComponent implements OnInit {
   // formatYearToDate(year: number) {
   //   return moment(year, 'YYYY').format('YYYY-MM-DD');
   // }
+
+
 
   handleSubmit(){
 

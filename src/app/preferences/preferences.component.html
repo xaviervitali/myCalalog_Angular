@@ -12,10 +12,10 @@
         <div class="category">
           <div class="d-flex gap-1 align-items-center"></div>
           <div class="px-3">
-            <app-sort
+            <!-- <app-sort
               [sortBy]="userPreferences.sort_by ? userPreferences.sort_by : ''"
               (sortByChange)="handleSortByChange($event)"
-            ></app-sort>
+            ></app-sort> -->
           </div>
         </div>
       </article>
@@ -23,7 +23,7 @@
       <form [formGroup]="formGroup">
         <div>
           <article class="mb-4">
-            <div class="category">
+            <!-- <div class="category">
               <div class="d-flex gap-1 align-items-center">
                 <h3 class="mb-2">Services de streaming</h3>
                 <div *ngIf="!!watchProviders.length">
@@ -42,9 +42,9 @@
                   (watchProvidersChange)="setWatchProviders($event)"
                 ></app-watch-providers>
               </div>
-            </div>
+            </div> -->
 
-            <!-- <div class="category">
+         <div class="category">
               <div class="d-flex gap-1 align-items-center">
                 <h3 class="mb-2">Limite d'age</h3>
               </div>
@@ -56,11 +56,13 @@
                       les classifications par âge des contenus peuvent varier.
                     </i>
                   </blockquote>
-                  <app-certification></app-certification>
+                  <app-certification
+                   [userCertificationLte]="userPreferences.certification_lte ? userPreferences.certification_lte : 'null'"
+                    (certificationChange)="setCertificationLte($event)"></app-certification>
                 </div>
               </div>
             </div>
-            <div class="category">
+               <!-- <div class="category">
               <div class="d-flex gap-1 align-items-center">
                 <div>
                   <h3>Afficher les contenus</h3>
