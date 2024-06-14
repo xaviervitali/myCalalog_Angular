@@ -1,3 +1,5 @@
+<div *ngIf="!!availableProviders.length">
+
 <mat-form-field class="w-100">
   <input
     type="text"
@@ -11,12 +13,10 @@
     #auto="matAutocomplete"
     (optionSelected)="addProvider($event.option.value)"
   >
-    <mat-option
-      *ngFor="let provider of filteredProviders | async"
-      [value]="provider"
-    >
-      {{ provider.provider_name }}
-    </mat-option>
+
+  @for (option of filteredOptions | async; track option) {
+    <mat-option [value]="option">{{option.provider_name}}</mat-option>
+  }
   </mat-autocomplete>
 </mat-form-field>
 <div class="d-flex gap-5 flex-wrap">
@@ -24,8 +24,9 @@
     *ngFor="let selectedProvider of selectedProviders"
     class="my-1 w-auto"
     (click)="removeSelectedProvider(selectedProvider)"
-  >
-    <img [src]="apiPosterPath + selectedProvider.logo_path" alt="" />
-    <!-- {{ selectedProvider.provider_name }} -->
+  > 
+    <img [src]="apiPosterPath + selectedProvider.logo_path" alt="" /> 
+     {{ selectedProvider.provider_name }}
   </div>
+</div>
 </div>

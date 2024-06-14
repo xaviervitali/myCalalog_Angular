@@ -4,6 +4,7 @@ import { UserService } from '../../../_services/user.service';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CommonModule } from '@angular/common';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { ApiOptions } from '../../../_models/apiOptions';
 @Component({
   selector: 'app-genres',
   standalone: true,
@@ -30,7 +31,7 @@ export class GenresComponent implements OnInit {
     this.genres.sort((a, b) => a.name.localeCompare(b.name));
 
     let userWithoutGenres = this.userService.getOption(
-      this.userServiceOption,
+      this.userServiceOption as keyof ApiOptions,
       '|'
     ) as string[];
     if (!!userWithoutGenres && !!userWithoutGenres.length) {
@@ -43,7 +44,7 @@ export class GenresComponent implements OnInit {
 
   handleCheckboxChange(event: any, genreId: number) {
     let userWithoutGenres =
-      (this.userService.getOption(this.userServiceOption, '|') as string[]) ??
+      (this.userService.getOption(this.userServiceOption as keyof ApiOptions, '|') as string[]) ??
       [];
     if (event.checked) {
       const index = userWithoutGenres.findIndex(
@@ -55,7 +56,7 @@ export class GenresComponent implements OnInit {
     }
     this.without_genres = userWithoutGenres;
     this.userService.setOption(
-      this.userServiceOption,
+      this.userServiceOption as keyof ApiOptions,
       [...new Set(userWithoutGenres)].join('|')
     );
 

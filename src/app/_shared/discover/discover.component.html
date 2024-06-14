@@ -1,4 +1,4 @@
-<body *ngIf="!!items; else loading" class="d-done">
+<body *ngIf="!isLoading else loading" class="d-done">
   <div class="px-4 px-lg-5">
     <div class="d-flex justify-content-end">
       {{ items?.total_results | number : "1.0-2" : "fr" }} resultats

@@ -64,6 +64,7 @@ export class DiscoverComponent {
   @Input() backgroundImage: string = '';
   @Input() userWatchProviders: any = [];
   @Input() genres :any;
+  @Input() isLoading :boolean = true;
 
   constructor(public dialog: MatDialog, private auth: AuthService) {
   }

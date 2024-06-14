@@ -28,8 +28,9 @@ export class CommonService {
         : (Object.keys(options) as Array<keyof ApiOptions>);
 
       optionsArray.forEach((option) => {
-        const value = options[String(option)];
-        if (value) {
+
+        const value =  options[option as keyof ApiOptions] ;
+        if (!!value) {
           httpParams = httpParams.set(String(option), String(value));
         }
       });

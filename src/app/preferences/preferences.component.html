@@ -4,7 +4,7 @@
   }"
 ></app-header>
 
-<div class="px-4 px-lg-5">
+<div class="px-4 px-lg-5" class="'body">
   <div class="row gx-4 gx-lg-5 justify-content-center">
     <h2 class="mb-2">Préférences de tri</h2>
     <div>
@@ -12,7 +12,10 @@
         <div class="category">
           <div class="d-flex gap-1 align-items-center"></div>
           <div class="px-3">
-            <app-sort></app-sort>
+            <app-sort
+              [sortBy]="userPreferences.sort_by ? userPreferences.sort_by : ''"
+              (sortByChange)="handleSortByChange($event)"
+            ></app-sort>
           </div>
         </div>
       </article>
@@ -35,12 +38,13 @@
                   </i>
                 </blockquote>
                 <app-watch-providers
-                  (watchProviders)="setWatchProviders($event)"
+                [userWatchProviders]="userPreferences.with_watch_providers ? userPreferences.with_watch_providers : ''"
+                  (watchProvidersChange)="setWatchProviders($event)"
                 ></app-watch-providers>
               </div>
             </div>
 
-            <div class="category">
+            <!-- <div class="category">
               <div class="d-flex gap-1 align-items-center">
                 <h3 class="mb-2">Limite d'age</h3>
               </div>
@@ -193,8 +197,12 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
           </article>
+        </div>
+        <div class="d-flex justify-content-end gap-3">
+          <button mat-raised-button>Annuler</button>
+          <button mat-raised-button color="primary">Valider</button>
         </div>
       </form>
     </div>

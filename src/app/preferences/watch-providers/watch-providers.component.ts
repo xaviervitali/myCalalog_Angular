@@ -1,7 +1,15 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { UserService } from '../../../_services/user.service';
 import { PreferencesService } from '../../../_services/preferences.service';
-import { WatchProviderResult } from '../../../_models/watch_providers';
+import { WatchProvider as WatchProvider } from '../../../_models/watch_providers';
 import {
   FormArray,
   FormBuilder,
@@ -16,7 +24,14 @@ import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { Observable, map, startWith } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  combineLatest,
+  filter,
+  map,
+  startWith,
+} from 'rxjs';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
@@ -39,89 +54,69 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './watch-providers.component.css',
 })
 export class WatchProvidersComponent implements OnInit {
-  @Output() watchProviders = new EventEmitter<WatchProviderResult[]>();
+  public selectedProviders: WatchProvider[] = [];
+  @Output() watchProvidersChange = new EventEmitter<WatchProvider[]>();
+  @Input() userWatchProviders!: string;
+
+  filteredOptions!: Observable<WatchProvider[]>;
+
   public apiPosterPath = environment.apiPosterPath;
-  _selectedProviders: any[] = [];
 
   get watchProvidersCount(): number {
-    return this.userSelectedWP.length;
+    return this.selectedProviders.length;
+    // return this.userSelectedWP.length;
   }
 
   public watchProviderFilter: string = '';
-  public watchProvidersApiResponse: any = null;
 
-  private userSelectedWP: string[] = [];
   providerCtrl = new FormControl();
-  filteredProviders!: Observable<any[]>;
+  availableProviders_: WatchProvider[] = [];
 
-  get selectedProviders() {
-    return this._selectedProviders.sort((providerA, providerB) =>
-      providerA.provider_name.localeCompare(providerB.provider_name)
+  get availableProviders() {
+    const filteredProviders = this.availableProviders_.filter(
+      (provider) => !this.selectedProviders.includes(provider)
     );
+    return filteredProviders;
   }
-
   constructor(
-    private userService: UserService,
     private preferencesService: PreferencesService,
     public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
+    this.filteredOptions = this.providerCtrl.valueChanges.pipe(
+      startWith(''),
+      map((value) => {
+        const name = typeof value === 'string' ? value : value?.name;
+        return name
+          ? this._filter(name as string)
+          : this.availableProviders.slice();
+      })
+    );
+
     this.preferencesService
       .getWatchProviders()
       .subscribe((watchProvidersApiResponse) => {
-        this.watchProvidersApiResponse = watchProvidersApiResponse.results.sort(
-          (
-            watchProviderA: { display_priorities: { FR: number } },
-            watchProviderB: { display_priorities: { FR: number } }
-          ) =>
-            watchProviderA.display_priorities.FR -
-            watchProviderB.display_priorities.FR
-        );
-        this.filteredProviders = this.providerCtrl.valueChanges.pipe(
-          startWith(''),
-          map((value) =>
-            typeof value === 'string' ? value : value.provider_name
-          ),
-          map((name) =>
-            name
-              ? this._filterProviders(name)
-              : this.watchProvidersApiResponse.slice()
-          )
-        );
-        this.getUserWatchProvidersIds();
-        this.userSelectedWP.forEach((providerId) => {
-          const provider = this.watchProvidersApiResponse.find(
-            (provider: WatchProviderResult) =>
-              provider.provider_id === +providerId
-          );
-          this.selectedProviders.push(provider);
-          this.filteredProviders = this.filteredProviders.pipe(
-            map((providers) => providers.filter((p) => p !== provider))
-          );
-        });
-        this.watchProviders.emit(this.selectedProviders);
+        this.availableProviders_ = watchProvidersApiResponse;
+        this.availableProviders; // relance la liste
       });
   }
-  private _filterProviders(value: string): any[] {
+
+  private _filter(value: string): WatchProvider[] {
     const filterValue = value.toLowerCase();
 
-    return this.watchProvidersApiResponse.filter(
-      (provider: any) =>
-        provider.provider_name.toLowerCase().indexOf(filterValue) === 0
+    return this.availableProviders.filter((option: WatchProvider) =>
+      option.provider_name.toLowerCase().includes(filterValue)
     );
   }
-
+  
   addProvider(provider: any): void {
     this.selectedProviders.push(provider);
-    this.filteredProviders = this.filteredProviders.pipe(
-      map((providers) => providers.filter((p) => p !== provider))
-    );
     this.providerCtrl.setValue('');
-    this.setWatchProviders();
+    this.watchProvidersChange.emit(this.selectedProviders);
   }
 
-  removeSelectedProvider(selectedProvider: WatchProviderResult) {
+  removeSelectedProvider(selectedProvider: WatchProvider) {
     const dialogRef = this.dialog.open(WatchProviderDialogComponent, {
       maxWidth: 800,
       disableClose: true,
@@ -134,37 +129,9 @@ export class WatchProvidersComponent implements OnInit {
 
         if (index !== -1) {
           this.selectedProviders.splice(index, 1);
-          this.filteredProviders = this.filteredProviders.pipe(
-            map((providers) =>
-              [...providers, selectedProvider].sort(
-                (a, b) => a.display_priorities.FR - b.display_priorities.FR
-              )
-            )
-          );
-          this.setWatchProviders();
         }
       }
+      this.watchProvidersChange.emit(this.selectedProviders);
     });
-  }
-
-  public setWatchProviders() {
-    const selectedWatchProvidersIds = this.selectedProviders.map(
-      (wp: any) => wp.provider_id
-    );
-
-    this.userService.setOption(
-      'with_watch_providers',
-      selectedWatchProvidersIds.join('|')
-    );
-
-    this.getUserWatchProvidersIds();
-    this.watchProviders.emit(this.selectedProviders);
-  }
-
-  private getUserWatchProvidersIds() {
-    this.userSelectedWP = this.userService.getOption(
-      'with_watch_providers',
-      '|'
-    ) as string[];
   }
 }

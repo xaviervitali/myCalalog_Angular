@@ -16,6 +16,7 @@ export class TvShowsComponent {
   private page = 1;
   private maxPage = 1;
   public userWatchProviders = false;
+  public isLoading = true
   constructor(
     private discoverService: DiscoverService,
     private userService: UserService
@@ -32,6 +33,7 @@ export class TvShowsComponent {
 
   getDefaultList() {
     this.discoverService.getTVShowList(this.page).subscribe((discover) => {
+      this.isLoading = false
       this.tvs = discover;
       this.maxPage = discover.total_pages;
     });

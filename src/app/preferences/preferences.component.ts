@@ -24,7 +24,7 @@ import moment, { Moment } from 'moment';
 import { GenresComponent } from './genres/genres.component';
 import { MapPipe } from '../../_pipe/map.pipe';
 import { WatchProvidersComponent } from './watch-providers/watch-providers.component';
-import { WatchProviderResult } from '../../_models/watch_providers';
+import { WatchProvider } from '../../_models/watch_providers';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatRadioChange, MatRadioModule } from '@angular/material/radio';
 import { MinutesToHoursPipe } from '../../_pipe/minutes-to-hours.pipe';
@@ -37,6 +37,8 @@ import { CertificationComponent } from './certification/certification.component'
 import { SortComponent } from './sort/sort.component';
 import { MOVIE_GENRES } from '../../_const/movieGenres';
 import { TV_SHOW_GENRES } from '../../_const/tvShowGenres';
+import { PreferencesService } from '../../_services/preferences.service';
+import { ApiOptions } from '../../_models/apiOptions';
 
 export const MY_FORMATS = {
   parse: {
@@ -87,7 +89,7 @@ export class PreferencesComponent implements OnInit {
   public tvShowGenres = TV_SHOW_GENRES;
 
   public withoutGenres: GenreResults[] = [];
-  public watchProviders: WatchProviderResult[] = [];
+  public watchProviders: WatchProvider[] = [];
   public countries: string[] = [];
   public maxYear = moment().year();
   public formGroup = this.formBuilder.group({
@@ -106,7 +108,6 @@ export class PreferencesComponent implements OnInit {
 
   public apiPosterPath = environment.apiPosterPath;
   public voteCountGte = 0;
-  // public displayContent = ['flatrate', 'free', 'buy', 'rent', 'ads'];
   public displayContent = [
     { value: 'flatrate', label: "Inclus dans l'abonnment" },
     { value: 'free', label: 'Gratuit' },
@@ -118,213 +119,235 @@ export class PreferencesComponent implements OnInit {
   public userDisplayContent = this.displayContent;
   public orderBySelectValue = 'popularity';
   public userCertificationLte = '0';
+  public userPreferences: ApiOptions = {
+    sort_by: 'revenue.asc',
+  };
 
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
-    private minutesToHoursPipe: MinutesToHoursPipe
+    private preferencesService: PreferencesService
   ) {}
 
   ngOnInit(): void {
-    this.formGroup.controls.voteCountGte.valueChanges
-      .pipe(
-        debounceTime(300) // Délai de debounce en millisecondes
-      )
-      .subscribe((inputValue) => {
-        if (!!inputValue) {
-          this.userService.setOption('vote_count.gte', +inputValue);
-        } else {
-          this.userService.removeOption('vote_count.gte');
-        }
-      });
-    this.setUserSettings();
-  }
-
-  handleAdultContentCheckbox(event: any) {
-    const isChecked = event.checked;
-    const optionName = 'include_adult';
-    if (isChecked) {
-      this.userService.setOption(optionName, true);
-    } else {
-      this.userService.removeOption(optionName);
-    }
-  }
-
-  chosenMonthHandler(
-    normalizedMonth: Moment | null,
-    datepicker: MatDatepicker<Moment> | null,
-    formControlName: string
-  ) {
-    const form = this.formGroup.get(formControlName);
-    if (form) {
-      if (normalizedMonth) {
-        form.setValue(normalizedMonth);
-      } else {
-        form.setValue('');
+    this.preferencesService.getUserPreference().subscribe((userPreferences) => {
+      if (userPreferences) {
+        Object.keys(userPreferences).forEach((preference: string) => {
+          const value = userPreferences[preference as keyof ApiOptions];
+          if (!!value) {
+            this.userPreferences[preference as keyof ApiOptions] = value;
+          }
+        });
       }
-
-      if (datepicker != null) datepicker.close();
-    }
+    });
+    // this.formGroup.controls.voteCountGte.valueChanges
+    //   .pipe(
+    //     debounceTime(300) // Délai de debounce en millisecondes
+    //   )
+    //   .subscribe((inputValue) => {
+    //     if (!!inputValue) {
+    //      // this.userService.setOption('vote_count.gte', +inputValue);
+    //     } else {
+    //       this.userService.removeOption('vote_count.gte');
+    //     }
+    //   });
+    // this.setUserSettings();
   }
 
-  inputChosenMonthHandler(normalizedMonth: string, formControlName: string) {
-    if (normalizedMonth) {
-      this.chosenMonthHandler(
-        moment(normalizedMonth, ['MMM YYYY', 'MM YYYY']),
-        null,
-        formControlName
-      );
-    } else {
-      this.chosenMonthHandler(null, null, formControlName);
-    }
+  handleSortByChange(value: string) {
+    this.userPreferences.sort_by = String(value);
+    
   }
+  // handleAdultContentCheckbox(event: any) {
+  //   const isChecked = event.checked;
+  //   const optionName = 'include_adult';
+  //   if (isChecked) {
+  //     this.userService.setOption(optionName, true);
+  //   } else {
+  //     this.userService.removeOption(optionName);
+  //   }
+  // }
 
-  setWithoutGenres(genres: GenreResults[]) {
-    this.withoutGenres = genres;
-  }
+  // chosenMonthHandler(
+  //   normalizedMonth: Moment | null,
+  //   datepicker: MatDatepicker<Moment> | null,
+  //   formControlName: string
+  // ) {
+  //   const form = this.formGroup.get(formControlName);
+  //   if (form) {
+  //     if (normalizedMonth) {
+  //       form.setValue(normalizedMonth);
+  //     } else {
+  //       form.setValue('');
+  //     }
 
-  setWatchProviders(watchProviders: WatchProviderResult[]) {
+  //     if (datepicker != null) datepicker.close();
+  //   }
+  // }
+
+  // inputChosenMonthHandler(normalizedMonth: string, formControlName: string) {
+  //   if (normalizedMonth) {
+  //     this.chosenMonthHandler(
+  //       moment(normalizedMonth, ['MMM YYYY', 'MM YYYY']),
+  //       null,
+  //       formControlName
+  //     );
+  //   } else {
+  //     this.chosenMonthHandler(null, null, formControlName);
+  //   }
+  // }
+
+  // setWithoutGenres(genres: GenreResults[]) {
+  //   this.withoutGenres = genres;
+  // }
+
+  setWatchProviders(watchProviders: WatchProvider[]) {
     this.watchProviders = watchProviders;
+    this.userPreferences.with_watch_providers = watchProviders.map(watchProvider=>watchProvider.provider_id).join('|')
   }
 
-  setCountries(countries: string[]) {
-    this.countries = countries;
-  }
-  formatLabel(value: number): string {
-    return `${value}`;
-  }
+  // setCountries(countries: string[]) {
+  //   this.countries = countries;
+  // }
+  // formatLabel(value: number): string {
+  //   return `${value}`;
+  // }
 
-  handleReleaseDatesChanges() {
-    if (
-      this.formGroup.value.releaseDates?.start &&
-      this.formGroup.value.releaseDates?.end
-    ) {
-      this.userService.setOption(
-        'primary_release_date.gte',
-        this.formatYearToDate(this.formGroup.value.releaseDates.start)
-      );
-      this.userService.setOption(
-        'first_air_date.gte',
-        this.formatYearToDate(this.formGroup.value.releaseDates.start)
-      );
-      this.userService.setOption(
-        'primary_release_date.lte',
-        this.formatYearToDate(this.formGroup.value.releaseDates.end)
-      );
-      this.userService.setOption(
-        'first_air_date.lte',
-        this.formatYearToDate(this.formGroup.value.releaseDates.end)
-      );
-    }
-  }
-  handleRuntimeChanges() {
-    if (
-      (this.formGroup.value.runtime?.start ||
-        this.formGroup.value.runtime?.start == 0) &&
-      (this.formGroup.value.runtime?.end ||
-        this.formGroup.value.runtime?.end == 0)
-    ) {
-      this.userService.setOption(
-        'with_runtime.gte',
-        this.formGroup.value.runtime.start
-      );
-      this.userService.setOption(
-        'with_runtime.lte',
-        this.formGroup.value.runtime.end
-      );
-    }
-  }
-  runtimeLabel() {
-    if (
-      (!!this.formGroup.value.runtime?.start ||
-        this.formGroup.value.runtime?.start === 0) &&
-      !!this.formGroup.value.runtime?.end
-    ) {
-      return (
-        this.minutesToHoursPipe.transform(+this.formGroup.value.runtime.start) +
-        ' et ' +
-        this.minutesToHoursPipe.transform(+this.formGroup.value.runtime.end)
-      );
-    }
-    return '';
-  }
+  // handleReleaseDatesChanges() {
+  //   if (
+  //     this.formGroup.value.releaseDates?.start &&
+  //     this.formGroup.value.releaseDates?.end
+  //   ) {
+  //     this.userService.setOption(
+  //       'primary_release_date.gte',
+  //       this.formatYearToDate(this.formGroup.value.releaseDates.start)
+  //     );
+  //     this.userService.setOption(
+  //       'first_air_date.gte',
+  //       this.formatYearToDate(this.formGroup.value.releaseDates.start)
+  //     );
+  //     this.userService.setOption(
+  //       'primary_release_date.lte',
+  //       this.formatYearToDate(this.formGroup.value.releaseDates.end)
+  //     );
+  //     this.userService.setOption(
+  //       'first_air_date.lte',
+  //       this.formatYearToDate(this.formGroup.value.releaseDates.end)
+  //     );
+  //   }
+  // }
+  // handleRuntimeChanges() {
+  //   if (
+  //     (this.formGroup.value.runtime?.start ||
+  //       this.formGroup.value.runtime?.start == 0) &&
+  //     (this.formGroup.value.runtime?.end ||
+  //       this.formGroup.value.runtime?.end == 0)
+  //   ) {
+  //     this.userService.setOption(
+  //       'with_runtime.gte',
+  //       this.formGroup.value.runtime.start
+  //     );
+  //     this.userService.setOption(
+  //       'with_runtime.lte',
+  //       this.formGroup.value.runtime.end
+  //     );
+  //   }
+  // }
+  // runtimeLabel() {
+  //   if (
+  //     (!!this.formGroup.value.runtime?.start ||
+  //       this.formGroup.value.runtime?.start === 0) &&
+  //     !!this.formGroup.value.runtime?.end
+  //   ) {
+  //     return (
+  //       this.minutesToHoursPipe.transform(+this.formGroup.value.runtime.start) +
+  //       ' et ' +
+  //       this.minutesToHoursPipe.transform(+this.formGroup.value.runtime.end)
+  //     );
+  //   }
+  //   return '';
+  // }
 
-  handleWithWatchMonetizationTypesCheckboxChange(event: any) {
-    let userWithWatchMonetizationTypes = this.userService.getOption(
-      'with_watch_monetization_types',
-      '|'
-    ) as string[];
-    if (event.checked) {
-      userWithWatchMonetizationTypes.push(event.source.value);
-    } else {
-      const index = userWithWatchMonetizationTypes.findIndex(
-        (monetizationType) => monetizationType === event.source.value
-      );
-      userWithWatchMonetizationTypes.splice(index, 1);
-    }
+  // handleWithWatchMonetizationTypesCheckboxChange(event: any) {
+  //   let userWithWatchMonetizationTypes = this.userService.getOption(
+  //     'with_watch_monetization_types',
+  //     '|'
+  //   ) as string[];
+  //   if (event.checked) {
+  //     userWithWatchMonetizationTypes.push(event.source.value);
+  //   } else {
+  //     const index = userWithWatchMonetizationTypes.findIndex(
+  //       (monetizationType) => monetizationType === event.source.value
+  //     );
+  //     userWithWatchMonetizationTypes.splice(index, 1);
+  //   }
 
-    this.userService.setOption(
-      'with_watch_monetization_types',
-      [...new Set(userWithWatchMonetizationTypes)].join('|')
-    );
-  }
+  //   this.userService.setOption(
+  //     'with_watch_monetization_types',
+  //     [...new Set(userWithWatchMonetizationTypes)].join('|')
+  //   );
+  // }
 
-  setUserSettings() {
-    // order_by
+  // setUserSettings() {
+  //   // order_by
 
-    // vote_count.gte
-    const voteCountGte = this.userService.getOption('vote_count.gte');
-    if (!!voteCountGte) {
-      this.voteCountGte = +voteCountGte;
-    }
-    // with_watch_monetization_types
-    const userDisplayContent = this.userService.getOption(
-      'with_watch_monetization_types',
-      '|'
-    ) as string[];
-    let userDisplay: any[] = [];
-    if (!!userDisplayContent && !!userDisplayContent.length) {
-      userDisplayContent.forEach((content: any) => {
-        userDisplay.push(
-          this.displayContent.find(
-            (displayContent) => displayContent.value === content
-          )
-        );
-      });
-      this.userDisplayContent = userDisplay;
-    }
+  //   // vote_count.gte
+  //   const voteCountGte = this.userService.getOption('vote_count.gte');
+  //   if (!!voteCountGte) {
+  //     this.voteCountGte = +voteCountGte;
+  //   }
+  //   // with_watch_monetization_types
+  //   const userDisplayContent = this.userService.getOption(
+  //     'with_watch_monetization_types',
+  //     '|'
+  //   ) as string[];
+  //   let userDisplay: any[] = [];
+  //   if (!!userDisplayContent && !!userDisplayContent.length) {
+  //     userDisplayContent.forEach((content: any) => {
+  //       userDisplay.push(
+  //         this.displayContent.find(
+  //           (displayContent) => displayContent.value === content
+  //         )
+  //       );
+  //     });
+  //     this.userDisplayContent = userDisplay;
+  //   }
 
-    // certification.lte
-    const certificationLte = this.userService.getOption('certification.lte');
-    if (!!certificationLte) {
-      this.userCertificationLte = certificationLte as string;
-    }
+  //   // certification.lte
+  //   const certificationLte = this.userService.getOption('certification.lte');
+  //   if (!!certificationLte) {
+  //     this.userCertificationLte = certificationLte as string;
+  //   }
 
-    //with_runtime
-    const withRunTimeLte = this.userService.getOption('with_runtime.lte');
-    const withRunTimeGte = this.userService.getOption('with_runtime.gte');
-    if (
-      (!!withRunTimeLte || withRunTimeLte == 0) &&
-      (!!withRunTimeGte || withRunTimeGte == 0)
-    ) {
-      this.formGroup.controls.runtime.controls.start.setValue(+withRunTimeGte);
-      this.formGroup.controls.runtime.controls.end.setValue(+withRunTimeLte);
-    }
+  //   //with_runtime
+  //   const withRunTimeLte = this.userService.getOption('with_runtime.lte');
+  //   const withRunTimeGte = this.userService.getOption('with_runtime.gte');
+  //   if (
+  //     (!!withRunTimeLte || withRunTimeLte == 0) &&
+  //     (!!withRunTimeGte || withRunTimeGte == 0)
+  //   ) {
+  //     this.formGroup.controls.runtime.controls.start.setValue(+withRunTimeGte);
+  //     this.formGroup.controls.runtime.controls.end.setValue(+withRunTimeLte);
+  //   }
 
-    //with_release_date
-    const releaseDateLte = this.userService.getOption('release_date.lte');
-    const releaseDateGte = this.userService.getOption('release_date.gte');
-    if (!!releaseDateLte && releaseDateGte) {
-      this.formGroup.controls.releaseDates.controls.start.setValue(
-        moment(releaseDateGte).year()
-      );
-      this.formGroup.controls.releaseDates.controls.end.setValue(
-        moment(releaseDateLte).year()
-      );
-    }
-  }
+  //   //with_release_date
+  //   const releaseDateLte = this.userService.getOption('release_date.lte');
+  //   const releaseDateGte = this.userService.getOption('release_date.gte');
+  //   if (!!releaseDateLte && releaseDateGte) {
+  //     this.formGroup.controls.releaseDates.controls.start.setValue(
+  //       moment(releaseDateGte).year()
+  //     );
+  //     this.formGroup.controls.releaseDates.controls.end.setValue(
+  //       moment(releaseDateLte).year()
+  //     );
+  //   }
+  // }
 
-  formatYearToDate(year: number) {
-    return moment(year, 'YYYY').format('YYYY-MM-DD');
+  // formatYearToDate(year: number) {
+  //   return moment(year, 'YYYY').format('YYYY-MM-DD');
+  // }
+
+  handleSubmit(){
+
   }
 }

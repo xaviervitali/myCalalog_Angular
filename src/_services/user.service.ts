@@ -13,15 +13,10 @@ export const API_KEY = environment.apiKey;
 })
 export class UserService {
   
-  optionsSubject = new BehaviorSubject<ApiOptions>({
+  optionsSubject = new BehaviorSubject<Partial<ApiOptions>>({
     language: 'fr-FR',
     api_key: API_KEY,
-    watch_region: 'FR',
-    // append_to_response: 'release_dates',
-    sort_by: 'popularity.desc',
-    certification_country: 'FR',
-    with_watch_providers: '337|8|119',
-    with_watch_monetization_types: 'flatrate|free|ads|rent|buy',
+
   });
 
   // Méthode pour mettre à jour une option

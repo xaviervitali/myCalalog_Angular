@@ -5,7 +5,7 @@ import {
   MatDialogModule,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { WatchProviderResult } from '../../../../_models/watch_providers';
+import { WatchProvider } from '../../../../_models/watch_providers';
 
 @Component({
   selector: 'app-watch-provider-dialog',
@@ -17,6 +17,6 @@ import { WatchProviderResult } from '../../../../_models/watch_providers';
 export class WatchProviderDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<WatchProviderDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: WatchProviderResult
+    @Inject(MAT_DIALOG_DATA) public data: WatchProvider
   ) {}
 }

@@ -5,4 +5,5 @@ export interface User {
   firstName: string;
   id: number;
   options: [];
+  exp: number
 }

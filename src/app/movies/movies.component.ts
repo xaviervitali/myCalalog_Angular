@@ -29,6 +29,7 @@ export class MoviesComponent implements OnInit {
   private maxPage = 1;
   public userWatchProviders = false;
   public genres = MOVIE_GENRES;
+  public isLoading = true
   constructor(
     private discoverService: DiscoverService,
     private userService: UserService
@@ -45,6 +46,8 @@ export class MoviesComponent implements OnInit {
 
   getDefaultList() {
     this.discoverService.getMovieList(this.page).subscribe((discover) => {
+      this.isLoading = false
+
       this.movies = discover;
       this.maxPage = discover.total_pages;
     });
@@ -52,8 +55,10 @@ export class MoviesComponent implements OnInit {
 
   onScrollDown(page: any) {
     this.page = page;
+
     if (this.page <= this.maxPage) {
       this.discoverService.getMovieList(this.page).subscribe((discover) => {
+
         this.movies.results.push(...(discover.results as DiscoverMovie[]));
       });
     }

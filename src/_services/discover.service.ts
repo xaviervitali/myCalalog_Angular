@@ -14,8 +14,8 @@ export class DiscoverService extends CommonService {
 
   // @Cacheable()
   getMovieList(page: number): Observable<Discover> {
-    let params = super.getOptions();
-    params = params.set('page', page);
+    // let params = super.getOptions();
+    // params = params.set('page', page);
     return this.http.post<Discover>(this.BACK_URL + '/discover/movies', {
     });
   }

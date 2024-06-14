@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { AuthService } from '../_services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -29,8 +30,9 @@ export class AppComponent {
   title = 'myCatalog';
   query: string = '';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private authService: AuthService) {}
   onSubmit() {
     this.router.navigate(['search', this.query]);
+    this.authService.isAuthenticated()
   }
 }
