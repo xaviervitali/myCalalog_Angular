@@ -30,9 +30,8 @@ export class AppComponent {
   title = 'myCatalog';
   query: string = '';
 
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(private router: Router, public authService: AuthService) {}
   onSubmit() {
     this.router.navigate(['search', this.query]);
-    this.authService.isAuthenticated()
   }
 }

@@ -72,8 +72,14 @@
         </mat-form-field>
 
         </form>
-        <a class="nav-link" routerLink="login">
-          <mat-icon class="d-block"> person </mat-icon></a>
+        <div>
+        <a class="nav-link" routerLink="login" *ngIf="!authService.isAuthenticated; else isAuthenticated">
+          <mat-icon class="d-block">person</mat-icon>
+        </a>
+        <ng-template #isAuthenticated>
+          <mat-icon class="d-block">home</mat-icon>
+        </ng-template>
+      </div>
       </div>
     </div>
   </nav>

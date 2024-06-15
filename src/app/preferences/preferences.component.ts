@@ -109,7 +109,7 @@ export class PreferencesComponent implements OnInit {
   public apiPosterPath = environment.apiPosterPath;
   public voteCountGte = 0;
   public displayContent = [
-    { value: 'flatrate', label: "Inclus dans l'abonnment" },
+    { value: 'flatrate', label: "Inclus dans l'abonnement" },
     { value: 'free', label: 'Gratuit' },
     { value: 'buy', label: "A l'achat" },
     { value: 'rent', label: 'A la location' },

@@ -4,7 +4,7 @@
   }"
 ></app-header>
 
-<div class="px-4 px-lg-5" class="body">
+<div class="px-4 px-lg-5" class="body container">
   <div class="row gx-4 gx-lg-5 justify-content-center">
     <h2 class="mb-2">Préférences de tri</h2>
     <div>
@@ -23,7 +23,7 @@
       <form [formGroup]="formGroup">
         <div>
           <article class="mb-4">
-          <!-- <div class="category">
+            <!-- <div class="category">
               <div class="d-flex gap-1 align-items-center">
                 <h3 class="mb-2">Services de streaming</h3>
                 <div *ngIf="!!watchProviders.length">
@@ -43,8 +43,7 @@
                 ></app-watch-providers>
               </div>
             </div> -->
-
-         <!-- <div class="category">
+            <div class="category">
               <div class="d-flex gap-1 align-items-center">
                 <h3 class="mb-2">Limite d'age</h3>
               </div>
@@ -57,12 +56,17 @@
                     </i>
                   </blockquote>
                   <app-certification
-                   [userCertificationLte]="userPreferences.certification_lte ? userPreferences.certification_lte : 'null'"
-                    (certificationChange)="setCertificationLte($event)"></app-certification>
+                    [userCertificationLte]="
+                      userPreferences.certification_lte
+                        ? userPreferences.certification_lte
+                        : 'null'
+                    "
+                    (certificationChange)="setCertificationLte($event)"
+                  ></app-certification>
                 </div>
               </div>
-            </div> 
-              <div class="category">
+            </div>
+            <div class="category">
               <div class="d-flex gap-1 align-items-center">
                 <div>
                   <h3>Afficher les contenus</h3>
@@ -70,23 +74,30 @@
                     *ngFor="let content of displayContent"
                     [checked]="watchMonetizationTypes?.includes(content.value)"
                     (change)="setWatchMonetizationTypes($event)"
-                     [disabled]="shouldDisableLastCheckbox() && watchMonetizationTypes?.includes(content.value)"
+                    [disabled]="
+                      shouldDisableLastCheckbox() &&
+                      watchMonetizationTypes?.includes(content.value)
+                    "
                     color="primary"
                     [value]="content.value"
                     >{{ content.label }}</mat-checkbox
                   >
                 </div>
               </div>
-            </div> -->
-           <!-- <div class="category">
+            </div>
+            <div class="category">
               <div class="d-flex gap-1 align-items-center">
                 <h3 class="mb-2">Genres</h3>
               </div>
-              <div class="px-3"> -->
+              <div class="px-3">
                 <!-- <h4>Films</h4> -->
                 <app-genres
                   [genres_]="movieGenres"
-                  [userWithoutGenres_]="userPreferences.without_genres ? userPreferences.without_genres : ''"
+                  [userWithoutGenres_]="
+                    userPreferences.without_genres
+                      ? userPreferences.without_genres
+                      : ''
+                  "
                   (withoutGenresEmitter)="setWithoutGenres($event)"
                 ></app-genres>
                 <hr />
@@ -94,10 +105,10 @@
                 <app-genres
                   [genres]="tvShowGenres"
                 ></app-genres> -->
-              <!-- </div>
-            </div> -->
+              </div>
+            </div>
 
-          <!--     <div class="category">
+            <!--     <div class="category">
               <div class="d-flex gap-1 align-items-center">
                 <h3 class="mb-2">Pays de production</h3>
                 <div *ngIf="!!countries.length">({{ countries.length }})</div>
