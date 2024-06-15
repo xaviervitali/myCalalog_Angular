@@ -8,7 +8,7 @@
   <div class="row gx-4 gx-lg-5 justify-content-center">
     <h2 class="mb-2">Préférences de tri</h2>
     <div>
-      <!-- <article class="mb-4">
+      <article class="mb-4">
         <div class="category">
           <div class="d-flex gap-1 align-items-center"></div>
           <div class="px-3">
@@ -18,12 +18,13 @@
             ></app-sort>
           </div>
         </div>
-      </article> -->
+      </article>
+      <hr />
       <h2 class="mb-3">Filtres</h2>
       <form [formGroup]="formGroup">
         <div>
           <article class="mb-4">
-            <!-- <div class="category">
+            <div class="category">
               <div class="d-flex gap-1 align-items-center">
                 <h3 class="mb-2">Services de streaming</h3>
                 <div *ngIf="!!watchProviders.length">
@@ -38,11 +39,15 @@
                   </i>
                 </blockquote>
                 <app-watch-providers
-                [userWatchProviders]="userPreferences.with_watch_providers ? userPreferences.with_watch_providers : ''"
+                  [userWatchProviders]="
+                    userPreferences.with_watch_providers
+                      ? userPreferences.with_watch_providers
+                      : ''
+                  "
                   (watchProvidersChange)="setWatchProviders($event)"
                 ></app-watch-providers>
               </div>
-            </div> -->
+            </div>
             <div class="category">
               <div class="d-flex gap-1 align-items-center">
                 <h3 class="mb-2">Limite d'age</h3>
@@ -70,18 +75,22 @@
               <div class="d-flex gap-1 align-items-center">
                 <div>
                   <h3>Afficher les contenus</h3>
-                  <mat-checkbox
-                    *ngFor="let content of displayContent"
-                    [checked]="watchMonetizationTypes?.includes(content.value)"
-                    (change)="setWatchMonetizationTypes($event)"
-                    [disabled]="
-                      shouldDisableLastCheckbox() &&
-                      watchMonetizationTypes?.includes(content.value)
-                    "
-                    color="primary"
-                    [value]="content.value"
-                    >{{ content.label }}</mat-checkbox
-                  >
+                  <div class="ms-3">
+                    <mat-checkbox
+                      *ngFor="let content of displayContent"
+                      [checked]="
+                        watchMonetizationTypes?.includes(content.value)
+                      "
+                      (change)="setWatchMonetizationTypes($event)"
+                      [disabled]="
+                        shouldDisableLastCheckbox() &&
+                        watchMonetizationTypes?.includes(content.value)
+                      "
+                      color="primary"
+                      [value]="content.value"
+                      >{{ content.label }}</mat-checkbox
+                    >
+                  </div>
                 </div>
               </div>
             </div>
@@ -90,7 +99,7 @@
                 <h3 class="mb-2">Genres</h3>
               </div>
               <div class="px-3">
-                <!-- <h4>Films</h4> -->
+                <h4>Films</h4>
                 <app-genres
                   [genres_]="movieGenres"
                   [userWithoutGenres_]="
@@ -108,24 +117,23 @@
               </div>
             </div>
 
-            <!--     <div class="category">
+            <div class="category">
               <div class="d-flex gap-1 align-items-center">
                 <h3 class="mb-2">Pays de production</h3>
                 <div *ngIf="!!countries.length">({{ countries.length }})</div>
               </div>
-              <div class="px-3"></div>
-              <blockquote>
-                <i>
-                  Seuls les contenus des pays de production selectionnés
-                  aparaitrons
-                </i>
-              </blockquote>
-              <app-production-countries
-                (userCountries)="setCountries($event)"
-              ></app-production-countries>
+              <div class="px-3">
+                <blockquote>
+                  <i>
+                    Seuls les contenus des pays de production selectionnés
+                    aparaitrons
+                  </i>
+                </blockquote>
+                <app-production-countries></app-production-countries>
+              </div>
             </div>
 
-            <div class="category">
+            <!-- <div class="category">
               <div class="d-flex gap-1 align-items-center">
                 <h3 class="mb-2">N'afficher que les contenus ayant</h3>
               </div>

@@ -1,22 +1,21 @@
-<div [formGroup]="form">
+<div [formGroup]="form" class="ms-2">
   <ng-container formArrayName="genreControls">
-    <ng-container
-      *ngFor="let genreForm of genres.controls; let i = index"
-    >
-         <mat-slide-toggle
-          [checked]="!userWithoutGenres.includes(genreForm.value.id.toString())"
-          color="primary"
-          class="col-lg-3 col-md-4 col-sm-6 col my-2"
-          (change)="onGenreChange($event, genreForm.value.id)"
-          ><span
-            [ngClass]="
-              !!userWithoutGenres.includes(genreForm.value.id.toString())
-                ? 'disabled'
-                : ''
-            "
-            >{{ genreForm.value.id }} {{ genreForm.value.name }}</span
-          ></mat-slide-toggle
-        > 
+    <ng-container *ngFor="let genreForm of genres.controls; let i = index">
+      <mat-slide-toggle
+        [checked]="!userWithoutGenres.includes(genreForm.value.id.toString())"
+        color="primary"
+        class="col-lg-3 col-md-4 col-sm-6 col my-2"
+        (change)="onGenreChange($event, genreForm.value.id)"
+        ><span
+          [ngClass]="
+            !!userWithoutGenres.includes(genreForm.value.id.toString())
+              ? 'disabled'
+              : ''
+          "
+        >
+          {{ genreForm.value.name }}</span
+        ></mat-slide-toggle
+      >
     </ng-container>
   </ng-container>
 </div>
