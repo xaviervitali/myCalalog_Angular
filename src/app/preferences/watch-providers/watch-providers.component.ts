@@ -54,7 +54,7 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './watch-providers.component.css',
 })
 export class WatchProvidersComponent implements OnInit {
-  public selectedProviders: WatchProvider[] = [];
+  public selectedProviders_: WatchProvider[] = [];
   @Output() watchProvidersChange = new EventEmitter<WatchProvider[]>();
   @Input() userWatchProviders!: string;
 
@@ -63,8 +63,7 @@ export class WatchProvidersComponent implements OnInit {
   public apiPosterPath = environment.apiPosterPath;
 
   get watchProvidersCount(): number {
-    return this.selectedProviders.length;
-    // return this.userSelectedWP.length;
+    return this.selectedProviders_.length;
   }
 
   public watchProviderFilter: string = '';
@@ -74,16 +73,29 @@ export class WatchProvidersComponent implements OnInit {
 
   get availableProviders() {
     const filteredProviders = this.availableProviders_.filter(
-      (provider) => !this.selectedProviders.includes(provider)
+      (provider) => !this.selectedProviders_.includes(provider)
     );
     return filteredProviders;
   }
+
+  get selectedProviders(){
+    const userWatchProvidersArray = this.userWatchProviders.split('|')
+
+   return this.availableProviders_.
+    filter(
+      availableProvider=>{
+        return userWatchProvidersArray
+      .includes(String(availableProvider.provider_id))}
+    )
+  }
+  
   constructor(
     private preferencesService: PreferencesService,
     public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
+    
     this.filteredOptions = this.providerCtrl.valueChanges.pipe(
       startWith(''),
       map((value) => {
@@ -101,6 +113,7 @@ export class WatchProvidersComponent implements OnInit {
         this.availableProviders; // relance la liste
       });
   }
+  
 
   private _filter(value: string): WatchProvider[] {
     const filterValue = value.toLowerCase();
@@ -109,11 +122,11 @@ export class WatchProvidersComponent implements OnInit {
       option.provider_name.toLowerCase().includes(filterValue)
     );
   }
-  
+
   addProvider(provider: any): void {
-    this.selectedProviders.push(provider);
+    this.selectedProviders_.push(provider);
     this.providerCtrl.setValue('');
-    this.watchProvidersChange.emit(this.selectedProviders);
+    this.watchProvidersChange.emit(this.selectedProviders_);
   }
 
   removeSelectedProvider(selectedProvider: WatchProvider) {
@@ -125,13 +138,13 @@ export class WatchProvidersComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        const index = this.selectedProviders.indexOf(selectedProvider);
+        const index = this.selectedProviders_.indexOf(selectedProvider);
 
         if (index !== -1) {
-          this.selectedProviders.splice(index, 1);
+          this.selectedProviders_.splice(index, 1);
         }
       }
-      this.watchProvidersChange.emit(this.selectedProviders);
+      this.watchProvidersChange.emit(this.selectedProviders_);
     });
   }
 }

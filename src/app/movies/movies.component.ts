@@ -36,12 +36,8 @@ export class MoviesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userWatchProviders = !!this.userService.getOption(
-      'with_watch_providers'
-    );
-    if (this.userWatchProviders) {
+
       this.getDefaultList();
-    }
   }
 
   getDefaultList() {

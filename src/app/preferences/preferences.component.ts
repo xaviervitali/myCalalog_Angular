@@ -230,6 +230,10 @@ export class PreferencesComponent implements OnInit {
     this.setUserOption('certification_lte', certificationLte)
   }
 
+  setWithoutGenres(withoutGenres:string[]){
+    this.setUserOption('without_genres', withoutGenres, true)
+  }
+
   // setCountries(countries: string[]) {
   //   this.countries = countries;
   // }

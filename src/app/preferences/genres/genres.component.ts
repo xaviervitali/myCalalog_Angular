@@ -1,72 +1,72 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { GenreResults } from '../../../_models/genre';
-import { UserService } from '../../../_services/user.service';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CommonModule } from '@angular/common';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { ApiOptions } from '../../../_models/apiOptions';
+import { MatSlideToggleChange, MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 @Component({
   selector: 'app-genres',
   standalone: true,
-  imports: [MatCheckboxModule, CommonModule, MatSlideToggleModule],
+  imports: [MatCheckboxModule, CommonModule, MatSlideToggleModule, ReactiveFormsModule],
   templateUrl: './genres.component.html',
   styleUrl: './genres.component.css',
 })
-export class GenresComponent implements OnInit {
-  @Input() genres: GenreResults[] = [];
-  @Input() userServiceOption: string = 'without_genres';
-  @Output() withoutGenres = new EventEmitter<GenreResults[]>();
+export class GenresComponent  implements OnInit, OnChanges {
+  @Input() genres_: GenreResults[] = [];
+  @Input() userWithoutGenres_: string = '';
+  @Output() withoutGenresEmitter = new EventEmitter<string[]>();
 
-  public without_genres: string[] = [];
+  private withoutGenres: string[] = [];
 
-  constructor(private userService: UserService) {}
+
+  get userWithoutGenres(){
+    return this.userWithoutGenres_.split('|')
+  }
+
+  public form = this.fb.group({
+    genreControls :  this.fb.array([])
+  })
+
+
+  get genres(){
+    return this.form.controls['genreControls'] as FormArray 
+  }
+
+  constructor(private fb:FormBuilder) {}
 
   ngOnInit(): void {
+
     if (!!this.genres) {
       this.sortGenres();
+      this.genres_.forEach(genre=>{
+        const genreForm = this.fb.group({
+          id: [genre.id],
+          name: [genre.name]
+        });
+        this.genres.push(genreForm)
+      })
+      
     }
   }
 
-  sortGenres() {
-    this.genres.sort((a, b) => a.name.localeCompare(b.name));
-
-    let userWithoutGenres = this.userService.getOption(
-      this.userServiceOption as keyof ApiOptions,
-      '|'
-    ) as string[];
-    if (!!userWithoutGenres && !!userWithoutGenres.length) {
-      this.without_genres = (userWithoutGenres as string[]).map(
-        (genre: string) => genre
-      );
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes['userWithoutGenres_'] && !!changes['userWithoutGenres_'].currentValue){
+      this.withoutGenres =[...new Set([...this.userWithoutGenres, ...this.withoutGenres])]
     }
-    this.withoutGenresEmitter();
   }
 
-  handleCheckboxChange(event: any, genreId: number) {
-    let userWithoutGenres =
-      (this.userService.getOption(this.userServiceOption as keyof ApiOptions, '|') as string[]) ??
-      [];
-    if (event.checked) {
-      const index = userWithoutGenres.findIndex(
-        (userWithoutGenre) => userWithoutGenre === String(genreId)
-      );
-      userWithoutGenres.splice(index, 1);
+  onGenreChange(event: MatSlideToggleChange, genreId: number): void {
+    if (!event.checked) {
+      this.withoutGenres.push(String(genreId))
     } else {
-      userWithoutGenres.push(String(genreId));
+      this.withoutGenres = this.withoutGenres.filter(e=>e !== String(genreId))
     }
-    this.without_genres = userWithoutGenres;
-    this.userService.setOption(
-      this.userServiceOption as keyof ApiOptions,
-      [...new Set(userWithoutGenres)].join('|')
-    );
+    this.withoutGenresEmitter.emit(this.withoutGenres)
+  }
+  
+  sortGenres() {
+    this.genres_.sort((a, b) => a.name.localeCompare(b.name));
+  }
 
-    this.withoutGenresEmitter();
-  }
-  withoutGenresEmitter() {
-    this.withoutGenres.emit(
-      this.genres.filter((genre) =>
-        this.without_genres.includes(genre.id.toString())
-      )
-    );
-  }
+ 
 }

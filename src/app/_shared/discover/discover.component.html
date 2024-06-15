@@ -13,7 +13,8 @@
       </button>
     </div>
     <div class="justify-content-center">
-      <div *ngIf="userWatchProviders; else goPref">
+      <!-- <div *ngIf="userWatchProviders; else goPref"> -->
+        <div >
         <div infinite-scroll (scrolled)="onScrollDown()">
           <!-- Post preview-->
           <div *ngFor="let item of items?.results" class="item">

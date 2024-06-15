@@ -4,26 +4,26 @@
   }"
 ></app-header>
 
-<div class="px-4 px-lg-5" class="'body">
+<div class="px-4 px-lg-5" class="body">
   <div class="row gx-4 gx-lg-5 justify-content-center">
     <h2 class="mb-2">Préférences de tri</h2>
     <div>
-      <article class="mb-4">
+      <!-- <article class="mb-4">
         <div class="category">
           <div class="d-flex gap-1 align-items-center"></div>
           <div class="px-3">
-            <!-- <app-sort
+            <app-sort
               [sortBy]="userPreferences.sort_by ? userPreferences.sort_by : ''"
               (sortByChange)="handleSortByChange($event)"
-            ></app-sort> -->
+            ></app-sort>
           </div>
         </div>
-      </article>
+      </article> -->
       <h2 class="mb-3">Filtres</h2>
       <form [formGroup]="formGroup">
         <div>
           <article class="mb-4">
-            <!-- <div class="category">
+          <!-- <div class="category">
               <div class="d-flex gap-1 align-items-center">
                 <h3 class="mb-2">Services de streaming</h3>
                 <div *ngIf="!!watchProviders.length">
@@ -42,9 +42,9 @@
                   (watchProvidersChange)="setWatchProviders($event)"
                 ></app-watch-providers>
               </div>
-            </div>
+            </div> -->
 
-         <div class="category">
+         <!-- <div class="category">
               <div class="d-flex gap-1 align-items-center">
                 <h3 class="mb-2">Limite d'age</h3>
               </div>
@@ -77,23 +77,25 @@
                   >
                 </div>
               </div>
-            </div>-->
-           <div class="category">
+            </div> -->
+           <!-- <div class="category">
               <div class="d-flex gap-1 align-items-center">
                 <h3 class="mb-2">Genres</h3>
               </div>
-              <div class="px-3">
+              <div class="px-3"> -->
                 <!-- <h4>Films</h4> -->
                 <app-genres
-                  [genres]="movieGenres"
+                  [genres_]="movieGenres"
+                  [userWithoutGenres_]="userPreferences.without_genres ? userPreferences.without_genres : ''"
+                  (withoutGenresEmitter)="setWithoutGenres($event)"
                 ></app-genres>
                 <hr />
                 <!-- <h4>Séries</h4>
                 <app-genres
                   [genres]="tvShowGenres"
                 ></app-genres> -->
-              </div>
-            </div>
+              <!-- </div>
+            </div> -->
 
           <!--     <div class="category">
               <div class="d-flex gap-1 align-items-center">
