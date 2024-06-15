@@ -42,7 +42,7 @@
                   (watchProvidersChange)="setWatchProviders($event)"
                 ></app-watch-providers>
               </div>
-            </div> -->
+            </div>
 
          <div class="category">
               <div class="d-flex gap-1 align-items-center">
@@ -61,44 +61,41 @@
                     (certificationChange)="setCertificationLte($event)"></app-certification>
                 </div>
               </div>
-            </div>
-               <!-- <div class="category">
+            </div> 
+              <div class="category">
               <div class="d-flex gap-1 align-items-center">
                 <div>
                   <h3>Afficher les contenus</h3>
                   <mat-checkbox
                     *ngFor="let content of displayContent"
-                    [checked]="userDisplayContent.includes(content)"
-                    (change)="
-                      handleWithWatchMonetizationTypesCheckboxChange($event)
-                    "
+                    [checked]="watchMonetizationTypes?.includes(content.value)"
+                    (change)="setWatchMonetizationTypes($event)"
+                     [disabled]="shouldDisableLastCheckbox() && watchMonetizationTypes?.includes(content.value)"
                     color="primary"
                     [value]="content.value"
                     >{{ content.label }}</mat-checkbox
                   >
                 </div>
               </div>
-            </div>
-            <div class="category">
+            </div>-->
+           <div class="category">
               <div class="d-flex gap-1 align-items-center">
                 <h3 class="mb-2">Genres</h3>
               </div>
               <div class="px-3">
-                <h4>Films</h4>
+                <!-- <h4>Films</h4> -->
                 <app-genres
                   [genres]="movieGenres"
-                  (withoutGenres)="setWithoutGenres($event)"
                 ></app-genres>
                 <hr />
-                <h4>Séries</h4>
+                <!-- <h4>Séries</h4>
                 <app-genres
                   [genres]="tvShowGenres"
-                  (withoutGenres)="setWithoutGenres($event)"
-                ></app-genres>
+                ></app-genres> -->
               </div>
             </div>
 
-            <div class="category">
+          <!--     <div class="category">
               <div class="d-flex gap-1 align-items-center">
                 <h3 class="mb-2">Pays de production</h3>
                 <div *ngIf="!!countries.length">({{ countries.length }})</div>
@@ -157,9 +154,7 @@
                     [discrete]="true"
                     [disableRipple]="true"
                   >
-                    <input
-                      matSliderStartThumb
-                      formControlName="start"
+mControlName="start"
                       (valueChange)="handleReleaseDatesChanges()"
                     />
                     <input

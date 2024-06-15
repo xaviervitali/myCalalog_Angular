@@ -121,7 +121,26 @@ export class PreferencesComponent implements OnInit {
   public userCertificationLte = '0';
   public userPreferences: ApiOptions = {
     sort_by: 'revenue.asc',
+    with_watch_monetization_types: "flatrate|free|ads|rent|buy"
   };
+
+  get watchMonetizationTypes(){
+    return this.userPreferences.with_watch_monetization_types?.split('|')
+  }
+
+
+  shouldDisableLastCheckbox(): boolean {
+    return this.watchMonetizationTypes?.length === 1;
+  }
+
+  setUserOption(field: keyof ApiOptions, value:any, join = false){
+    if(join){
+      value = value.join('|')
+    }
+    this.userPreferences[field] = value
+
+  }
+
 
   constructor(
     private formBuilder: FormBuilder,
@@ -135,11 +154,12 @@ export class PreferencesComponent implements OnInit {
         Object.keys(userPreferences).forEach((preference: string) => {
           const value = userPreferences[preference as keyof ApiOptions];
           if (!!value) {
-            this.userPreferences[preference as keyof ApiOptions] = value;
+            this.userPreferences[preference as  keyof ApiOptions] = value;
           }
         });
       }
     });
+
     // this.formGroup.controls.voteCountGte.valueChanges
     //   .pipe(
     //     debounceTime(300) // Délai de debounce en millisecondes
@@ -155,7 +175,8 @@ export class PreferencesComponent implements OnInit {
   }
 
   handleSortByChange(value: string) {
-    this.userPreferences.sort_by = String(value);
+
+    this.setUserOption('sort_by', value)
   }
   // handleAdultContentCheckbox(event: any) {
   //   const isChecked = event.checked;
@@ -202,11 +223,11 @@ export class PreferencesComponent implements OnInit {
 
   setWatchProviders(watchProviders: WatchProvider[]) {
     this.watchProviders = watchProviders;
-    this.userPreferences.with_watch_providers = watchProviders.map(watchProvider=>watchProvider.provider_id).join('|')
+    this.setUserOption('with_watch_providers', watchProviders.map(watchProvider=>watchProvider.provider_id), true)
   }
 
   setCertificationLte(certificationLte:string){
-    this.userPreferences.certification_lte = certificationLte
+    this.setUserOption('certification_lte', certificationLte)
   }
 
   // setCountries(countries: string[]) {
@@ -271,25 +292,20 @@ export class PreferencesComponent implements OnInit {
   //   return '';
   // }
 
-  // handleWithWatchMonetizationTypesCheckboxChange(event: any) {
-  //   let userWithWatchMonetizationTypes = this.userService.getOption(
-  //     'with_watch_monetization_types',
-  //     '|'
-  //   ) as string[];
-  //   if (event.checked) {
-  //     userWithWatchMonetizationTypes.push(event.source.value);
-  //   } else {
-  //     const index = userWithWatchMonetizationTypes.findIndex(
-  //       (monetizationType) => monetizationType === event.source.value
-  //     );
-  //     userWithWatchMonetizationTypes.splice(index, 1);
-  //   }
+  setWatchMonetizationTypes(event: any) {
+    let value:string[] = [event.source.value]
+    if (event.checked) {
 
-  //   this.userService.setOption(
-  //     'with_watch_monetization_types',
-  //     [...new Set(userWithWatchMonetizationTypes)].join('|')
-  //   );
-  // }
+      if(!!this.watchMonetizationTypes){
+        value =  [...value, ...this.watchMonetizationTypes]
+      }
+
+    }else{
+      value = this.watchMonetizationTypes?.filter(watchMonetizationType=>String(watchMonetizationType) !== String(value)) as string[]
+    }
+
+    this.setUserOption('with_watch_monetization_types', value, true)
+  }
 
   // setUserSettings() {
   //   // order_by
