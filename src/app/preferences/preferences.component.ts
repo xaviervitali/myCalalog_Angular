@@ -121,26 +121,23 @@ export class PreferencesComponent implements OnInit {
   public userCertificationLte = '0';
   public userPreferences: ApiOptions = {
     sort_by: 'revenue.asc',
-    with_watch_monetization_types: "flatrate|free|ads|rent|buy"
+    with_watch_monetization_types: 'flatrate|free|ads|rent|buy',
   };
 
-  get watchMonetizationTypes(){
-    return this.userPreferences.with_watch_monetization_types?.split('|')
+  get watchMonetizationTypes() {
+    return this.userPreferences.with_watch_monetization_types?.split('|');
   }
-
 
   shouldDisableLastCheckbox(): boolean {
     return this.watchMonetizationTypes?.length === 1;
   }
 
-  setUserOption(field: keyof ApiOptions, value:any, join = false){
-    if(join){
-      value = value.join('|')
+  setUserOption(field: keyof ApiOptions, value: any, join = false) {
+    if (join) {
+      value = value.join('|');
     }
-    this.userPreferences[field] = value
-
+    this.userPreferences[field] = value;
   }
-
 
   constructor(
     private formBuilder: FormBuilder,
@@ -154,7 +151,7 @@ export class PreferencesComponent implements OnInit {
         Object.keys(userPreferences).forEach((preference: string) => {
           const value = userPreferences[preference as keyof ApiOptions];
           if (!!value) {
-            this.userPreferences[preference as  keyof ApiOptions] = value;
+            this.userPreferences[preference as keyof ApiOptions] = value;
           }
         });
       }
@@ -175,8 +172,7 @@ export class PreferencesComponent implements OnInit {
   }
 
   handleSortByChange(value: string) {
-
-    this.setUserOption('sort_by', value)
+    this.setUserOption('sort_by', value);
   }
   // handleAdultContentCheckbox(event: any) {
   //   const isChecked = event.checked;
@@ -223,15 +219,19 @@ export class PreferencesComponent implements OnInit {
 
   setWatchProviders(watchProviders: WatchProvider[]) {
     this.watchProviders = watchProviders;
-    this.setUserOption('with_watch_providers', watchProviders.map(watchProvider=>watchProvider.provider_id), true)
+    this.setUserOption(
+      'with_watch_providers',
+      watchProviders.map((watchProvider) => watchProvider.provider_id),
+      true
+    );
   }
 
-  setCertificationLte(certificationLte:string){
-    this.setUserOption('certification_lte', certificationLte)
+  setCertificationLte(certificationLte: string) {
+    this.setUserOption('certification_lte', certificationLte);
   }
 
-  setWithoutGenres(withoutGenres:string[]){
-    this.setUserOption('without_genres', withoutGenres, true)
+  setWithoutGenres(withoutGenres: string[]) {
+    this.setUserOption('without_genres', withoutGenres, true);
   }
 
   // setCountries(countries: string[]) {
@@ -297,20 +297,24 @@ export class PreferencesComponent implements OnInit {
   // }
 
   setWatchMonetizationTypes(event: any) {
-    let value:string[] = [event.source.value]
+    let value: string[] = [event.source.value];
     if (event.checked) {
-
-      if(!!this.watchMonetizationTypes){
-        value =  [...value, ...this.watchMonetizationTypes]
+      if (!!this.watchMonetizationTypes) {
+        value = [...value, ...this.watchMonetizationTypes];
       }
-
-    }else{
-      value = this.watchMonetizationTypes?.filter(watchMonetizationType=>String(watchMonetizationType) !== String(value)) as string[]
+    } else {
+      value = this.watchMonetizationTypes?.filter(
+        (watchMonetizationType) =>
+          String(watchMonetizationType) !== String(value)
+      ) as string[];
     }
 
-    this.setUserOption('with_watch_monetization_types', value, true)
+    this.setUserOption('with_watch_monetization_types', value, true);
   }
 
+  setProductionCountry(event: string[]) {
+    this.setUserOption('with_origin_country', event, true);
+  }
   // setUserSettings() {
   //   // order_by
 
@@ -370,9 +374,5 @@ export class PreferencesComponent implements OnInit {
   //   return moment(year, 'YYYY').format('YYYY-MM-DD');
   // }
 
-
-
-  handleSubmit(){
-
-  }
+  handleSubmit() {}
 }

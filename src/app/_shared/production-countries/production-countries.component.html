@@ -3,7 +3,6 @@
   <p *ngFor="let item of productionCoutries" class="me-3">
     <img
       [src]="'https://flagsapi.com/' + item.iso_3166_1 + '/flat/64.png'"
-      [matTooltip]="getCountryName(item.iso_3166_1)"
     />
   </p>
 </div>

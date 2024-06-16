@@ -56,7 +56,7 @@
         </ul>
         <form
           role="search"
-          class=" d-flex align-items-center me-5"
+          class="d-flex align-items-center me-5"
           (submit)="onSubmit()"
         >
           <mat-form-field>
@@ -67,19 +67,22 @@
               [ngModelOptions]="{ standalone: true }"
             />
             <mat-label>Recherche muli-critères</mat-label>
-            
-            <mat-icon matSuffix color="primary">search</mat-icon>
-        </mat-form-field>
 
+            <mat-icon matSuffix color="primary">search</mat-icon>
+          </mat-form-field>
         </form>
         <div>
-        <a class="nav-link" routerLink="login" *ngIf="!authService.isAuthenticated; else isAuthenticated">
-          <mat-icon class="d-block">person</mat-icon>
-        </a>
-        <ng-template #isAuthenticated>
-          <mat-icon class="d-block">home</mat-icon>
-        </ng-template>
-      </div>
+          <a
+            class="nav-link"
+            routerLink="login"
+            *ngIf="!authService.isAuthenticated(); else isAuthenticated"
+          >
+            <mat-icon class="d-block">person</mat-icon>
+          </a>
+          <ng-template #isAuthenticated>
+            <mat-icon class="d-block">home</mat-icon>
+          </ng-template>
+        </div>
       </div>
     </div>
   </nav>

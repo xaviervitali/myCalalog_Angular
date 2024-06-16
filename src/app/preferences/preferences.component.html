@@ -9,7 +9,7 @@
     <h2 class="mb-2">Préférences de tri</h2>
     <div>
       <article class="mb-4">
-        <div class="category">
+        <!-- <div class="category">
           <div class="d-flex gap-1 align-items-center"></div>
           <div class="px-3">
             <app-sort
@@ -17,14 +17,14 @@
               (sortByChange)="handleSortByChange($event)"
             ></app-sort>
           </div>
-        </div>
+        </div> -->
       </article>
       <hr />
       <h2 class="mb-3">Filtres</h2>
       <form [formGroup]="formGroup">
         <div>
           <article class="mb-4">
-            <div class="category">
+            <!-- <div class="category">
               <div class="d-flex gap-1 align-items-center">
                 <h3 class="mb-2">Services de streaming</h3>
                 <div *ngIf="!!watchProviders.length">
@@ -47,8 +47,8 @@
                   (watchProvidersChange)="setWatchProviders($event)"
                 ></app-watch-providers>
               </div>
-            </div>
-            <div class="category">
+            </div> -->
+            <!-- <div class="category">
               <div class="d-flex gap-1 align-items-center">
                 <h3 class="mb-2">Limite d'age</h3>
               </div>
@@ -70,8 +70,8 @@
                   ></app-certification>
                 </div>
               </div>
-            </div>
-            <div class="category">
+            </div> -->
+            <!-- <div class="category">
               <div class="d-flex gap-1 align-items-center">
                 <div>
                   <h3>Afficher les contenus</h3>
@@ -93,8 +93,8 @@
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="category">
+            </div> -->
+            <!-- <div class="category">
               <div class="d-flex gap-1 align-items-center">
                 <h3 class="mb-2">Genres</h3>
               </div>
@@ -110,12 +110,9 @@
                   (withoutGenresEmitter)="setWithoutGenres($event)"
                 ></app-genres>
                 <hr />
-                <!-- <h4>Séries</h4>
-                <app-genres
-                  [genres]="tvShowGenres"
-                ></app-genres> -->
+                <h4>Séries</h4>
               </div>
-            </div>
+            </div> -->
 
             <div class="category">
               <div class="d-flex gap-1 align-items-center">
@@ -124,12 +121,16 @@
               </div>
               <div class="px-3">
                 <blockquote>
-                  <i>
-                    Seuls les contenus des pays de production selectionnés
-                    aparaitrons
-                  </i>
+                  <i> Limiter les resultats aux pays suivants </i>
                 </blockquote>
-                <app-production-countries></app-production-countries>
+                <app-production-countries
+                  [userSelectedCountries_]="
+                    userPreferences.with_origin_country
+                      ? userPreferences.with_origin_country
+                      : ''
+                  "
+                  (userSelectedCountriesEmitter)="($event)"
+                ></app-production-countries>
               </div>
             </div>
 
