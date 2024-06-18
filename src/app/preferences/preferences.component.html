@@ -156,38 +156,18 @@
                 </mat-form-field>
               </div>
             </div> -->
-            <app-release-dates></app-release-dates>
-            <!--  <div class="category">
-              <div class="d-flex gap-1 align-items-center">
+            <div class="category">
+              <div>
                 <h3 class="mb-2">Années de sortie</h3>
                 <div>
-                  entre {{ formGroup.value.releaseDates?.start }} et
-                  {{ formGroup.value.releaseDates?.end }}
-                </div>
-              </div>
-              <div class="px-3">
-                <div>
-                  <mat-slider
-                    formGroupName="releaseDates"
-                    min="1895"
-                    [max]="maxYear"
-                    class="w-100"
-                    [discrete]="true"
-                    [disableRipple]="true"
-                  >
-mControlName="start"
-                      (valueChange)="handleReleaseDatesChanges()"
-                    />
-                    <input
-                      matSliderEndThumb
-                      formControlName="end"
-                      (valueChange)="handleReleaseDatesChanges()"
-                    />
-                  </mat-slider>
+                  <app-release-dates
+                    class="d-flex gap-1 align-items-center"
+                    (userReleaseDateEmitter)="setReleaseDates($event)"
+                  ></app-release-dates>
                 </div>
               </div>
             </div>
-            <div>
+            <!--
               <div class="category">
                 <div class="d-flex gap-1 align-items-center">
                   <h3 class="mb-2">Durée</h3>

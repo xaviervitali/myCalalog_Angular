@@ -237,6 +237,15 @@ export class PreferencesComponent implements OnInit {
     this.setUserOption('without_genres', withoutGenres, true);
   }
 
+  setReleaseDates(releaseDates: string[]) {
+    if (!!releaseDates.length) {
+      this.setUserOption('release_date_gte', releaseDates[0]);
+      if (releaseDates.length > 1) {
+        this.setUserOption('release_date_lte', releaseDates[1]);
+      }
+    }
+  }
+
   // setCountries(countries: string[]) {
   //   this.countries = countries;
   // }
