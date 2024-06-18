@@ -114,7 +114,7 @@
               </div>
             </div> -->
 
-            <div class="category">
+            <!-- <div class="category">
               <div class="d-flex gap-1 align-items-center">
                 <h3 class="mb-2">Pays de production</h3>
                 <div *ngIf="!!countries.length">({{ countries.length }})</div>
@@ -129,21 +129,19 @@
                       ? userPreferences.with_origin_country
                       : ''
                   "
-                  (userSelectedCountriesEmitter)="($event)"
+                  (userSelectedCountriesEmitter)="setProductionCountry($event)"
                 ></app-production-countries>
               </div>
-            </div>
+            </div> -->
 
-            <!-- <div class="category">
+            <!-- Pensez a prendre en compte cetet valeur si > 0 lors de la validation
+            <div class="category">
               <div class="d-flex gap-1 align-items-center">
                 <h3 class="mb-2">N'afficher que les contenus ayant</h3>
               </div>
               <div class="px-3">
                 <blockquote>
-                  <i>
-                    Seuls les contenus ayant au moins
-                    {{ formGroup.value.voteCountGte }}
-                  </i>
+                  <i> Seuls les contenus ayant au moins </i>
                 </blockquote>
                 <mat-form-field class="example-full-width w-100">
                   <mat-label>Nombre de vote minimum</mat-label>
@@ -151,14 +149,15 @@
                   <input
                     matInput
                     type="number"
-                    placeholder="Vote"
                     formControlName="voteCountGte"
+                    [(ngModel)]="vote"
+                    [value]="vote"
                   />
                 </mat-form-field>
               </div>
-            </div>
-
-            <div class="category">
+            </div> -->
+            <app-release-dates></app-release-dates>
+            <!--  <div class="category">
               <div class="d-flex gap-1 align-items-center">
                 <h3 class="mb-2">Années de sortie</h3>
                 <div>

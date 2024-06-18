@@ -39,6 +39,7 @@ import { MOVIE_GENRES } from '../../_const/movieGenres';
 import { TV_SHOW_GENRES } from '../../_const/tvShowGenres';
 import { PreferencesService } from '../../_services/preferences.service';
 import { ApiOptions } from '../../_models/apiOptions';
+import { ReleaseDatesComponent } from './release-dates/release-dates.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -78,6 +79,7 @@ export const MY_FORMATS = {
     ProductionCountriesComponent,
     CertificationComponent,
     SortComponent,
+    ReleaseDatesComponent,
   ],
   templateUrl: './preferences.component.html',
   styleUrl: './preferences.component.css',
@@ -92,6 +94,7 @@ export class PreferencesComponent implements OnInit {
   public watchProviders: WatchProvider[] = [];
   public countries: string[] = [];
   public maxYear = moment().year();
+  vote = 0;
   public formGroup = this.formBuilder.group({
     includeAdult: this.formBuilder.control(this.includeAdult),
     releaseDates: this.formBuilder.group({
