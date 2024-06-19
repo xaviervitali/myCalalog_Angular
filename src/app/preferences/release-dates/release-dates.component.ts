@@ -13,8 +13,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  Input,
+  OnChanges,
   OnInit,
   Output,
+  SimpleChanges,
 } from '@angular/core';
 import moment, { Moment } from 'moment';
 
@@ -51,7 +54,7 @@ export const MY_FORMATS = {
     provideMomentDateAdapter(MY_FORMATS),
   ],
 })
-export class ReleaseDatesComponent implements OnInit {
+export class ReleaseDatesComponent implements OnInit, OnChanges {
   minYearControl = new FormControl();
   maxYearControl = new FormControl(moment());
 
@@ -59,10 +62,28 @@ export class ReleaseDatesComponent implements OnInit {
   maxYear!: number;
   maxDate: Date = new Date();
 
+  @Input() userReleaseDateGte!: string;
+  @Input() userReleaseDateLte!: string;
+
   @Output() userReleaseDateEmitter = new EventEmitter<string[]>();
 
   ngOnInit(): void {
-    debugger;
+    this.setFields();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['userReleaseDateGte'] || changes['userReleaseDateLte']) {
+      this.setFields();
+    }
+  }
+
+  setFields() {
+    if (!!this.userReleaseDateGte) {
+      this.minYearControl.setValue(moment(this.userReleaseDateGte));
+    }
+    if (!!this.userReleaseDateLte) {
+      this.maxYearControl.setValue(moment(this.userReleaseDateLte));
+    }
   }
 
   chosenYearHandler(
@@ -94,7 +115,7 @@ export class ReleaseDatesComponent implements OnInit {
     }
     this.userReleaseDateEmitter.emit([
       minValue.format('YYYY-MM-DD'),
-      this.maxYearControl.value.format('YYYY-MM-DD'),
+      this.maxYearControl?.value?.format('YYYY-MM-DD'),
     ]);
     datepicker.close();
   }

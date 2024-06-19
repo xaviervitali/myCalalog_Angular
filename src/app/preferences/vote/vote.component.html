@@ -1,0 +1,14 @@
+<blockquote>
+  <i> Seuls les contenus ayant au moins </i>
+</blockquote>
+
+<mat-form-field class="w-75">
+  <mat-label>Nombre de vote minimum</mat-label>
+
+  <input
+    matInput
+    type="number"
+    [formControl]="voteControl"
+    [(ngModel)]="vote"
+  />
+</mat-form-field>
