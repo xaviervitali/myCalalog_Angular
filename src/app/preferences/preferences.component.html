@@ -9,7 +9,7 @@
     <h2 class="mb-2">Préférences de tri</h2>
     <div>
       <article class="mb-4">
-        <!-- <div class="category">
+        <div class="category">
           <div class="d-flex gap-1 align-items-center"></div>
           <div class="px-3">
             <app-sort
@@ -17,14 +17,14 @@
               (sortByChange)="handleSortByChange($event)"
             ></app-sort>
           </div>
-        </div> -->
+        </div>
       </article>
       <hr />
       <h2 class="mb-3">Filtres</h2>
-      <form [formGroup]="formGroup">
+      <form>
         <div>
           <article class="mb-4">
-            <!-- <div class="category">
+            <div class="category">
               <div class="d-flex gap-1 align-items-center">
                 <h3 class="mb-2">Services de streaming</h3>
                 <div *ngIf="!!watchProviders.length">
@@ -47,8 +47,8 @@
                   (watchProvidersChange)="setWatchProviders($event)"
                 ></app-watch-providers>
               </div>
-            </div> -->
-            <!-- <div class="category">
+            </div>
+            <div class="category">
               <div class="d-flex gap-1 align-items-center">
                 <h3 class="mb-2">Limite d'age</h3>
               </div>
@@ -70,8 +70,8 @@
                   ></app-certification>
                 </div>
               </div>
-            </div> -->
-            <!-- <div class="category">
+            </div>
+            <div class="category">
               <div class="d-flex gap-1 align-items-center">
                 <div>
                   <h3>Afficher les contenus</h3>
@@ -93,8 +93,8 @@
                   </div>
                 </div>
               </div>
-            </div> -->
-            <!-- <div class="category">
+            </div>
+            <div class="category">
               <div class="d-flex gap-1 align-items-center">
                 <h3 class="mb-2">Genres</h3>
               </div>
@@ -109,10 +109,8 @@
                   "
                   (withoutGenresEmitter)="setWithoutGenres($event)"
                 ></app-genres>
-                <hr />
-                <h4>Séries</h4>
               </div>
-            </div> -->
+            </div>
 
             <div class="category">
               <div class="d-flex gap-1 align-items-center">
@@ -129,99 +127,67 @@
                       ? userPreferences.with_origin_country
                       : ''
                   "
-                  (userSelectedCountriesEmitter)="($event)"
+                  (userSelectedCountriesEmitter)="setProductionCountry($event)"
                 ></app-production-countries>
               </div>
             </div>
 
-            <!-- <div class="category">
+            Pensez a prendre en compte cetet valeur si > 0 lors de la validation
+            <div class="category">
               <div class="d-flex gap-1 align-items-center">
                 <h3 class="mb-2">N'afficher que les contenus ayant</h3>
               </div>
               <div class="px-3">
-                <blockquote>
-                  <i>
-                    Seuls les contenus ayant au moins
-                    {{ formGroup.value.voteCountGte }}
-                  </i>
-                </blockquote>
-                <mat-form-field class="example-full-width w-100">
-                  <mat-label>Nombre de vote minimum</mat-label>
-
-                  <input
-                    matInput
-                    type="number"
-                    placeholder="Vote"
-                    formControlName="voteCountGte"
-                  />
-                </mat-form-field>
+                <app-vote
+                  [voteCountGte]="
+                    userPreferences.vote_count_gte
+                      ? +userPreferences.vote_count_gte
+                      : 0
+                  "
+                  (voteEmitter)="setVoteCountGte($event)"
+                ></app-vote>
+              </div>
+            </div>
+            <div class="category">
+              <div>
+                <h3 class="mb-2">Années de sortie</h3>
+                <div>
+                  <app-release-dates
+                    class="d-flex gap-1 align-items-center"
+                    [userReleaseDateGte]="
+                      userPreferences.primary_release_date_gte ?? ''
+                    "
+                    [userReleaseDateLte]="
+                      userPreferences.primary_release_date_lte ?? ''
+                    "
+                    (userReleaseDateEmitter)="setReleaseDates($event)"
+                  ></app-release-dates>
+                </div>
               </div>
             </div>
 
             <div class="category">
-              <div class="d-flex gap-1 align-items-center">
-                <h3 class="mb-2">Années de sortie</h3>
-                <div>
-                  entre {{ formGroup.value.releaseDates?.start }} et
-                  {{ formGroup.value.releaseDates?.end }}
-                </div>
-              </div>
-              <div class="px-3">
-                <div>
-                  <mat-slider
-                    formGroupName="releaseDates"
-                    min="1895"
-                    [max]="maxYear"
-                    class="w-100"
-                    [discrete]="true"
-                    [disableRipple]="true"
-                  >
-mControlName="start"
-                      (valueChange)="handleReleaseDatesChanges()"
-                    />
-                    <input
-                      matSliderEndThumb
-                      formControlName="end"
-                      (valueChange)="handleReleaseDatesChanges()"
-                    />
-                  </mat-slider>
-                </div>
-              </div>
+              <app-runtime
+                [runtimeGte]="
+                  userPreferences.with_runtime_gte
+                    ? +userPreferences.with_runtime_gte
+                    : 0
+                "
+                [runtimeLte]="
+                  userPreferences.with_runtime_lte
+                    ? +userPreferences.with_runtime_lte
+                    : 300
+                "
+                (runtimeEmitter)="setRuntime($event)"
+              ></app-runtime>
             </div>
-            <div>
-              <div class="category">
-                <div class="d-flex gap-1 align-items-center">
-                  <h3 class="mb-2">Durée</h3>
-                  <div>entre {{ runtimeLabel() }}</div>
-                </div>
-                <div class="px-3">
-                  <div>
-                    <mat-slider
-                      formGroupName="runtime"
-                      min="0"
-                      max="300"
-                      class="w-100"
-                    >
-                      <input
-                        matSliderStartThumb
-                        formControlName="start"
-                        (change)="handleRuntimeChanges()"
-                      />
-                      <input
-                        matSliderEndThumb
-                        formControlName="end"
-                        (change)="handleRuntimeChanges()"
-                      />
-                    </mat-slider>
-                  </div>
-                </div>
-              </div>
-            </div> -->
           </article>
         </div>
         <div class="d-flex justify-content-end gap-3">
           <button mat-raised-button>Annuler</button>
-          <button mat-raised-button color="primary">Valider</button>
+          <button mat-raised-button color="primary" (click)="setUserSettings()">
+            Valider
+          </button>
         </div>
       </form>
     </div>

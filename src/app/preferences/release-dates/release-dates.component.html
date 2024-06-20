@@ -1,0 +1,41 @@
+<mat-form-field class="w-50">
+  <mat-label>Année minimale</mat-label>
+  <input
+    matInput
+    [matDatepicker]="minDatePicker"
+    [(ngModel)]="minYear"
+    [max]="maxDate"
+    [formControl]="minYearControl"
+  />
+  <mat-datepicker-toggle
+    matSuffix
+    [for]="minDatePicker"
+  ></mat-datepicker-toggle>
+  <mat-datepicker
+    #minDatePicker
+    startView="multi-year"
+    (yearSelected)="chosenYearHandler($event, 'min', minDatePicker)"
+  ></mat-datepicker>
+</mat-form-field>
+
+<mat-form-field class="w-50">
+  <mat-label>Année maximale</mat-label>
+  <input
+    matInput
+    [matDatepicker]="maxDatePicker"
+    [(ngModel)]="maxYear"
+    [min]="minYear"
+    [max]="maxDate"
+    [formControl]="maxYearControl"
+  />
+  <mat-datepicker-toggle
+    matSuffix
+    [for]="maxDatePicker"
+  ></mat-datepicker-toggle>
+  <mat-datepicker
+    #maxDatePicker
+    startView="multi-year"
+    ma
+    (yearSelected)="chosenYearHandler($event, 'max', maxDatePicker)"
+  ></mat-datepicker>
+</mat-form-field>

@@ -1,0 +1,31 @@
+<div class="d-flex gap-1 align-items-center">
+  <h3 class="mb-2">Durée</h3>
+  <!-- <div>entre {{ runtimeLabel() }}</div> -->
+</div>
+<div class="px-3">
+  <div>
+    <mat-slider
+      min="0"
+      max="300"
+      class="w-100"
+      [displayWith]="runtimeLabel"
+      discrete
+    >
+      <input
+        [(ngModel)]="start"
+        matSliderStartThumb
+        [formControl]="startCtrl"
+        (change)="handleRuntimeChanges($event)"
+        [value]="runtimeGte"
+      />
+      <input
+        [formControl]="endCtrl"
+        [(ngModel)]="end"
+        name="end"
+        matSliderEndThumb
+        (change)="handleRuntimeChanges($event)"
+        [value]="runtimeLte"
+      />
+    </mat-slider>
+  </div>
+</div>
