@@ -1,5 +1,4 @@
-import { bootstrapApplication } from '@angular/platform-browser';
-import { appConfig } from './app/app.config';
+import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/app.component';
 import { tokenInterceptor } from './app/token.interceptor';
 import { routes } from './app/app.routes';
@@ -10,13 +9,15 @@ import {
   GoogleLoginProvider,
   SocialAuthServiceConfig,
 } from '@abacritt/angularx-social-login';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { importProvidersFrom } from '@angular/core';
 
 bootstrapApplication(AppComponent, {
   providers: [
     provideRouter(routes),
     provideHttpClient(withInterceptors([tokenInterceptor])),
     provideAnimationsAsync(),
-    provideAnimationsAsync(),
+    importProvidersFrom([BrowserModule, BrowserAnimationsModule]),
     {
       provide: 'SocialAuthServiceConfig',
       useValue: {

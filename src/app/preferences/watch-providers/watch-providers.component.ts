@@ -107,7 +107,7 @@ export class WatchProvidersComponent implements OnInit {
     );
 
     this.preferencesService
-      .getWatchProviders()
+      .getWatchProvidersAll()
       .subscribe((watchProvidersApiResponse) => {
         this.availableProviders_ = watchProvidersApiResponse;
         this.availableProviders; // relance la liste

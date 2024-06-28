@@ -6,7 +6,7 @@ import { User } from '../_models/user';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from './auth.service';
 
-export const API_KEY = environment.apiKey;
+// export const API_KEY = environment.apiKey;
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +15,6 @@ export class UserService {
   
   optionsSubject = new BehaviorSubject<Partial<ApiOptions>>({
     language: 'fr-FR',
-    api_key: API_KEY,
-
   });
 
   // Méthode pour mettre à jour une option

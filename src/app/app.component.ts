@@ -9,6 +9,10 @@ import { MatInputModule } from '@angular/material/input';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { AuthService } from '../_services/auth.service';
 
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -21,7 +25,11 @@ import { AuthService } from '../_services/auth.service';
     MatIconModule,
     MatButtonModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatListModule,
+    MatMenuModule,
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
@@ -30,10 +38,9 @@ export class AppComponent implements OnInit {
   title = 'myCatalog';
   query: string = '';
 
-  constructor(private router: Router, public authService: AuthService) { }
+  constructor(private router: Router, public authService: AuthService) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
   onSubmit() {
     this.router.navigate(['search', this.query]);
   }

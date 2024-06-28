@@ -1,4 +1,6 @@
-export const MOVIE_GENRES = [
+import { GenreResults } from "../_models/genre";
+
+export const MOVIE_GENRES:GenreResults[] = [
   {
     id: 28,
     name: 'Action',

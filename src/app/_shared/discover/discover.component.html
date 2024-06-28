@@ -1,4 +1,4 @@
-<body *ngIf="!isLoading else loading" class="d-done">
+<body *ngIf="!isLoading; else loading" class="d-done">
   <div class="px-4 px-lg-5">
     <div class="d-flex justify-content-end">
       {{ items?.total_results | number : "1.0-2" : "fr" }} resultats
@@ -14,13 +14,13 @@
     </div>
     <div class="justify-content-center">
       <!-- <div *ngIf="userWatchProviders; else goPref"> -->
-        <div >
+      <div>
         <div infinite-scroll (scrolled)="onScrollDown()">
           <!-- Post preview-->
           <div *ngFor="let item of items?.results" class="item">
-            <hr class="my-4" />
+            <hr class="py-4" />
             <a [routerLink]="[route, item.id]">
-              <div class="d-md-flex movie d-none">
+              <div class="d-none d-md-flex movie">
                 <div class="me-2">
                   <img
                     class="d-none d-md-block"
@@ -53,7 +53,7 @@
                   </p>
                 </div>
               </div>
-              <div class="d-md-none d-block backdrop_img">
+              <div class="d-sm-none d-block backdrop_img">
                 <img
                   [src]="environment.apiPosterPath + item.backdrop_path"
                   [alt]="item.title"
@@ -92,5 +92,5 @@
   </div>
 </body>
 <ng-template #loading>
-  <mat-spinner  class="m-auto"></mat-spinner>
+  <mat-spinner class="m-auto"></mat-spinner>
 </ng-template>

@@ -1,62 +1,44 @@
-import {
-  GoogleSigninButtonModule,
-  SocialAuthService,
-  SocialLoginModule,
-  SocialUser,
-} from '@abacritt/angularx-social-login';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatDividerModule } from '@angular/material/divider';
+import { WatchProvidersComponent } from './watch-providers/watch-providers.component';
+import { CommonModule } from '@angular/common';
+import { GenresComponent } from '../preferences/genres/genres.component';
+import { MOVIE_GENRES } from '../../_const/movieGenres';
+import { GenreResults } from '../../_models/genre';
+import {  provideAnimations } from '@angular/platform-browser/animations';
+import { animate, style, transition, trigger } from '@angular/animations';
 import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { AuthService } from '../../_services/auth.service';
+
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
-    GoogleSigninButtonModule,
-    SocialLoginModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule,
+    MatDividerModule,
+    WatchProvidersComponent,
+    CommonModule,
+    GenresComponent,
     MatButtonModule
+
   ],
+providers: [provideAnimations()], 
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
+  animations: [
+    trigger('fadeIn', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('500ms', style({ opacity: 1 }))
+      ])
+    ])
+  ]
 })
-export class LoginComponent implements OnInit {
-  user: SocialUser = new SocialUser();
-  loggedIn?: boolean = false;
+export class LoginComponent  {
+  displayWatchProviders =true
+  genres:GenreResults[] = MOVIE_GENRES
 
-  public formGroup = new FormGroup({
-    username: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('',  Validators.required),
-  });
-  constructor(
-    private authService: SocialAuthService,
-    private myAuthService: AuthService
-  ) {}
-
-  ngOnInit() {
-    this.authService.authState.subscribe((user) => {
-      console.log(user);
-      
-      this.user = user;
-      this.loggedIn = user != null;
-    });
-  }
-
-  login() {
-    const username = this.formGroup.value.username;
-    const password = this.formGroup.value.password 
-    if(!!username && !!password){
-      this.myAuthService.authenticate({username, password}).subscribe(token=>{
-        console.log(token);
-        
-      })
-    }
+  handleWatchProviderEvent(event:boolean){
+    
+    this.displayWatchProviders = !event
   }
 }
