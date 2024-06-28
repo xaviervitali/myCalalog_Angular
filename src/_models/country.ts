@@ -1,6 +1,7 @@
 export interface Country {
-  key: string;
-  value: string;
+  iso3166: string;
+  countryName: string;
+  languageTag: string;
 }
 
 export interface CountryGroup {

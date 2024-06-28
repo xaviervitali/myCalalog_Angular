@@ -57,8 +57,8 @@ export class ProductionCountriesComponent implements OnInit, OnChanges {
   get userSelectedCountriesNames() {
     const userSelectedCountries = [...new Set([...this.selectedCountries])];
     return this.countries
-      .filter((country) => userSelectedCountries.includes(country.key))
-      .map((country) => this.normalizeString(country.value));
+      .filter((country) => userSelectedCountries.includes(country.iso3166))
+      .map((country) => this.normalizeString(country.countryName));
   }
 
   public selectedCountries: string[] = [];
@@ -68,7 +68,8 @@ export class ProductionCountriesComponent implements OnInit, OnChanges {
   public countries = COUNTRIES;
 
   getCountryName(countryKey: string) {
-    return this.countries.find((country) => countryKey === country.key)?.value;
+    return this.countries.find((country) => countryKey === country.iso3166)
+      ?.countryName;
   }
   constructor(private _formBuilder: FormBuilder, public dialog: MatDialog) {}
 
@@ -110,10 +111,10 @@ export class ProductionCountriesComponent implements OnInit, OnChanges {
 
   public addCountry(event: string) {
     const country = this.countries.find(
-      (country) => this.normalizeString(country.value) === event
+      (country) => this.normalizeString(country.countryName) === event
     );
     if (!!country) {
-      this.selectedCountries.push(country.key);
+      this.selectedCountries.push(country.iso3166);
       this.initCountriesGroup();
       this.countryForm.get('countryGroup')?.setValue('');
       this.userSelectedCountriesEmitter.emit(this.selectedCountries);
@@ -127,7 +128,7 @@ export class ProductionCountriesComponent implements OnInit, OnChanges {
   private initCountriesGroup() {
     this.countriesGroup = [];
     const countriesValues = this.countries.map((country) =>
-      this.normalizeString(country.value)
+      this.normalizeString(country.countryName)
     );
     const firstLetters = [
       ...new Set(

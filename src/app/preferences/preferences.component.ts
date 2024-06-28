@@ -40,6 +40,7 @@ import { ApiOptions } from '../../_models/apiOptions';
 import { ReleaseDatesComponent } from './release-dates/release-dates.component';
 import { VoteComponent } from './vote/vote.component';
 import { RuntimeComponent } from './runtime/runtime.component';
+import { Router } from '@angular/router';
 
 export const MY_FORMATS = {
   parse: {
@@ -87,9 +88,8 @@ export const MY_FORMATS = {
   providers: [provideNativeDateAdapter(MY_FORMATS), MinutesToHoursPipe],
 })
 export class PreferencesComponent implements OnInit {
-  public includeAdult = !!this.userService.getOption('include_adult');
   public movieGenres = MOVIE_GENRES;
-  public tvShowGenres = TV_SHOW_GENRES;
+  // public tvShowGenres = TV_SHOW_GENRES;
 
   public withoutGenres: GenreResults[] = [];
   public watchProviders: WatchProvider[] = [];
@@ -130,9 +130,8 @@ export class PreferencesComponent implements OnInit {
   }
 
   constructor(
-    private formBuilder: FormBuilder,
-    private userService: UserService,
-    private preferencesService: PreferencesService
+    private preferencesService: PreferencesService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -173,9 +172,9 @@ export class PreferencesComponent implements OnInit {
 
   setReleaseDates(releaseDates: string[]) {
     if (!!releaseDates.length) {
-      this.setUserOption('release_date_gte', releaseDates[0]);
+      this.setUserOption('primary_release_date_gte', releaseDates[0]);
       if (releaseDates.length > 1) {
-        this.setUserOption('release_date_lte', releaseDates[1]);
+        this.setUserOption('primary_release_date_lte', releaseDates[1]);
       }
     }
   }
@@ -212,6 +211,6 @@ export class PreferencesComponent implements OnInit {
   setUserSettings() {
     this.preferencesService
       .setUserPreferences(this.userPreferences)
-      .subscribe((e: any) => console.log(e));
+      .subscribe((e: any) => this.router.navigateByUrl('/movies'));
   }
 }

@@ -5,10 +5,13 @@
     [matDatepicker]="minDatePicker"
     [(ngModel)]="minYear"
     [max]="maxDate"
+    [min]="minDate"
     [formControl]="minYearControl"
+    (dateChange)="emit()"
   />
   <mat-datepicker-toggle
     matSuffix
+    popperPlacement="top-end"
     [for]="minDatePicker"
   ></mat-datepicker-toggle>
   <mat-datepicker
@@ -27,6 +30,7 @@
     [min]="minYear"
     [max]="maxDate"
     [formControl]="maxYearControl"
+    (dateChange)="emit()"
   />
   <mat-datepicker-toggle
     matSuffix
