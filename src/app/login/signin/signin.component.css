@@ -1,0 +1,12 @@
+.login {
+    border: 2px solid grey;
+    margin: 1vh auto;
+    padding: 20px;
+    background-color: #eee;
+}
+
+.sign-in {
+    height: 80vh;
+    overflow: hidden;
+}
+

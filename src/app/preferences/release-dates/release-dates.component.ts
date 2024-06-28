@@ -61,7 +61,6 @@ export class ReleaseDatesComponent implements OnInit, OnChanges {
   minYear!: number;
   maxYear!: number;
   maxDate: Date = new Date();
-  minDate = moment('1920', 'YYYY');
 
   @Input() userReleaseDateGte!: string;
   @Input() userReleaseDateLte!: string;
@@ -75,9 +74,6 @@ export class ReleaseDatesComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['userReleaseDateGte'] || changes['userReleaseDateLte']) {
       this.setFields();
-    }
-    if (changes['minYear']) {
-      console.log(changes['minYear'].currentValue);
     }
   }
 
@@ -113,12 +109,6 @@ export class ReleaseDatesComponent implements OnInit, OnChanges {
         this.minYearControl.setValue(selectedYear);
       }
     }
-
-    this.emit();
-    datepicker.close();
-  }
-
-  emit() {
     let minValue = this.minYearControl.value;
     if (!minValue) {
       minValue = moment(new Date(1900, 0, 1));
@@ -127,5 +117,6 @@ export class ReleaseDatesComponent implements OnInit, OnChanges {
       minValue.format('YYYY-MM-DD'),
       this.maxYearControl?.value?.format('YYYY-MM-DD'),
     ]);
+    datepicker.close();
   }
 }

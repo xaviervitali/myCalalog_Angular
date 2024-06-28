@@ -4,7 +4,7 @@ import { Subject, interval, tap } from 'rxjs';
 import { User } from '../_models/user';
 import { jwtDecode } from 'jwt-decode';
 import { environment } from '../environment/environment';
-import { TokenResponse } from '../_models/tokenRsponse';
+import { TokenResponse } from '../_models/tokenResponse';
 import { Credential } from '../_models/credential';
 
 @Injectable({
@@ -45,7 +45,6 @@ export class AuthService {
       .pipe(
         tap((data: TokenResponse) => {
           this.authChanged.next(true);
-
           localStorage.setItem('token', data.token ?? '');
         })
       );

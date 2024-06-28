@@ -37,10 +37,10 @@ import { MOVIE_GENRES } from '../../_const/movieGenres';
 import { TV_SHOW_GENRES } from '../../_const/tvShowGenres';
 import { PreferencesService } from '../../_services/preferences.service';
 import { ApiOptions } from '../../_models/apiOptions';
+import { Router } from '@angular/router';
 import { ReleaseDatesComponent } from './release-dates/release-dates.component';
 import { VoteComponent } from './vote/vote.component';
 import { RuntimeComponent } from './runtime/runtime.component';
-import { Router } from '@angular/router';
 
 export const MY_FORMATS = {
   parse: {
@@ -172,9 +172,9 @@ export class PreferencesComponent implements OnInit {
 
   setReleaseDates(releaseDates: string[]) {
     if (!!releaseDates.length) {
-      this.setUserOption('primary_release_date_gte', releaseDates[0]);
+      this.setUserOption('release_date_gte', releaseDates[0]);
       if (releaseDates.length > 1) {
-        this.setUserOption('primary_release_date_lte', releaseDates[1]);
+        this.setUserOption('release_date_lte', releaseDates[1]);
       }
     }
   }
@@ -211,6 +211,6 @@ export class PreferencesComponent implements OnInit {
   setUserSettings() {
     this.preferencesService
       .setUserPreferences(this.userPreferences)
-      .subscribe((e: any) => this.router.navigateByUrl('/movies'));
+      .subscribe((e: any) => console.log(e));
   }
 }

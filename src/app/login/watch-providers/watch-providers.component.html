@@ -1,0 +1,26 @@
+<div *ngIf="!!watchProviders.length">
+  <div class="d-flex gap-5 flex-wrap mt-5 ">
+    <button
+      mat-button
+      class="m-3 d-block"
+      *ngFor="let watchProvider of watchProviders.slice(0, length)"
+      (click)="swithWatchProviderStatus(watchProvider)"
+      [ngClass]="{ inactive: !watchProvider.isActive }"
+    >
+      <img [src]="apiPosterPath + watchProvider.logo_path" alt="" />
+    </button>
+    <button
+      mat-fab
+      class="align-self-end d-block m-3"
+      (click)="moreProvider()"
+      [disabled]="length >= watchProviders.length"
+    >
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+  <div class="d-flex flex-row-reverse m-5">
+    <button mat-raised-button [disabled]="!selectedWatchProvider.length" (click)="handleSubmit()" >
+      Suivant
+    </button>
+  </div>
+</div>

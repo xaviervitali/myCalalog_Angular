@@ -13,6 +13,7 @@ import { TvShowsComponent } from './tv-shows/tv-shows.component';
 import { TvShowComponent } from './tv-show/tv-show.component';
 import { TvShowService } from '../_services/tv-show.service';
 import { LoginComponent } from './login/login.component';
+import { SigninComponent } from './login/signin/signin.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'movies', pathMatch: 'full' },
@@ -55,5 +56,8 @@ export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
+  },
+  {path:'sign-in',
+    component: SigninComponent
   }
 ];

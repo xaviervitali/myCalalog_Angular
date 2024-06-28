@@ -1,4 +1,3 @@
-@import "../../app.component.css";
 
 img {
   height: 100%;
@@ -6,17 +5,17 @@ img {
   object-fit: contain;
 }
 
+
 .d-flex {
   gap: 10px;
   align-items: center;
 }
 .movie {
-  height: 100%;
 }
 
 .progress-container {
   position: relative;
-  display: inline-block; /* Pour que le conteneur s'adapte à la taille du spinner */
+  display: inline-block; 
 }
 
 .progress-text {
@@ -27,6 +26,7 @@ img {
   font-size: 16px;
   font-weight: bold;
 }
+
 .backdrop_img {
   position: relative;
   img {
@@ -60,18 +60,6 @@ img {
   min-width: 10vw;
 }
 
-.example-sidenav {
-  width: 45vw;
-
-  :host {
-    * {
-      color: #fff !important;
-    }
-  }
-}
-body {
-  margin-top: 30vh;
-}
 
 .discover {
   margin-left: 10vw;
@@ -90,4 +78,4 @@ body {
 .item {
   height: 350px;
   padding: 10px;
-}
+} 

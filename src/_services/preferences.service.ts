@@ -9,8 +9,12 @@ import { ApiOptions } from '../_models/apiOptions';
   providedIn: 'root',
 })
 export class PreferencesService extends CommonService {
-  getWatchProviders(): Observable<any> {
-    return this.http.post(this.BACK_URL + '/preferences/watch_providers', {});
+  getWatchProvidersAll(): Observable<WatchProvider[]> {
+    return this.http.post<WatchProvider[]>(this.BACK_URL + '/preferences/watch_providers/all', {});
+  }
+
+  getMoviesWatchProviders(): Observable<WatchProvider[]> {
+    return this.http.post<WatchProvider[]>(this.BACK_URL + '/preferences/watch_providers/movies', {});
   }
 
   getGenres(): Observable<Genre> {

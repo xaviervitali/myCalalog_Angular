@@ -1,32 +1,16 @@
-<h2 class="text-center m-5">
-  S'enregistrer / Se connecter
-</h2>
+<h2 class="login text-center">Aller à l'écran de connexion</h2>
+<mat-divider></mat-divider>
+<div *ngIf="!!displayWatchProviders">
+  <app-watch-providers
+    (watchProviderSelectedEmitter)="handleWatchProviderEvent($event)"
+    [@fadeIn]
+  ></app-watch-providers>
+</div>
 
-<div
-  class="d-flex justify-content-center flex-column align-items-center  justify-content-center w-auto"
->
-  <div class="login">
-    <asl-google-signin-button
-      type="standard"
-      size="medium"
-    ></asl-google-signin-button>
-    <hr />
-    <form [formGroup]="formGroup" (submit)="login()">
-      <div >
-        <mat-form-field appearance="outline" >
-          <mat-label>Adresse email</mat-label>
-          <input type="email" formControlName="username" matInput />
-        </mat-form-field>
-      </div>
-      <div>
-        <mat-form-field appearance="outline">
-          <mat-label>Mot de passe</mat-label>
-          <input type="password" formControlName="password" matInput />
-        </mat-form-field>
-      </div>
-      <div class="text-end">
-        <button mat-raised-button  color="primary" >Valider</button>
-      </div>
-    </form>
+<div *ngIf="!displayWatchProviders" class="p-3">
+  <app-genres [genres_]="genres" [@fadeIn]></app-genres>
+  <div class="d-flex justify-content-end gap-3" >
+    <button mat-button mat-raised-button class="d-block">Revenir à l'écan précédent</button>
+    <button mat-button mat-raised-button color="primary">Valider</button>
   </div>
 </div>
