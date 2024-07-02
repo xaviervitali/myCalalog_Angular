@@ -26,6 +26,7 @@ import { MatCardModule } from '@angular/material/card';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -45,29 +46,28 @@ registerLocaleData(localeFr, 'fr');
     GenrePipe,
     MatMenuModule,
     MatCardModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatTooltipModule,
   ],
   templateUrl: './discover.component.html',
   styleUrl: './discover.component.css',
 })
-
 export class DiscoverComponent {
   public environment = environment;
   private page = 1;
   public throttle = 500;
   public drawerText = 'Afficher';
   showFiller = false;
-  public isAuthenticated:boolean = this.auth.isAuthenticated()
+  public isAuthenticated: boolean = this.auth.isAuthenticated();
   @Output() scrollDown = new EventEmitter<number>();
   @Input() items: any = [];
   @Input() route: string = '';
   @Input() backgroundImage: string = '';
   @Input() userWatchProviders: any = [];
-  @Input() genres :any;
-  @Input() isLoading :boolean = true;
+  @Input() genres: any;
+  @Input() isLoading: boolean = true;
 
-  constructor(public dialog: MatDialog, private auth: AuthService) {
-  }
+  constructor(public dialog: MatDialog, private auth: AuthService) {}
   onScrollDown() {
     if (this.isAuthenticated) {
       this.page++;
@@ -83,9 +83,11 @@ export class DiscoverComponent {
     const dialogRef = this.dialog.open(DiscoverSettingsDialogComponent, {
       maxWidth: 800,
       disableClose: true,
-      data : this.genres
+      data: this.genres,
     });
 
-    dialogRef.afterClosed().subscribe((result) => {console.log()});
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log();
+    });
   }
 }

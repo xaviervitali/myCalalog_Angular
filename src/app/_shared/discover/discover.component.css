@@ -1,21 +1,17 @@
-
 img {
   height: 100%;
   width: 200px;
   object-fit: contain;
 }
 
-
 .d-flex {
   gap: 10px;
   align-items: center;
 }
-.movie {
-}
 
 .progress-container {
   position: relative;
-  display: inline-block; 
+  display: inline-block;
 }
 
 .progress-text {
@@ -60,7 +56,6 @@ img {
   min-width: 10vw;
 }
 
-
 .discover {
   margin-left: 10vw;
 }
@@ -78,4 +73,25 @@ img {
 .item {
   height: 350px;
   padding: 10px;
-} 
+}
+::ng-deep .movie .mat-progress-spinner,
+.movie .mat-mdc-progress-spinner {
+  width: 1rem !important;
+  height: 1rem !important;
+}
+
+.spin-green {
+  ::ng-deep
+    .mat-mdc-progress-spinner
+    .mdc-circular-progress__determinate-circle {
+    stroke: #3fb53f !important;
+  }
+}
+
+.spin-red {
+  ::ng-deep
+    .mat-mdc-progress-spinner
+    .mdc-circular-progress__determinate-circle {
+    stroke: red !important;
+  }
+}

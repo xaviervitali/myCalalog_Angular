@@ -31,10 +31,28 @@
                 </div>
                 <div
                   class="post-preview d-md-flex flex-column justify-content-between"
+                  [ngClass]="
+                    +item.vote_average > 7.5
+                      ? 'spin-green'
+                      : +item.vote_average < 2.5
+                      ? 'spin-red'
+                      : ''
+                  "
                 >
-                  <h2 class="post-title">
-                    {{ item.title ?? item.name }}
-                  </h2>
+                  <div class="d-flex align-items-baseline">
+                    <h2 class="post-title">
+                      {{ item.title ?? item.name }}
+                    </h2>
+                    <mat-progress-spinner
+                      [value]="item.vote_average * 10"
+                      [matTooltip]="
+                        'Note : ' +
+                        (item.vote_average | number : '1.0-2') +
+                        '/10'
+                      "
+                    >
+                    </mat-progress-spinner>
+                  </div>
                   <p>
                     <mat-chip-set aria-label="Genres">
                       <mat-chip *ngFor="let genreID of item.genre_ids">{{

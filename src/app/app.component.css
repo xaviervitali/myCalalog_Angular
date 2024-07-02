@@ -1,23 +1,24 @@
-
-
 .sidenav-container {
-    height: 100%;
-    position: relative;
-  }
-  
-  .example-spacer {
-    flex: 1 1 auto;
-  }
+  height: 100%;
+  position: relative;
+}
 
+.example-spacer {
+  flex: 1 1 auto;
+}
 
-  .example-search-field {
-    width: 200px;
-    align-self: self-end;
-  }
+.example-search-field {
+  width: 200px;
+  align-self: self-end;
+}
 
-  .example-toolbar {
-    height: 84px;
-  }
- .mat-mdc-form-field{
-    align-self: flex-end !important;
-  }
+.example-toolbar {
+  height: 84px;
+}
+.mat-mdc-form-field {
+  align-self: flex-end !important;
+}
+
+.mat-icon {
+  color: white;
+}
