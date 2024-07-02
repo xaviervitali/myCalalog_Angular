@@ -8,6 +8,7 @@ import { GenreResults } from '../../_models/genre';
 import {  provideAnimations } from '@angular/platform-browser/animations';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { MatButtonModule } from '@angular/material/button';
+import { RouterModule } from '@angular/router';
 
 
 @Component({
@@ -18,8 +19,8 @@ import { MatButtonModule } from '@angular/material/button';
     WatchProvidersComponent,
     CommonModule,
     GenresComponent,
-    MatButtonModule
-
+    MatButtonModule,
+    RouterModule
   ],
 providers: [provideAnimations()], 
   templateUrl: './login.component.html',

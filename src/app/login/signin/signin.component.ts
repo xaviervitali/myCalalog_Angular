@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { UserService } from '../../../_services/user.service';
 import { ApiOptions } from '../../../_models/apiOptions';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signin',
@@ -35,7 +36,8 @@ export class SigninComponent implements OnInit {
   constructor(
     private authService: SocialAuthService,
     private myAuthService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -55,7 +57,7 @@ export class SigninComponent implements OnInit {
           Object.keys(token.preferences).forEach(userPreference=>{
             this.userService.setOption(userPreference as keyof ApiOptions, token.preferences[userPreference])
           })
-        
+        this.router.navigateByUrl('movies')
         });
     }
   }

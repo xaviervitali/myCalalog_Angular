@@ -26,11 +26,7 @@ export class AuthService {
       return false;
     }
     const data: any = jwtDecode(token);
-
-    
     this.user = data;
-
-
     return this.deleteToken();
   }
 

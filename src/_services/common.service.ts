@@ -16,25 +16,11 @@ export class CommonService {
   protected API_URL = API_URL;
   protected BACK_URL = BACK_URL;
 
-  options$ = this.userService.optionsSubject.asObservable();
 
   constructor(private userService: UserService, protected http: HttpClient) {}
 
-  protected getOptions(optionsList: string[] = []): HttpParams {
-    let httpParams = new HttpParams();
-    this.userService.optionsSubject.subscribe((options) => {
-      const optionsArray = !!optionsList.length
-        ? optionsList
-        : (Object.keys(options) as Array<keyof ApiOptions>);
+  protected getOptions(optionsList: string[] = []) {
 
-      optionsArray.forEach((option) => {
-
-        const value =  options[option as keyof ApiOptions] ;
-        if (!!value) {
-          httpParams = httpParams.set(String(option), String(value));
-        }
-      });
-    });
-    return httpParams;
+    return this.userService.userParameters
   }
 }

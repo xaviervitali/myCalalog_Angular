@@ -40,11 +40,11 @@
       <span class="example-spacer"></span>
       <button mat-button [matMenuTriggerFor]="menu">Menu</button>
       <mat-menu #menu="matMenu">
-        <button mat-menu-item>Item 1</button>
+        <button mat-menu-item routerLink="/movies">Films</button>
         <button mat-menu-item>Item 2</button>
       </mat-menu>
 
-      <mat-form-field class="d-none d-md-block">
+      <mat-form-field class="d-none d-md-block me-3">
         <input
           matInput
           type="search"
@@ -66,7 +66,7 @@
         <mat-icon class="d-block">login</mat-icon>
       </a>
       <a routerLink="preferences" *ngIf="authService.isAuthenticated()">
-        <mat-icon class="d-block">person</mat-icon></a
+        <mat-icon class="d-block">settings</mat-icon></a
       >
     </mat-toolbar>
     <!--

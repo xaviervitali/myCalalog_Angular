@@ -57,19 +57,19 @@ export class SearchResultsComponent implements OnInit {
       return;
     }
 
-    this.multiSearchService
-      .searchMovies(this.query, page)
-      .subscribe((movies) => {
-        if (!this.movies) {
-          this.movies = movies;
-        } else {
-          this.movies.results.push(...(movies?.results ?? []));
-        }
-        this.movies_showed = this.sliceResults(
-          this.movies?.results ?? [],
-          page - 1
-        );
-      });
+    // this.multiSearchService
+    //   .searchMovies(this.query, page)
+    //   .subscribe((movies) => {
+    //     if (!this.movies) {
+    //       this.movies = movies;
+    //     } else {
+    //       this.movies.results.push(...(movies?.results ?? []));
+    //     }
+    //     this.movies_showed = this.sliceResults(
+    //       this.movies?.results ?? [],
+    //       page - 1
+    //     );
+    //   });
   }
   getTVSResults(page = 1) {
     if (!this.query) return;
@@ -79,14 +79,14 @@ export class SearchResultsComponent implements OnInit {
       return;
     }
 
-    this.multiSearchService.searchTVs(this.query, page).subscribe((tvs) => {
-      if (!this.tvs) {
-        this.tvs = tvs;
-      } else {
-        this.tvs.results.push(...(tvs?.results ?? []));
-      }
-      this.tvs_showed = this.sliceResults(this.tvs?.results ?? [], page - 1);
-    });
+    // this.multiSearchService.searchTVs(this.query, page).subscribe((tvs) => {
+    //   if (!this.tvs) {
+    //     this.tvs = tvs;
+    //   } else {
+    //     this.tvs.results.push(...(tvs?.results ?? []));
+    //   }
+    //   this.tvs_showed = this.sliceResults(this.tvs?.results ?? [], page - 1);
+    // });
   }
 
   getPersonsResults(page = 1) {
@@ -97,19 +97,19 @@ export class SearchResultsComponent implements OnInit {
       return;
     }
 
-    this.multiSearchService
-      .searchPersons(this.query, page)
-      .subscribe((persons) => {
-        if (!this.persons) {
-          this.persons = persons;
-        } else {
-          this.persons.results.push(...(persons?.results ?? []));
-        }
-        this.persons_showed = this.sliceResults(
-          this.persons?.results ?? [],
-          page - 1
-        );
-      });
+    // this.multiSearchService
+    //   .searchPersons(this.query, page)
+    //   .subscribe((persons) => {
+    //     if (!this.persons) {
+    //       this.persons = persons;
+    //     } else {
+    //       this.persons.results.push(...(persons?.results ?? []));
+    //     }
+    //     this.persons_showed = this.sliceResults(
+    //       this.persons?.results ?? [],
+    //       page - 1
+    //     );
+    //   });
   }
 
   sliceResults(results: SearchMultiResult[], page: number) {

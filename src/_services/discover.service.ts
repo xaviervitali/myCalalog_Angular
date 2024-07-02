@@ -12,18 +12,16 @@ import { Cacheable } from "ts-cacheable";
 
 export class DiscoverService extends CommonService {
 
-  // @Cacheable()
   getMovieList(page: number): Observable<Discover> {
-    // let params = super.getOptions();
-    // params = params.set('page', page);
-    return this.http.post<Discover>(this.BACK_URL + '/discover/movies', {
+    let parameters = super.getOptions();
+    
+    return this.http.post<Discover>(this.BACK_URL + '/discover/movies', {parameters
     });
   }
 
   // @Cacheable()
   getTVShowList(page: number = 1): Observable<Discover> {
     let params = super.getOptions();
-    params = params.set('page', page);
     return this.http.post<Discover>(this.BACK_URL + '/discover/tvs', {
     });
   }

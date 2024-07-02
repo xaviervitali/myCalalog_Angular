@@ -8,17 +8,16 @@ import { CommonService } from './common.service';
 })
 export class MovieService extends CommonService {
   getMovieInfo(id: number): Observable<MovieDetail> {
-    const appendToResponse = [
-      'watch/providers',
-      'videos',
-      'credits',
-      'similar',
-      'release_dates',
-    ];
-    let params = super.getOptions();
-    params = params.append('append_to_response', appendToResponse.join());
+    // const appendToResponse = [
+    //   'watch/providers',
+    //   'videos',
+    //   'credits',
+    //   'similar',
+    //   'release_dates',
+    // ];
+    // let params = super.getOptions();
+    // params = params.append('append_to_response', appendToResponse.join());
     return this.http.get<any>(this.API_URL + '/movie/' + id, {
-      params,
     });
   }
 }

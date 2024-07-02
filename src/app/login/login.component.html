@@ -1,4 +1,6 @@
-<h2 class="login text-center">Aller à l'écran de connexion</h2>
+
+<h2 class="login text-center"><a routerLink="/sign-in">Se connecter</a></h2>
+
 <mat-divider></mat-divider>
 <div *ngIf="!!displayWatchProviders">
   <app-watch-providers
@@ -11,6 +13,6 @@
   <app-genres [genres_]="genres" [@fadeIn]></app-genres>
   <div class="d-flex justify-content-end gap-3" >
     <button mat-button mat-raised-button class="d-block">Revenir à l'écan précédent</button>
-    <button mat-button mat-raised-button color="primary">Valider</button>
+    <button mat-button mat-raised-button color="primary"><a routerLink="/movies">Valider</a></button>
   </div>
 </div>
