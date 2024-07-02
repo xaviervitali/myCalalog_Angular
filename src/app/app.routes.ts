@@ -14,6 +14,7 @@ import { TvShowComponent } from './tv-show/tv-show.component';
 import { TvShowService } from '../_services/tv-show.service';
 import { LoginComponent } from './login/login.component';
 import { SigninComponent } from './login/signin/signin.component';
+import { AuthGuard } from './auth.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'movies', pathMatch: 'full' },
@@ -21,26 +22,31 @@ export const routes: Routes = [
     path: 'movies',
     component: MoviesComponent,
     providers: [DiscoverService],
+    canActivate: [AuthGuard],
   },
   {
     path: 'tv-shows',
     component: TvShowsComponent,
     providers: [DiscoverService],
+    canActivate: [AuthGuard],
   },
   {
     path: 'movie/:id',
     component: MovieComponent,
     providers: [MovieService],
+    canActivate: [AuthGuard],
   },
   {
     path: 'actor/:id',
     component: ActorComponent,
     providers: [ActorService],
+    canActivate: [AuthGuard],
   },
   {
     path: 'preferences',
     component: PreferencesComponent,
     providers: [PreferencesService],
+    canActivate: [AuthGuard],
   },
   {
     path: 'search/:query',
@@ -51,13 +57,12 @@ export const routes: Routes = [
     path: 'tv-show/:id',
     component: TvShowComponent,
     providers: [TvShowService],
+    canActivate: [AuthGuard],
   },
 
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
   },
-  {path:'sign-in',
-    component: SigninComponent
-  }
+  { path: 'sign-in', component: SigninComponent },
 ];

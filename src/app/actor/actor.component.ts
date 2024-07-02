@@ -37,11 +37,11 @@ export class ActorComponent implements OnInit {
           credits: this.actorService.getActorMovieCredits(+id),
         }).subscribe((response) => {
           this.actor = response.detail;
-          this.credits = response.credits.cast.sort(
-            (a: any, b: any) =>
-              new Date(b.release_date).getTime() -
-              new Date(a.release_date).getTime()
-          );
+          // this.credits = response.credits.cast.sort(
+          //   (a: any, b: any) =>
+          //     new Date(b.release_date).getTime() -
+          //     new Date(a.release_date).getTime()
+          // );
         });
       }
     });

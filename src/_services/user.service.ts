@@ -1,4 +1,4 @@
-import { Injectable, OnChanges, SimpleChanges } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ApiOptions } from '../_models/apiOptions';
 
 
@@ -8,7 +8,6 @@ import { ApiOptions } from '../_models/apiOptions';
 export class UserService {
   
   userParameters : Partial<ApiOptions> = {
-    language: navigator.language
   };
 
   // Méthode pour mettre à jour une option

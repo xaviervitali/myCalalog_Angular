@@ -17,9 +17,11 @@ export class PreferencesService extends CommonService {
   }
 
   getMoviesWatchProviders(): Observable<WatchProvider[]> {
+   const  parameters = super.getOptions()
+
     return this.http.post<WatchProvider[]>(
       this.BACK_URL + '/preferences/watch_providers/movies',
-      {}
+      {parameters}
     );
   }
 

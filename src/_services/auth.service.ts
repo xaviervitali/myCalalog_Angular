@@ -6,6 +6,8 @@ import { jwtDecode } from 'jwt-decode';
 import { environment } from '../environment/environment';
 import { TokenResponse } from '../_models/tokenResponse';
 import { Credential } from '../_models/credential';
+import { UserService } from './user.service';
+import { CommonService } from './common.service';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +16,7 @@ export class AuthService {
   authChanged = new Subject<boolean>();
   user!: User;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private commonService: CommonService) {
     interval(5000).subscribe(() =>
       this.authChanged.next(this.isAuthenticated())
     );
@@ -22,6 +24,7 @@ export class AuthService {
 
   isAuthenticated() {
     const token = window.localStorage.getItem('token');
+
     if (!token) {
       return false;
     }
@@ -32,6 +35,7 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('userParameters');
     this.authChanged.next(false);
   }
 
@@ -52,10 +56,16 @@ export class AuthService {
 
   deleteToken() {
     if (Date.now() > this.user.exp * 1000) {
-      localStorage.removeItem('token');
-      return false
+      this.logout()
+      return false;
     }
 
-    return Date.now() < this.user.exp * 1000
+    return Date.now() < this.user.exp * 1000;
+  }
+
+  isUserParametersSet() {
+    const options = this.commonService.getOptions();
+    delete options['language'];
+    return Object.keys(options).length > 0;
   }
 }

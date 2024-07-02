@@ -16,11 +16,14 @@ export class CommonService {
   protected API_URL = API_URL;
   protected BACK_URL = BACK_URL;
 
-
   constructor(private userService: UserService, protected http: HttpClient) {}
 
-  protected getOptions(optionsList: string[] = []) {
+  public getOptions() {
 
-    return this.userService.userParameters
+    const userParameters = localStorage.getItem('userParameters')
+    if (!!userParameters) {
+      return JSON.parse(userParameters);
+    }
+    return false;
   }
 }

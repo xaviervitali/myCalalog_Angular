@@ -13,6 +13,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
+import { UserService } from '../_services/user.service';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -38,9 +39,17 @@ export class AppComponent implements OnInit {
   title = 'myCatalog';
   query: string = '';
 
-  constructor(private router: Router, public authService: AuthService) {}
+  constructor(
+    private router: Router,
+    public authService: AuthService,
+    private userService: UserService
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (!this.authService.isUserParametersSet()) {
+      this.userService.setOption('language', navigator.language);
+    }
+  }
   onSubmit() {
     this.router.navigate(['search', this.query]);
   }
