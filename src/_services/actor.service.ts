@@ -5,18 +5,11 @@ import { CommonService } from './common.service';
   providedIn: 'root',
 })
 export class ActorService extends CommonService {
-  getActorDetail(id: number) {
-    return this.http.get<any>(this.API_URL + '/person/' + id, {
-      params: this.getOptions(),
+  getCastDetail(id: number) {
+    let parameters = super.getOptions();
+    return this.http.post<any>(this.BACK_URL + '/infos/cast', {
+      id,
+      parameters,
     });
-  }
-
-  getActorMovieCredits(id: number) {
-    return this.http.get<any>(
-      this.API_URL + '/person/' + id + '/movie_credits',
-      {
-        params: this.getOptions(),
-      }
-    );
   }
 }

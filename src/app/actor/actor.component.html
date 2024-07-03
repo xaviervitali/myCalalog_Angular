@@ -1,50 +1,64 @@
-<header
-  class="masthead"
-  [ngStyle]="{
-    'background-image':
-      'url(' + environment.apiPosterPath + actor.profile_path + ')'
-  }"
-  *ngIf="actor"
->
-  <div class="container position-relative px-4 px-lg-5">
-    <div class="row gx-4 gx-lg-5 justify-content-center">
-      <div class="col-md-10 col-lg-8 col-xl-7">
-        <div class="post-heading">
-          <h1>{{ actor.name }}</h1>
+<div *ngIf="!contentLoading; else loading">
+  <header class="masthead">
+    <div class="container-fluid position-relative px-4 px-lg-5">
+      <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+          <div class="text-center">
+            <h1>{{ actor.name }}</h1>
 
-          <h2 class="subheading" *ngIf="actor.birthday || actor.deathday">
-            {{ actor.birthday | date : "mediumDate" }}
-            <span *ngIf="actor.deathday">
-              - {{ actor.deathday | date : "mediumDate" }}
-            </span>
-          </h2>
-          <p class="post-meta" *ngIf="actor.place_of_birth">
-            Né{{
-              (actor.gender === 2 ? " " : "e ") + " à " + actor.place_of_birth
-            }}
-          </p>
+            <app-card
+              class="d-flex overflow-auto w-100 justify-content-center"
+              *ngIf="!!actor.images?.profiles?.length"
+              [media]="actor.images.profiles"
+              [info]="false"
+            ></app-card>
+            <p class="post-meta" *ngIf="actor.place_of_birth">
+              Né{{
+                (actor.gender === 2 ? " " : "e ") + " à " + actor.place_of_birth
+              }}
+              <span *ngIf="actor.birthday">
+                le {{ actor.birthday | date : "mediumDate" }}
+              </span>
+              <span *ngIf="actor.deathday">
+                - Mort{{
+                  (actor.gender === 2 ? " " : "e ") + " le " + actor.deathday
+                    | date : "mediumDate"
+                }}
+              </span>
+              <span *ngIf="actor.birthday"> ({{ age }} ans) </span>
+            </p>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</header>
-<div class="container px-4 px-lg-5">
-  <div class="row gx-4 gx-lg-5 justify-content-center">
-    <article class="mb-4">
-      <div *ngIf="actor.biography; else noBiography">
-        <h2 class="section-heading">Biographie</h2>
-        <p>
-          {{ actor.biography }}
-        </p>
-      </div>
-      <ng-template #noBiography>
-        <blockquote class="blockquote">Pas de biographie disponible</blockquote>
-      </ng-template>
-    </article>
+  </header>
+  <div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <!-- Biographie -->
 
-    <app-recommandations
-      title="Filmographie"
-      [recommendations]="credits"
-    ></app-recommandations>
+      <article class="mb-4">
+        <div *ngIf="actor.biography">
+          <h2 class="section-heading">Biographie</h2>
+          <p>
+            {{ actor.biography }}
+          </p>
+        </div>
+      </article>
+      <!-- Biographie -->
+
+      <!-- Filmographie -->
+      <app-card
+        class="d-flex overflow-x-auto my-5 py-3"
+        title="Filmographie"
+        [media]="credits"
+        path="/movie"
+        [info]="true"
+        [zoom]="false"
+      ></app-card>
+      <!-- /Filmographie -->
+    </div>
   </div>
 </div>
+<ng-template #loading>
+  <mat-spinner class="m-auto"></mat-spinner>
+</ng-template>

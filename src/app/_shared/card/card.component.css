@@ -3,19 +3,43 @@
   display: flex;
   overflow-x: auto;
   gap: 8px;
-  .card {
-    min-width: 200px;
-    overflow: hidden;
-    a {
-      text-decoration: none;
-      color: inherit;
-      text-align: center;
-    }
-    img {
-      margin: 8px;
-      width: 180px;
-      object-fit: cover;
-      border-radius: 16px !important    ;
-    }
+
+  img {
+    width: 150px;
+    height: 150px;
   }
+
+  .info {
+    position: absolute;
+    bottom: 0px;
+    height: 75px;
+    padding: 10px auto 100px auto;
+    text-align: center;
+    width: 100%;
+    text-align: center;
+    background-color: #FFFFFF88;
+  }
+
+  .media {
+    position: relative;
+    border-radius: 50%;
+    overflow: hidden;
+    width: 150px;
+  }
+
+  .media .info {
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+
+  }
+
+
+
+  .media:hover .info {
+    opacity: 1;
+    transition: opacity .3s ease-in-out;
+  }
+
+
+
 }

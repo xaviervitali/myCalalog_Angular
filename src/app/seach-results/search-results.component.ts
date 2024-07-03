@@ -50,26 +50,13 @@ export class SearchResultsComponent implements OnInit {
   }
 
   getMoviesResults(page = 1) {
-    if (!this.query) return;
-    console.log(page - 1);
+    if (!this.query) {
+      return;
+    }
     if (this.movies && this.movies.results.length > (page - 1) * 20) {
       this.movies_showed = this.sliceResults(this.movies.results, page - 1);
       return;
     }
-
-    // this.multiSearchService
-    //   .searchMovies(this.query, page)
-    //   .subscribe((movies) => {
-    //     if (!this.movies) {
-    //       this.movies = movies;
-    //     } else {
-    //       this.movies.results.push(...(movies?.results ?? []));
-    //     }
-    //     this.movies_showed = this.sliceResults(
-    //       this.movies?.results ?? [],
-    //       page - 1
-    //     );
-    //   });
   }
   getTVSResults(page = 1) {
     if (!this.query) return;

@@ -31,6 +31,8 @@
           <a [routerLink]="['/movie', recommendation.id]">
             <h3>{{ recommendation.title }}</h3>
             <p>{{ recommendation.release_date | date : "YYYY" }}</p>
+            <p>{{ (recommendation.media_type | mediaType) ?? ''}}</p>
+            <p>{{ recommendation.character ? 'Dans le rôle de ' +  recommendation.character :''}}</p>
           </a>
         </div>
       </div>

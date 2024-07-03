@@ -1,17 +1,21 @@
 <div *ngIf="!!videos.length">
   <h2 class="section-heading">Vidéos associées</h2>
   <div class="videos">
+    <div  *ngFor="let video of videos">
+
     <iframe
-      *ngFor="let video of videos"
-      width="400"
-      height="315"
+
+     
+      width="200"
       [src]="video.key"
       title="YouTube video player"
-      class="e2e-iframe-trusted-src"
+      class="e2e-iframe-trusted-src  "
       frameborder="0"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
       referrerpolicy="strict-origin-when-cross-origin"
       allowfullscreen
     ></iframe>
+  </div>
+
   </div>
 </div>

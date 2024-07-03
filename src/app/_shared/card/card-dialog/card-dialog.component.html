@@ -1,0 +1,55 @@
+<div
+  class="dialog"
+  [ngStyle]="{
+    'background-image':
+      'url(\'' +
+      environment.apiPosterPath +
+      allImages[currentImageIndex] +
+      '\')',
+    'background-repeat': 'no-repeat',
+    'background-size': 'cover',
+    'background-position': 'center'
+  }"
+></div>
+<!-- ,   'background-repeat': 'no-repeat', 'backdrop-filter': 'blur(10px)' -->
+<mat-dialog-content class="mat-typography content">
+  <div id="carouselExample" class="carousel slide  ">
+    <div class="carousel-inner">
+      <div *ngFor="let image of allImages; let index = index">
+        <div
+          class="carousel-item"
+          [ngClass]="{ active: index === dataImageIndex }"
+        >
+          <img
+            [src]="environment.apiPosterPath + image"
+            class="d-block w-100"
+            alt="..."
+          />
+          <div class="carousel-caption d-none d-md-block">
+            <h2>{{ data.allImages[currentImageIndex].name }}</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button
+      class="carousel-control-prev"
+      type="button"
+      data-bs-target="#carouselExample"
+      data-bs-slide="prev"
+      (click)="handleClick('minus')"
+    >
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button
+      class="carousel-control-next"
+      type="button"
+      data-bs-target="#carouselExample"
+      data-bs-slide="next"
+      (click)="handleClick('add')"
+    >
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+</mat-dialog-content>

@@ -211,6 +211,6 @@ export class PreferencesComponent implements OnInit {
   setUserSettings() {
     this.preferencesService
       .setUserPreferences(this.userPreferences)
-      .subscribe((e: any) => console.log(e));
+      .subscribe((e: any) =>(null));
   }
 }

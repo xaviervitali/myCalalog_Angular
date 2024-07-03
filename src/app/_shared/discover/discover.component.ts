@@ -87,7 +87,6 @@ export class DiscoverComponent {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log();
     });
   }
 }

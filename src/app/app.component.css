@@ -22,3 +22,16 @@
 .mat-icon {
   color: white;
 }
+
+::ng-deep ::-webkit-scrollbar
+{
+  width: 8px;
+  background-color: #F5F5F5;
+  height: 8px;
+}
+
+::ng-deep  ::-webkit-scrollbar-thumb
+{
+  background-color: #3F51B5;
+  border: 2px solid #555555;
+}

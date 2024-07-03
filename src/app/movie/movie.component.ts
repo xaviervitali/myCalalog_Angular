@@ -44,6 +44,7 @@ import { ProductionCountriesComponent } from '../_shared/production-countries/pr
     NoteComponent,
     CardComponent,
     ProductionCountriesComponent,
+    MatProgressSpinnerModule
   ],
 })
 export class MovieComponent implements OnInit {

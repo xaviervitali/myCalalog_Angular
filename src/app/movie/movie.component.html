@@ -1,20 +1,32 @@
-<div *ngIf="movie"     [ngStyle]="{
-  'background-image':
-    'url(' + environment.apiPosterPath + movie.backdrop_path + ')'
-}" class="body">
-  <header
-    class="masthead body"
-  >
+<div
+  *ngIf="movie; else loading"
+  [ngStyle]="{
+    'background-image':
+      'url(' + environment.apiPosterPath + movie.backdrop_path + ')'
+  }"
+  class="body"
+>
+  <header class="masthead body pt-3">
     <div class="container position-relative px-4 px-lg-5">
       <div class="row gx-4 gx-lg-5 justify-content-center">
         <div class="col-md-10 col-lg-8 col-xl-7">
           <div class="post-heading">
-            <h1 class="d-flex align-items-center justify-content-center">
-              {{ movie.title }}
-              <div class="circle" *ngIf="age">
-                <span class="age">{{ age }}</span>
+            <div class="d-flex align-items-center justify-content-center gap-2">
+              <h1>
+                {{ movie.title }}
+              </h1>
+
+              <div class="age-container" *ngIf="age">
+                <a
+                  href="https://www.csa.fr/Proteger/Protection-de-la-jeunesse-et-des-mineurs/La-signaletique-jeunesse/Quel-signal-pour-quel-contenu#:~:text=Les%20films%20interdits%20aux%20moins,des%20moins%20de%2018%20ans."
+                >
+                  <div class="circle">
+                    <span class="age">-{{ age }}</span>
+                  </div>
+                </a>
               </div>
-            </h1>
+            </div>
+
             <div class="meta">
               {{ movie.release_date | date : "YYYY" }}
             </div>
@@ -40,8 +52,8 @@
         <app-production-countries
           [productionCoutries]="movie.production_countries"
         ></app-production-countries>
-        <app-card [media]="directors" title="De"></app-card>
-        <app-card [media]="writers" title="Par"></app-card>
+        <app-card [media]="directors" title="De" [info]="true"></app-card>
+        <app-card [media]="writers" title="Par" [info]="true"></app-card>
         <app-note [media]="movie"></app-note>
         <app-overview
           [overview]="movie.overview"
@@ -50,26 +62,45 @@
         <app-movie-watch-providers
           [watchProviders]="watchProviders"
         ></app-movie-watch-providers>
-        <app-cast [cast]="cast" *ngIf="!!cast.length"></app-cast>
+        <div class="d-flex overflow-x-auto my-5">
+          <app-card
+            [media]="cast"
+            *ngIf="!!cast.length"
+            [info]="true"
+            [zoom]="false"
+            title="Avec"
+            path="/actor"
+          ></app-card>
+        </div>
 
         <app-movie-videos
+          class="overflow-x-auto  py-3"
           [videos]="videos"
           *ngIf="!!videos.length"
         ></app-movie-videos>
-        <app-movie-production-companies
-          *ngIf="!!movie.production_companies.length"
-          [production_companies]="movie.production_companies"
-        ></app-movie-production-companies>
+
         <app-card
+          class="d-flex overflow-x-auto my-5 py-3"
           title="Similaire à"
           [media]="recommendations"
           path="/movie"
+          [info]="true"
+          [zoom]="false"
+          (dataLoading)="this.movie = null"
         ></app-card>
-        <!-- <app-recommandations
-          *ngIf="!!recommendations.length"
-          [recommendations]="recommendations"
-        ></app-recommandations> -->
+
+        <app-card
+          title="Sociétés de production"
+          class="d-flex overflow-x-auto my-5 py-3"
+          [media]="movie.production_companies"
+          [info]="false"
+          [zoom]="false"
+          objectFit="contain"
+        ></app-card>
       </div>
     </div>
   </article>
 </div>
+<ng-template #loading>
+  <mat-spinner class="m-auto"></mat-spinner>
+</ng-template>
