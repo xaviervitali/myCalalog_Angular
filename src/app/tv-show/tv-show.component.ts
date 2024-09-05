@@ -34,7 +34,7 @@ export class TvShowComponent implements OnInit {
   public cast: any;
   public producer: any;
   public seasons: any[] = [];
-  public background!:string;
+  public background!: string;
   constructor(
     private route: ActivatedRoute,
     private tvShowService: TvShowService
@@ -44,21 +44,20 @@ export class TvShowComponent implements OnInit {
     this.route.paramMap.subscribe((params) => {
       let id = params.get('id');
       if (id) {
-        this.tvShowService.getTvShowInfo(+id).subscribe((tvShow) => {
-          // if (id) {
-          //   this.tvShowService
-          //     .getSeasonsDetail(+id, tvShow.number_of_seasons)
-          //     .subscribe((seasons) => (this.seasons = seasons.seasons));
-          // }
-          this.tvShow = tvShow;
-          this.background = environment.apiPosterPath + tvShow.backdrop_path
-          
-          this.watchProviders = tvShow['watch/providers'].results.FR;
-          this.cast = tvShow.credits.cast.filter(
-            (cast: any) => cast.known_for_department === 'Acting'
-          );
-          this.producer = tvShow.created_by;
-        });
+        // this.tvShowService.getTvShowInfo(+id).subscribe((tvShow) => {
+        // if (id) {
+        //   this.tvShowService
+        //     .getSeasonsDetail(+id, tvShow.number_of_seasons)
+        //     .subscribe((seasons) => (this.seasons = seasons.seasons));
+        // }
+        //   this.tvShow = tvShow;
+        //   this.background = environment.apiPosterPath + tvShow.backdrop_path
+        //   this.watchProviders = tvShow['watch/providers'].results.FR;
+        //   this.cast = tvShow.credits.cast.filter(
+        //     (cast: any) => cast.known_for_department === 'Acting'
+        //   );
+        //   this.producer = tvShow.created_by;
+        // });
       }
     });
   }

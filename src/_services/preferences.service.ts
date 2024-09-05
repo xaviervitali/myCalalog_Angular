@@ -17,19 +17,19 @@ export class PreferencesService extends CommonService {
   }
 
   getMoviesWatchProviders(): Observable<WatchProvider[]> {
-   const  parameters = super.getOptions()
+    const parameters = super.getOptions();
 
     return this.http.post<WatchProvider[]>(
       this.BACK_URL + '/preferences/watch_providers/movies',
-      {parameters}
+      { parameters }
     );
   }
 
-  getGenres(): Observable<Genre> {
-    return this.http.post<Genre>(this.API_URL + '/genre/movie/list', {
-      params: super.getOptions(),
-    });
-  }
+  // getGenres(): Observable<Genre> {
+  //   return this.http.post<Genre>(this.API_URL + '/genre/movie/list', {
+  //     params: super.getOptions(),
+  //   });
+  // }
 
   getUserPreference(): Observable<ApiOptions> {
     return this.http.post<ApiOptions>(this.BACK_URL + '/preferences/', {});

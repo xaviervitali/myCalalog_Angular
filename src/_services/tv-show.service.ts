@@ -10,8 +10,8 @@ export class TvShowService extends CommonService {
   getTvShowInfo(id: number) {
     let options = super.getOptions();
     // options = options.set('append_to_response', 'watch/providers,credits');
-    return this.http.get<any>(this.API_URL + '/tv/' + id, {
-    });
+    // return this.http.get<any>(this.API_URL + '/tv/' + id, {
+    // });
   }
 
   getSeasonsDetail(tvShowId: number, seasonCount: number) {
@@ -20,7 +20,6 @@ export class TvShowService extends CommonService {
     //   { length: Math.ceil(seasonCount / chunkSize) },
     //   (_, i) => i * chunkSize
     // );
-
     // return concat(
     //   ...chunks.map((start) => {
     //     const end = Math.min(start + chunkSize, seasonCount);
@@ -31,7 +30,6 @@ export class TvShowService extends CommonService {
     //     const options = super
     //       .getOptions()
     //       .set('append_to_response', appendToResponse);
-
     //     return this.http
     //       .get<any>(this.API_URL + '/tv/' + tvShowId, { params: options })
     //   })
