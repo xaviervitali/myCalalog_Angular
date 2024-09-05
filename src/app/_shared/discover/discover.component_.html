@@ -1,0 +1,114 @@
+<body *ngIf="!isLoading; else loading" class="d-done">
+  <div class="px-4 px-lg-5">
+    <div class="d-flex justify-content-end">
+      {{ items?.total_results | number : "1.0-2" : "fr" }} resultats
+      <button
+        mat-button
+        color="primary"
+        class="d-block"
+        (click)="openDialog()"
+        [disabled]="!isAuthenticated"
+      >
+        Filtres rapide
+      </button>
+    </div>
+    <div class="justify-content-center">
+      <!-- <div *ngIf="userWatchProviders; else goPref"> -->
+      <div>
+        <div infinite-scroll (scrolled)="onScrollDown()">
+          <!-- Post preview-->
+          <div *ngFor="let item of items?.results" class="item">
+            <hr class="py-4" />
+            <a [routerLink]="[route, item.id]">
+              <div class="d-none d-md-flex movie">
+                <div class="me-2">
+                  <img
+                    class="d-none d-md-block"
+                    [src]="environment.apiPosterPath + item.poster_path"
+                    [alt]="item.title"
+                    onerror="this.style.display='none'"
+                  />
+                </div>
+                <div
+                  class="post-preview d-md-flex flex-column justify-content-between"
+                  [ngClass]="
+                    +item.vote_average > 7.5
+                      ? 'spin-green'
+                      : +item.vote_average < 2.5
+                      ? 'spin-red'
+                      : ''
+                  "
+                >
+                  <div class="d-flex align-items-baseline">
+                    <h2 class="post-title">
+                      {{ item.title ?? item.name }}
+                    </h2>
+                    <mat-progress-spinner
+                      [value]="item.vote_average * 10"
+                      [matTooltip]="
+                        'Note : ' +
+                        (item.vote_average | number : '1.0-2') +
+                        '/10'
+                      "
+                    >
+                    </mat-progress-spinner>
+                  </div>
+                  <p>
+                    <mat-chip-set aria-label="Genres">
+                      <mat-chip *ngFor="let genreID of item.genre_ids">{{
+                        genreID | genre
+                      }}</mat-chip>
+                    </mat-chip-set>
+                  </p>
+                  <p class="post-subtitle">
+                    {{ item.overview | truncateByWordsCount : 50 }}
+                  </p>
+                  <p class="post-meta">
+                    Année de sortie
+                    {{
+                      item.release_date ?? item.first_air_date | date : "YYYY"
+                    }}
+                  </p>
+                </div>
+              </div>
+              <div class="d-sm-none d-block backdrop_img">
+                <img
+                  [src]="environment.apiPosterPath + item.backdrop_path"
+                  [alt]="item.title"
+                  class="backdrop_path"
+                  onerror="this.style.display='none'"
+                />
+                <div
+                  class="centered d-flex justify-content-center flex-column text-center"
+                >
+                  <h4 class="post-title">{{ item.title ?? item.name }}</h4>
+                  <p class="m-0">
+                    {{ item.overview | truncateByWordsCount : 10 }}
+                  </p>
+                </div>
+              </div>
+            </a>
+            <!-- Divider-->
+          </div>
+        </div>
+      </div>
+      <ng-template #goPref class="text-center"
+        >Aucun service de streaming choisit. Veuillez suivre ce
+        <a routerLink="/preferences">lien</a> pour en selectionner</ng-template
+      >
+    </div>
+    <div *ngIf="!isAuthenticated" class="p-3 mt-5 text-center">
+      <mat-card>
+        <mat-card-content>
+          <h4>
+            Seul les 20 premiers résultats apparaissent. Inscrivez-vous pour
+            avoir le catalogue complet.
+          </h4></mat-card-content
+        >
+      </mat-card>
+    </div>
+  </div>
+</body>
+<ng-template #loading>
+  <mat-spinner class="m-auto"></mat-spinner>
+</ng-template>

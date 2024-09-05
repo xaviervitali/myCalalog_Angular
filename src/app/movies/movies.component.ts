@@ -1,3 +1,4 @@
+import { BackgroundService } from './../../_services/background.service';
 import { Component, OnInit } from '@angular/core';
 import { DiscoverMovie } from '../../_models/discover';
 import { CommonModule } from '@angular/common';
@@ -29,20 +30,20 @@ export class MoviesComponent implements OnInit {
   private maxPage = 1;
   public userWatchProviders = false;
   public genres = MOVIE_GENRES;
-  public isLoading = true
+  public isLoading = true;
   constructor(
     private discoverService: DiscoverService,
-    private userService: UserService
+    private backgroundService: BackgroundService
   ) {}
 
   ngOnInit(): void {
-
-      this.getDefaultList();
+    this.getDefaultList();
+    this.backgroundService.setBackgroundImage('../assets/img/movies.jpeg');
   }
 
   getDefaultList() {
     this.discoverService.getMovieList(this.page).subscribe((discover) => {
-      this.isLoading = false
+      this.isLoading = false;
 
       this.movies = discover;
       this.maxPage = discover.total_pages;
@@ -54,7 +55,6 @@ export class MoviesComponent implements OnInit {
 
     if (this.page <= this.maxPage) {
       this.discoverService.getMovieList(this.page).subscribe((discover) => {
-
         this.movies.results.push(...(discover.results as DiscoverMovie[]));
       });
     }

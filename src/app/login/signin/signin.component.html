@@ -1,29 +1,33 @@
-  <div
-    class="d-flex justify-content-center flex-column align-items-center  justify-content-center w-auto sign-in"
-  >
-    <div class="login">
-      <asl-google-signin-button
-        type="standard"
-        size="medium"
-      ></asl-google-signin-button>
-      <hr />
-      <form [formGroup]="formGroup" (submit)="login()">
-        <div >
-          <mat-form-field appearance="outline" >
-            <mat-label>Adresse email</mat-label>
-            <input type="email" formControlName="username" matInput />
-          </mat-form-field>
-        </div>
-        <div>
-          <mat-form-field appearance="outline">
-            <mat-label>Mot de passe</mat-label>
-            <input type="password" formControlName="password" matInput />
-          </mat-form-field>
-        </div>
-        <div class="text-end">
-          <button mat-raised-button  color="primary" >Valider</button>
-        </div>
-      </form>
-    </div>
+<div
+  class="d-flex justify-content-center flex-column align-items-center justify-content-center w-auto sign-in"
+>
+  <div class="login">
+    <form
+      [formGroup]="formGroup"
+      (submit)="login()"
+      class="d-flex gap-2 align-items-center"
+    >
+      <div>
+        <mat-form-field appearance="outline">
+          <mat-label>Adresse email</mat-label>
+          <input type="email" formControlName="username" matInput />
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="outline">
+          <mat-label>Mot de passe</mat-label>
+          <input type="password" formControlName="password" matInput />
+        </mat-form-field>
+      </div>
+      <div class="text-end">
+        <button mat-raised-button color="primary">Valider</button>
+      </div>
+    </form>
+    <hr />
+    <asl-google-signin-button
+      class="d-flex align-items-center justify-content-center gap-2 flex-wrap"
+      type="standard"
+      size="medium"
+    ></asl-google-signin-button>
   </div>
-  
+</div>

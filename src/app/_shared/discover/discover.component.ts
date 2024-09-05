@@ -1,12 +1,7 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  LOCALE_ID,
-  Output,
-  ViewChild,
-} from '@angular/core';
-import { environment } from '../../../environment/environment';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { MovieService } from './../../../_services/movie.service';
+import { Router } from '@angular/router';
+import { take } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TruncateByWordsCountPipe } from '../../../_pipe/truncateByWordsCount.pipe';
@@ -18,7 +13,6 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatMenuModule } from '@angular/material/menu';
 import { DiscoverSettingsDialogComponent } from './discover-settings-dialog/discover-settings-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-
 import { MatChipsModule } from '@angular/material/chips';
 import { GenrePipe } from '../../../_pipe/genre.pipe';
 import { AuthService } from '../../../_services/auth.service';
@@ -27,6 +21,9 @@ import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { LoadingComponent } from '../loading/loading.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { environment } from '../../../environment/environment';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -48,6 +45,8 @@ registerLocaleData(localeFr, 'fr');
     MatCardModule,
     MatProgressSpinnerModule,
     MatTooltipModule,
+    LoadingComponent,
+    MatPaginatorModule,
   ],
   templateUrl: './discover.component.html',
   styleUrl: './discover.component.css',
@@ -67,7 +66,13 @@ export class DiscoverComponent {
   @Input() genres: any;
   @Input() isLoading: boolean = true;
 
-  constructor(public dialog: MatDialog, private auth: AuthService) {}
+  constructor(
+    public dialog: MatDialog,
+    private auth: AuthService,
+    private router: Router,
+    private movieService: MovieService
+  ) {}
+
   onScrollDown() {
     if (this.isAuthenticated) {
       this.page++;
@@ -86,7 +91,12 @@ export class DiscoverComponent {
       data: this.genres,
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-    });
+    dialogRef.afterClosed().subscribe((result) => {});
+  }
+
+  getItem(id: number) {
+    this.movieService.setMovieId(id);
+
+    this.router.navigate(['/movie']);
   }
 }

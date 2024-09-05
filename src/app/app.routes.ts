@@ -31,7 +31,7 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'movie/:id',
+    path: 'movie',
     component: MovieComponent,
     providers: [MovieService],
     canActivate: [AuthGuard],
@@ -64,5 +64,6 @@ export const routes: Routes = [
     path: 'login',
     component: LoginComponent,
   },
+
   { path: 'sign-in', component: SigninComponent },
 ];

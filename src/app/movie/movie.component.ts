@@ -21,6 +21,7 @@ import { RoundPipe } from '../../_pipe/round.pipe';
 import { NoteComponent } from '../_shared/note/note.component';
 import { CardComponent } from '../_shared/card/card.component';
 import { ProductionCountriesComponent } from '../_shared/production-countries/production-countries.component';
+import { BackgroundService } from '../../_services/background.service';
 
 @Component({
   selector: 'app-movie',
@@ -44,7 +45,7 @@ import { ProductionCountriesComponent } from '../_shared/production-countries/pr
     NoteComponent,
     CardComponent,
     ProductionCountriesComponent,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
   ],
 })
 export class MovieComponent implements OnInit {
@@ -60,88 +61,90 @@ export class MovieComponent implements OnInit {
   public directors: any[] = [];
   public writers: any[] = [];
 
+  private movieId!: number;
   @ViewChild('.word-cloud', { static: true })
   wordCloud!: ElementRef<HTMLCanvasElement>;
 
   constructor(
     private route: ActivatedRoute,
     private movieService: MovieService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private backgroundService: BackgroundService
   ) {}
 
   ngOnInit() {
-    this.route.paramMap.subscribe((params) => {
-      let id = params.get('id');
-      if (id) {
-        this.movieService.getMovieInfo(+id).subscribe((movieDetail) => {
-          this.movie = movieDetail;
-          const certifications = this.movie.release_dates.results.find(
-            (relaeaseDate) => relaeaseDate.iso_3166_1 === 'FR'
-          )?.release_dates;
-          if (certifications) {
-            this.age = Math.max(
-              ...certifications.map(
-                (certification) => +certification.certification
-              )
-            );
-          }
-
-          this.watchProviders = movieDetail['watch/providers'].results['FR'];
-
-          this.videos = movieDetail.videos.results
-            .filter((video) => video.site === 'YouTube')
-            .map((video) => ({
-              ...video,
-              key: this.sanitizer.bypassSecurityTrustResourceUrl(
-                'https://www.youtube.com/embed/' + video.key
-              ),
-            }));
-
-          this.cast = this.castFilter(
-            movieDetail.credits.cast,
-            'known_for_department',
-            'Acting'
-          );
-
-          this.directors = this.castFilter(
-            movieDetail.credits.crew,
-            'job',
-            'Director'
-          );
-
-          this.writers = this.castFilter(
-            movieDetail.credits.crew,
-            'job',
-            'Screenplay'
-          );
-
-          // Non localisé
-          // const keywords = value.keywords.keywords;
-          // const keywordClasses = ['small', 'large', ''];
-          // if (!!keywords.length) {
-          //   keywords.forEach((keyword: Keyword) => {
-          //     const x = Math.random() > 0.5 ? 'x-' : '';
-          //     const keywordClass =
-          //       keywordClasses[
-          //         Math.floor(Math.random() * keywordClasses.length)
-          //       ];
-          //     const className = !!keywordClass
-          //       ? 'word-cloud__word--' + x + keywordClass
-          //       : '';
-          //     this.keywords.push({ keyword: keyword.name, className });
-          //   });
-          // }
-
-          this.recommendations = movieDetail.similar.results.sort(
-            (recommandationA, recommandationB) =>
-              recommandationB.popularity - recommandationA.popularity
-          );
-        });
-      }
-    });
+    this.getMovieInfo();
   }
 
   castFilter(sourceArray: Cast[] | Crew[], field: string, match: string) {
     return sourceArray.filter((cast: any) => cast[field] === match);
+  }
+
+  getMovieInfo() {
+    const id = localStorage.getItem('movieId');
+
+    if (!!id) {
+      this.movieService.getMovieInfo(+id).subscribe((movieDetail) => {
+        console.log('Fetched movie details:', movieDetail);
+        this.movie = movieDetail;
+        this.backgroundService.setBackgroundImage(
+          environment.apiPosterPath + movieDetail.backdrop_path
+        );
+        const certifications = this.movie.release_dates.results.find(
+          (relaeaseDate) => relaeaseDate.iso_3166_1 === 'FR'
+        )?.release_dates;
+        if (certifications) {
+          this.age = Math.max(
+            ...certifications.map(
+              (certification) => +certification.certification
+            )
+          );
+        }
+        this.watchProviders = movieDetail['watch/providers'].results['FR'];
+        this.videos = movieDetail.videos.results
+          .filter((video) => video.site === 'YouTube')
+          .map((video) => ({
+            ...video,
+            key: this.sanitizer.bypassSecurityTrustResourceUrl(
+              'https://www.youtube.com/embed/' + video.key
+            ),
+          }));
+        this.cast = this.castFilter(
+          movieDetail.credits.cast,
+          'known_for_department',
+          'Acting'
+        );
+        this.directors = this.castFilter(
+          movieDetail.credits.crew,
+          'job',
+          'Director'
+        );
+        this.writers = this.castFilter(
+          movieDetail.credits.crew,
+          'job',
+          'Screenplay'
+        );
+        // Non localisé
+        // const keywords = value.keywords.keywords;
+        // const keywordClasses = ['small', 'large', ''];
+        // if (!!keywords.length) {
+        //   keywords.forEach((keyword: Keyword) => {
+        //     const x = Math.random() > 0.5 ? 'x-' : '';
+        //     const keywordClass =
+        //       keywordClasses[
+        //         Math.floor(Math.random() * keywordClasses.length)
+        //       ];
+        //     const className = !!keywordClass
+        //       ? 'word-cloud__word--' + x + keywordClass
+        //       : '';
+        //     this.keywords.push({ keyword: keyword.name, className });
+        //   });
+        // }
+        this.recommendations = movieDetail.similar.results.sort(
+          (recommandationA, recommandationB) =>
+            recommandationB.popularity - recommandationA.popularity
+        );
+      });
+    }
   }
 }

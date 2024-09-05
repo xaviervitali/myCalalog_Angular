@@ -1,103 +1,71 @@
-img {
-  height: 100%;
-  width: 200px;
-  object-fit: contain;
+* {
+  transition: all ease 0.5s;
 }
-
-.d-flex {
-  gap: 10px;
-  align-items: center;
+p {
+  margin: 0;
 }
-
-.progress-container {
-  position: relative;
-  display: inline-block;
-}
-
-.progress-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 16px;
-  font-weight: bold;
-}
-
-.backdrop_img {
-  position: relative;
-  img {
-    width: 100%;
-    height: 30vh;
-    object-fit: contain;
-  }
-}
-.centered {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: #fff;
-  text-shadow: 0 0 10px black;
-}
-
-.example-container {
-  overflow: hidden;
-  position: fixed;
-  top: 0;
-  height: 100vh;
-}
-
-.example-sidenav-content {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  align-items: center;
-  justify-content: center;
-  min-width: 10vw;
-}
-
-.discover {
-  margin-left: 10vw;
-}
-:host {
-  .cdk-overlay-pane {
-    padding: 10px;
-    background-color: red;
-  }
-}
-
-.backdrop_path {
-  height: 100% !important;
-}
-
 .item {
-  /* height: 350px; */
-  padding: 10px;
-}
-::ng-deep .movie .mat-progress-spinner,
-::ng-deep .movie .mat-mdc-progress-spinner {
-  width: 30px !important;
-  height: 30px !important;
-}
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+  border: 1px solid black;
+  position: relative;
+  margin-bottom: 10px;
 
-.spin-green {
-  ::ng-deep
-    .mat-mdc-progress-spinner
-    .mdc-circular-progress__determinate-circle {
-    stroke: #3fb53f !important;
+  .text {
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    gap: 10px;
   }
 }
 
-.spin-red {
-  ::ng-deep
-    .mat-mdc-progress-spinner
-    .mdc-circular-progress__determinate-circle {
-    stroke: red !important;
-  }
-}
-.post-title {
-flex-grow: 1;
-}
-.post-preview {
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Couleur grise avec opacité */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  padding: 10px;
+  .text {
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    .title {
+      color: white; /* Couleur du texte */
+      font-size: 40px; /* Taille de la police */
+      text-shadow: 0 0 5px black;
+      text-align: center;
+    }
+
+    .genres {
+      opacity: 0;
+    }
+  }
+}
+
+/* Effet au passage de la souris */
+.item:hover .overlay {
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0
+  ); /* Rend l'overlay transparent au passage de la souris */
+
+  .text {
+    transform: translateY(60px);
+    .title {
+      font-size: 1rem; /* Taille de la police */
+    }
+    .genres {
+      opacity: 1;
+    }
+  }
 }

@@ -33,7 +33,8 @@ export interface ApiOptions {
   without_keywords?: string;
   without_watch_providers?: string;
   year?: string;
-  with_watch_monetization_types?:string;
-  first_air_date_gte?:string
-  "first_air_date_lte"?:string
+  with_watch_monetization_types?: string;
+  first_air_date_gte?: string;
+  first_air_date_lte?: string;
+  iso_3166_1?: string;
 }

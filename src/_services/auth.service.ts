@@ -8,6 +8,7 @@ import { TokenResponse } from '../_models/tokenResponse';
 import { Credential } from '../_models/credential';
 import { UserService } from './user.service';
 import { CommonService } from './common.service';
+import { COUNTRIES } from '../_const/countries';
 
 @Injectable({
   providedIn: 'root',
@@ -16,10 +17,23 @@ export class AuthService {
   authChanged = new Subject<boolean>();
   user!: User;
 
-  constructor(private http: HttpClient, private commonService: CommonService) {
+  constructor(
+    private http: HttpClient,
+    private commonService: CommonService,
+    private userService: UserService
+  ) {
     interval(5000).subscribe(() =>
       this.authChanged.next(this.isAuthenticated())
     );
+
+    if (!this.isUserParametersSet()) {
+      const navigatorLanguage = navigator.language;
+      const iso_3166_1 = COUNTRIES.find(
+        (countrie) => countrie.languageTag === navigatorLanguage
+      )?.iso3166;
+      this.userService.setOption('language', navigatorLanguage);
+      this.userService.setOption('watch_region', iso_3166_1 ?? 'US');
+    }
   }
 
   isAuthenticated() {
@@ -56,7 +70,7 @@ export class AuthService {
 
   deleteToken() {
     if (Date.now() > this.user.exp * 1000) {
-      this.logout()
+      this.logout();
       return false;
     }
 
@@ -65,7 +79,7 @@ export class AuthService {
 
   isUserParametersSet() {
     const options = this.commonService.getOptions();
-    delete options['language'];
+    // delete options['language'];
     return Object.keys(options).length > 0;
   }
 }

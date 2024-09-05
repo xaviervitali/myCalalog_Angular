@@ -1,44 +1,49 @@
-<div
-  *ngIf="movie; else loading"
-  [ngStyle]="{
-    'background-image':
-      'url(' + environment.apiPosterPath + movie.backdrop_path + ')'
-  }"
-  class="body"
->
+<div *ngIf="movie; else loading" class="body">
   <header class="masthead body pt-3">
     <div class="container position-relative px-4 px-lg-5">
       <div class="row gx-4 gx-lg-5 justify-content-center">
         <div class="col-md-10 col-lg-8 col-xl-7">
           <div class="post-heading">
-            <div class="d-flex align-items-center justify-content-center gap-2">
-              <h1>
-                {{ movie.title }}
-              </h1>
-
-              <div class="age-container" *ngIf="age">
-                <a
-                  href="https://www.csa.fr/Proteger/Protection-de-la-jeunesse-et-des-mineurs/La-signaletique-jeunesse/Quel-signal-pour-quel-contenu#:~:text=Les%20films%20interdits%20aux%20moins,des%20moins%20de%2018%20ans."
+            <div class="d-flex align-items-center">
+              <img
+                [src]="environment.apiPosterPath + movie.poster_path"
+                alt=""
+                class="d-block"
+                style="height: 300px"
+                cl
+              />
+              <div>
+                <div
+                  class="d-flex align-items-center justify-content-center gap-2"
                 >
-                  <div class="circle">
-                    <span class="age">-{{ age }}</span>
+                  <h1>
+                    {{ movie.title }}
+                  </h1>
+
+                  <div class="age-container" *ngIf="age">
+                    <a
+                      href="https://www.csa.fr/Proteger/Protection-de-la-jeunesse-et-des-mineurs/La-signaletique-jeunesse/Quel-signal-pour-quel-contenu#:~:text=Les%20films%20interdits%20aux%20moins,des%20moins%20de%2018%20ans."
+                    >
+                      <div class="circle">
+                        <span class="age">-{{ age }}</span>
+                      </div>
+                    </a>
                   </div>
-                </a>
+                </div>
+
+                <div class="meta">
+                  {{ movie.release_date | date : "YYYY" }}
+                </div>
+                <h2 class="subheading">
+                  {{ movie.tagline }}
+                </h2>
+                <div class="meta">
+                  {{ movie.genres | map : "name" }}
+                </div>
+                <div class="meta">
+                  {{ movie.runtime | minutesToHours }}
+                </div>
               </div>
-            </div>
-
-            <div class="meta">
-              {{ movie.release_date | date : "YYYY" }}
-            </div>
-            <h2 class="subheading">
-              {{ movie.tagline }}
-            </h2>
-            <div class="meta">
-              {{ movie.genres | map : "name" }}
-            </div>
-
-            <div class="meta">
-              {{ movie.runtime | minutesToHours }}
             </div>
           </div>
         </div>
@@ -74,7 +79,7 @@
         </div>
 
         <app-movie-videos
-          class="overflow-x-auto  py-3"
+          class="overflow-x-auto py-3"
           [videos]="videos"
           *ngIf="!!videos.length"
         ></app-movie-videos>

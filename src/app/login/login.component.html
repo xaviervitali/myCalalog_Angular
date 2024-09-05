@@ -1,8 +1,13 @@
-
-<h2 class="login text-center"><a routerLink="/sign-in">Se connecter</a></h2>
-
+<p>
+  Bienvenue sur <i>My-catalog</i>. Ce site vous permet de consulter les
+  catalogues communs de vos services de streaming.
+</p>
+<p>Si vous êtes déjà inscrit</p>
+<app-signin></app-signin>
 <mat-divider></mat-divider>
+
 <div *ngIf="!!displayWatchProviders">
+  Sinon veuillez choisir les services de streamings auxquelles vous êtes abonné.
   <app-watch-providers
     (watchProviderSelectedEmitter)="handleWatchProviderEvent($event)"
     [@fadeIn]
@@ -11,8 +16,12 @@
 
 <div *ngIf="!displayWatchProviders" class="p-3">
   <app-genres [genres_]="genres" [@fadeIn]></app-genres>
-  <div class="d-flex justify-content-end gap-3" >
-    <button mat-button mat-raised-button class="d-block">Revenir à l'écan précédent</button>
-    <button mat-button mat-raised-button color="primary"><a routerLink="/movies">Valider</a></button>
+  <div class="d-flex justify-content-end gap-3">
+    <button mat-button mat-raised-button class="d-block">
+      Revenir à l'écan précédent
+    </button>
+    <button mat-button mat-raised-button color="primary">
+      <a routerLink="/movies">Valider</a>
+    </button>
   </div>
 </div>

@@ -1,0 +1,7 @@
+.loading {
+  height: 100lvh !important;
+  display: flex;
+  flex-direction: column;
+
+  background-color: #00000044;
+}
